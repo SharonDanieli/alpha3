@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "696536077350",
+    "firebase_url": "https://therealfivb.firebaseio.com",
+    "project_id": "therealfivb",
+    "storage_bucket": "therealfivb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:696536077350:android:514c672598671b24",
+        "android_client_info": {
+          "package_name": "com.example.alpha3"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "696536077350-0bniqkgmdjepajrtoo2bisiq0h6huhpf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.alpha3",
+            "certificate_hash": "8f6f1440285ee9e4357ffc55aa40074a7d2a4752"
+          }
+        },
+        {
+          "client_id": "696536077350-nqsrsoeh80ghnunhss1evo0muvvfpjdj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD4cmoryM4LLvRbg1V2b-DwbUbKnV6uZLk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "696536077350-nqsrsoeh80ghnunhss1evo0muvvfpjdj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
