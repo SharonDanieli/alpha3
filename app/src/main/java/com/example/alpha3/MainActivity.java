@@ -46,32 +46,33 @@ public class MainActivity extends AppCompatActivity {
     FirebaseAuth mAuth;
     DatabaseReference ref;
 
-    EditText everything;
     ListView list;
-    List<Data> everythingList;
+    List<Player> everythingList;
+    private FirebaseUser currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        everything = findViewById(R.id.everything);
         list = findViewById(R.id.list);
         everythingList = new ArrayList<>();
 
         mAuth = FirebaseAuth.getInstance();
 
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if (currentUser == null) {
+        currentUser = mAuth.getCurrentUser();
+        if (currentUser == null)
             signIn();
-        }
         else
-        {
-            ref = FirebaseDatabase.getInstance().getReference("everything");
-            refreshList();
+            initiate();
+    }
 
-            list.setOnCreateContextMenuListener(this);
-        }
+    void initiate()
+    {
+        ref = FirebaseDatabase.getInstance().getReference("Game").child("Players");
+        refreshList();
+
+        list.setOnCreateContextMenuListener(this);
     }
 
     private void refreshList() {
@@ -80,8 +81,8 @@ public class MainActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 everythingList.clear();
                 for (DataSnapshot ds : dataSnapshot.getChildren())
-                    everythingList.add(ds.getValue(Data.class));
-                DataList adp = new DataList(MainActivity.this, everythingList);
+                    everythingList.add(ds.getValue(Player.class));
+                PlayerList adp = new PlayerList(MainActivity.this, everythingList);
                 list.setAdapter(adp );
             }
 
@@ -116,7 +117,8 @@ public class MainActivity extends AppCompatActivity {
 
             if (resultCode == RESULT_OK) {
                 // Successfully signed in
-                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                currentUser = FirebaseAuth.getInstance().getCurrentUser();
+                initiate();
                 // ...
             } else {
                 // Sign in failed. If response is null the user canceled the
@@ -177,14 +179,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void enter(View view) {
-        String data = everything.getText().toString();
-        if (data.isEmpty())
-            Toast.makeText(this, "Data upload failed :(", Toast.LENGTH_LONG).show();
-        else
+        if (currentUser != null)
         {
-            String id = ref.push().getKey();
-            Data data1 = new Data(id, data);
-            ref.child(id).setValue(data1);
+            Intent t = new Intent(this, AddPlayer.class);
+            startActivity(t);
         }
     }
 }

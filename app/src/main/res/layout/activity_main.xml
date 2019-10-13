@@ -8,21 +8,12 @@
     android:gravity="center"
     tools:context=".MainActivity">
 
-    <EditText
-        android:id="@+id/everything"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:ems="10"
-        android:layout_weight="1"
-        android:inputType="textPersonName"
-        android:hint="Enter anything" />
-
     <Button
         android:onClick="enter"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:text="Enter" />
+        android:text="Add player" />
 
     <ListView
         android:id="@+id/list"
