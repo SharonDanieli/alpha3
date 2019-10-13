@@ -32,14 +32,12 @@ public class PlayerList extends ArrayAdapter {
         TextView lname = v.findViewById(R.id.lname);
         TextView birth = v.findViewById(R.id.birth);
         TextView id = v.findViewById(R.id.id);
-        TextView team = v.findViewById(R.id.team);
         TextView num = v.findViewById(R.id.num);
         Player p = this.data.get(position);
         fname.setText(p.fname);
         lname.setText(p.lname);
         birth.setText(p.birth);
         id.setText(p.id);
-        team.setText(p.team);
         num.setText("" + p.num);
 
         return v;

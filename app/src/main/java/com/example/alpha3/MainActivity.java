@@ -32,6 +32,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -39,15 +40,19 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
 
     private static final int RC_SIGN_IN = 4;
     FirebaseAuth mAuth;
     DatabaseReference ref;
+    Query query;
+
+    boolean inPList;
 
     ListView list;
-    List<Player> everythingList;
+    List<Team> teamsList;
+    List<Player> playersList;
     private FirebaseUser currentUser;
 
     @Override
@@ -56,10 +61,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         list = findViewById(R.id.list);
-        everythingList = new ArrayList<>();
+        list.setOnItemClickListener(this);
+
+        teamsList = new ArrayList<>();
+        playersList = new ArrayList<>();
 
         mAuth = FirebaseAuth.getInstance();
 
+        inPList = false;
         currentUser = mAuth.getCurrentUser();
         if (currentUser == null)
             signIn();
@@ -69,21 +78,23 @@ public class MainActivity extends AppCompatActivity {
 
     void initiate()
     {
-        ref = FirebaseDatabase.getInstance().getReference("Game").child("Players");
+        ref = FirebaseDatabase.getInstance().getReference("Game");
         refreshList();
 
         list.setOnCreateContextMenuListener(this);
     }
 
     private void refreshList() {
-        ref.addValueEventListener(new ValueEventListener() {
+        inPList = false;
+        query = ref.child("Teams");
+        query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                everythingList.clear();
+                teamsList.clear();
                 for (DataSnapshot ds : dataSnapshot.getChildren())
-                    everythingList.add(ds.getValue(Player.class));
-                PlayerList adp = new PlayerList(MainActivity.this, everythingList);
-                list.setAdapter(adp );
+                    teamsList.add(ds.getValue(Team.class));
+                TeamList adp = new TeamList(MainActivity.this, teamsList);
+                list.setAdapter(adp);
             }
 
             @Override
@@ -171,18 +182,65 @@ public class MainActivity extends AppCompatActivity {
 
         if (title.equals("Delete"))
         {
-            String id = everythingList.get(index).id;
-            ref.child(id).removeValue();
+            if (inPList) {
+                String id = playersList.get(index).id;
+                ref.child("Players").child(id).removeValue();
+            }
+            else
+            {
+                int id = teamsList.get(index).num;
+                ref.child("Teams").child("" + id).removeValue();
+            }
         }
 
         return super.onContextItemSelected(item);
     }
 
-    public void enter(View view) {
+    public void addPlayer(View view) {
         if (currentUser != null)
         {
             Intent t = new Intent(this, AddPlayer.class);
             startActivity(t);
         }
+    }
+
+    public void addTeam(View view) {
+        if (currentUser != null) {
+            Intent t = new Intent(this, AddTeam.class);
+            startActivity(t);
+        }
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        if (!inPList) {
+            inPList = true;
+            int id = teamsList.get(i).num;
+            Toast.makeText(this, "" + id, Toast.LENGTH_LONG).show();
+            query = ref.child("Players").orderByChild("team").equalTo(id);
+            query.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    playersList.clear();
+                    for (DataSnapshot ds : dataSnapshot.getChildren())//רץ על כל האיברים
+                        playersList.add(ds.getValue(Player.class));
+                    PlayerList adp = new PlayerList(MainActivity.this, playersList);
+                    list.setAdapter(adp);
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (inPList)
+            refreshList();
+        else
+            super.onBackPressed();
     }
 }

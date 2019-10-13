@@ -33,7 +33,7 @@ public class AddPlayer extends AppCompatActivity {
         String ln = lname.getText().toString();
         String b = birth.getText().toString();
         String id = idText.getText().toString();
-        String t = team.getText().toString();
+        int t = Integer.parseInt(team.getText().toString());
         int n = Integer.parseInt(num.getText().toString());
 
         Player p = new Player(fn, ln, b, id, t, n, "");

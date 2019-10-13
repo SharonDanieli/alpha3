@@ -5,7 +5,7 @@ public class Player {
     public String lname;
     public String birth;
     public String id;
-    public String team;
+    public int team;
     public int num;
     public String imgURL;
 
@@ -14,7 +14,7 @@ public class Player {
 
     }
 
-    public Player(String fname, String lname, String birth, String id, String team, int num, String imgURL) {
+    public Player(String fname, String lname, String birth, String id, int team, int num, String imgURL) {
         this.fname = fname;
         this.lname = lname;
         this.birth = birth;
