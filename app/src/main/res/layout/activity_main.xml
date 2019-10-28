@@ -26,7 +26,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:onClick="addPlayer"
-            android:text="Add player" />
+            android:text="Add person" />
     </LinearLayout>
 
     <ListView
@@ -34,4 +34,11 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="9"/>
+
+    <Button
+        android:onClick="test"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.1"
+        android:text="test" />
 </LinearLayout>

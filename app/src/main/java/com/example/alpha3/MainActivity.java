@@ -243,4 +243,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         else
             super.onBackPressed();
     }
+
+    public void test(View view) {
+        Intent t = new Intent(this, TeamsInfo.class);
+        startActivity(t);
+    }
 }

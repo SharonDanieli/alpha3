@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">alpha3</string>
+    <string-array name="roles">
+        <item>Player</item>
+        <item>Official</item>
+        <item>Referee</item>
+    </string-array>
+    <string-array name="officials">
+        <item>C</item>
+        <item>AC</item>
+        <item>M</item>
+        <item>T</item>
+    </string-array>
 </resources>

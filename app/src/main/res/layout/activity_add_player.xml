@@ -27,15 +27,6 @@
         android:hint="Last name" />
 
     <EditText
-        android:id="@+id/birth"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:ems="10"
-        android:hint="Birth date"
-        android:inputType="date" />
-
-    <EditText
         android:id="@+id/id"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -43,6 +34,36 @@
         android:ems="10"
         android:hint="ID"
         android:inputType="number" />
+
+    <Spinner
+        android:id="@+id/roles"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" />
+
+    <Spinner
+        android:id="@+id/officials"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" />
+
+    <EditText
+        android:id="@+id/country"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="Country" />
+
+    <EditText
+        android:id="@+id/birth"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:ems="10"
+        android:hint="Birth date"
+        android:inputType="date" />
 
     <EditText
         android:id="@+id/team"
