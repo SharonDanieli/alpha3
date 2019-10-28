@@ -11,9 +11,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".TeamsInfo"></activity>
-        <activity android:name=".AddTeam" android:windowSoftInputMode="adjustResize"/>
-        <activity android:name=".AddPlayer" android:windowSoftInputMode="adjustResize"/>
+        <activity android:name=".Results"></activity>
+        <activity android:name=".Set" />
+        <activity android:name=".TeamsInfo" />
+        <activity
+            android:name=".AddTeam"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".AddPlayer"
+            android:windowSoftInputMode="adjustResize" />
         <activity android:name=".Verification" />
         <activity android:name=".MainActivity">
             <intent-filter>

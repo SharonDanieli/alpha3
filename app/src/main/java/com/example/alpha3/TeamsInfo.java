@@ -1,5 +1,6 @@
 package com.example.alpha3;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -33,7 +34,7 @@ public class TeamsInfo extends AppCompatActivity {
     List<Player> players1;
     List<Player> players2;
     ArrayAdapter<String> teamAdp;
-    private SignaturePad signatureCaptain;
+    SignaturePad signatureCaptain;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -163,5 +164,9 @@ public class TeamsInfo extends AppCompatActivity {
 
     public void sign(View view) {
         Toast.makeText(TeamsInfo.this, ":D", Toast.LENGTH_SHORT).show();
+        Intent t = new Intent(this, Set.class);
+        t.putExtra("name1", teamList.get(select1.getSelectedItemPosition()));
+        t.putExtra("name2", teamList.get(select2.getSelectedItemPosition()));
+        startActivity(t);
     }
 }
