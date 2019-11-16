@@ -8,9 +8,17 @@
     android:gravity="center"
     tools:context=".Set">
 
+    <TextView
+        android:id="@+id/time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/TextAppearance.AppCompat.Large"
+        android:gravity="center"
+        android:text="25" />
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <LinearLayout
@@ -79,4 +87,10 @@
                 android:text="Serve" />
         </LinearLayout>
     </LinearLayout>
+
+    <Button
+        android:onClick="startSet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Start set" />
 </LinearLayout>

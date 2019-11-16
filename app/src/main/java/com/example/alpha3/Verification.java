@@ -44,7 +44,7 @@ public class Verification extends AppCompatActivity {
 
             private static final String TAG = "Verification";
 
-            @Override
+             @Override
             public void onVerificationCompleted(PhoneAuthCredential credential) {
                 // This callback will be invoked in two situations:
                 // 1 - Instant verification. In some cases the phone number can be instantly
