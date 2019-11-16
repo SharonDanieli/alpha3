@@ -1,14 +1,19 @@
 package com.example.alpha3;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -115,6 +120,8 @@ public class Set extends AppCompatActivity {
                         playing1.add(playersList1.get(i));
                         playersl[i].setText("" + playersList1.get(i).num);
                     }
+
+                    setButtons();
                 }
 
                 @Override
@@ -197,6 +204,43 @@ public class Set extends AppCompatActivity {
                 prev1 = false;
             }
         });
+    }
+
+    private void setButtons() {
+        for (Button player : playersl)
+            player.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    AlertDialog.Builder adb = new AlertDialog.Builder(Set.this);
+                    PlayerList adp = new PlayerList(Set.this, playersList1);
+                    adb.setAdapter(adp, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                        }
+                    });
+                    AlertDialog ad = adb.create();
+                    ad.show();
+
+                }
+            });
+        for (Button player : players2)
+            player.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    AlertDialog.Builder adb = new AlertDialog.Builder(Set.this);
+                    PlayerList adp = new PlayerList(Set.this, playersList2);
+                    adb.setAdapter(adp, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                        }
+                    });
+                    AlertDialog ad = adb.create();
+                    ad.show();
+
+                }
+            });
     }
 
     public void saveTime() {
