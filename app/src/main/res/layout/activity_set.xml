@@ -67,13 +67,13 @@
                         android:id="@+id/p15"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Button" />
+                        android:text="V" />
 
                     <Button
                         android:id="@+id/p14"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Button" />
+                        android:text="IV" />
                 </TableRow>
 
                 <TableRow
@@ -85,13 +85,13 @@
                         android:id="@+id/p16"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Button" />
+                        android:text="VI" />
 
                     <Button
                         android:id="@+id/p13"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Button" />
+                        android:text="III" />
                 </TableRow>
 
                 <TableRow
@@ -103,13 +103,13 @@
                         android:id="@+id/p11"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Button" />
+                        android:text="I" />
 
                     <Button
                         android:id="@+id/p12"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Button" />
+                        android:text="II" />
                 </TableRow>
 
             </TableLayout>
@@ -160,13 +160,13 @@
                         android:id="@+id/p22"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Button" />
+                        android:text="II" />
 
                     <Button
                         android:id="@+id/p21"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Button" />
+                        android:text="I" />
                 </TableRow>
 
                 <TableRow
@@ -178,13 +178,13 @@
                         android:id="@+id/p23"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Button" />
+                        android:text="III" />
 
                     <Button
                         android:id="@+id/p26"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Button" />
+                        android:text="VI" />
                 </TableRow>
 
                 <TableRow
@@ -196,13 +196,13 @@
                         android:id="@+id/p24"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Button" />
+                        android:text="IV" />
 
                     <Button
                         android:id="@+id/p25"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Button" />
+                        android:text="V" />
                 </TableRow>
 
             </TableLayout>
@@ -211,6 +211,7 @@
     </LinearLayout>
 
     <Button
+        android:id="@+id/startSet"
         android:onClick="startSet"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

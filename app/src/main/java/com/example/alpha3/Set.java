@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RadioButton;
@@ -28,19 +29,20 @@ import java.util.List;
 public class Set extends AppCompatActivity {
 
     TextView name1, name2, set1, set2, time;
-    Button points1, points2;
+    Button points1, points2, startSet;
     Button[] playersl, players2;
-    List<Player> playersList1, playersList2, playing1, playing2;
+    List<Integer> playersList1, playersList2, playing1, playing2;
     RadioButton serve1, serve2;
     List<String> times;
     boolean prev1, prev2;
 
     DatabaseReference r = FirebaseDatabase.getInstance().getReference("Game").child("Players");
 
-    int pt1, pt2, limit, s1, s2;
+    int pt1, pt2, limit, s1, s2, size1, size2;
 
     public static final int LIMIT = 25;
     public static final int SETLIMIT = 3;
+    public static final int TEAM_SIZE = 6;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,12 +53,15 @@ public class Set extends AppCompatActivity {
         name2 = findViewById(R.id.name2);
         points1 = findViewById(R.id.points1);
         points2 = findViewById(R.id.points2);
+        startSet = findViewById(R.id.startSet);
         set1 = findViewById(R.id.set1);
         set2 = findViewById(R.id.set2);
         serve1 = findViewById(R.id.serve1);
         serve2 = findViewById(R.id.serve2);
         time = findViewById(R.id.time);
 
+
+        startSet.setEnabled(false);
         playersl = new Button[6];
         players2 = new Button[6];
 
@@ -111,14 +116,12 @@ public class Set extends AppCompatActivity {
             r.orderByChild("team").equalTo(Integer.parseInt(name1.getText().toString().split(" - ")[0])).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    size1 = 0;
                     for (DataSnapshot ds : dataSnapshot.getChildren())
                     {
                         Player player = ds.getValue(Player.class);
-                        playersList1.add(player);
-                    }
-                    for (int i = 0; i < playersl.length; i++) {
-                        playing1.add(playersList1.get(i));
-                        playersl[i].setText("" + playersList1.get(i).num);
+                        insert(playersList1, player.num);
+                        size1++;
                     }
 
                     setButtons();
@@ -132,14 +135,12 @@ public class Set extends AppCompatActivity {
             r.orderByChild("team").equalTo(Integer.parseInt(name2.getText().toString().split(" - ")[0])).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    size2 = 0;
                     for (DataSnapshot ds : dataSnapshot.getChildren())
                     {
                         Player player = ds.getValue(Player.class);
-                        playersList2.add(player);
-                    }
-                    for (int i = 0; i < players2.length; i++) {
-                        playing2.add(playersList1.get(i));
-                        players2[i].setText("" + playersList2.get(i).num);
+                        insert(playersList2, player.num);
+                        size2++;
                     }
                 }
 
@@ -168,10 +169,10 @@ public class Set extends AppCompatActivity {
 
                 if (prev1 != serve1.isChecked() && serve1.isChecked())
                 {
-                    Player p = playing1.remove(0);
+                    Integer p = playing1.remove(0);
                     playing1.add(p);
                     for (int i = 0; i < playersl.length; i++)
-                        playersl[i].setText("" + playing1.get(i).num);
+                        playersl[i].setText("" + playing1.get(i));
                 }
                 prev1 = true;
                 prev2 = false;
@@ -195,10 +196,10 @@ public class Set extends AppCompatActivity {
 
                 if (prev2 != serve2.isChecked() && serve2.isChecked())
                 {
-                    Player p = playing2.remove(0);
+                    int p = playing2.remove(0);
                     playing2.add(p);
                     for (int i = 0; i < players2.length; i++)
-                        players2[i].setText("" + playing2.get(i).num);
+                        players2[i].setText("" + playing2.get(i));
                 }
                 prev2 = true;
                 prev1 = false;
@@ -207,16 +208,25 @@ public class Set extends AppCompatActivity {
     }
 
     private void setButtons() {
-        for (Button player : playersl)
+        for (final Button player : playersl)
             player.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     AlertDialog.Builder adb = new AlertDialog.Builder(Set.this);
-                    PlayerList adp = new PlayerList(Set.this, playersList1);
+                    ArrayAdapter adp = new ArrayAdapter(Set.this, R.layout.support_simple_spinner_dropdown_item, playersList1);
                     adb.setAdapter(adp, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
+                            String text = player.getText().toString();
+                            int num = playersList1.remove(i);
 
+                            if (!text.startsWith("I") && !text.startsWith("V"))//בודק אם בכפתור הוכנס שחקן
+                                insert(playersList1, Integer.parseInt(text));
+
+                            player.setText("" + num);
+
+                            if (playersList1.size() == size1 - TEAM_SIZE && playersList2.size() == size2 - TEAM_SIZE)
+                                addPlayers();
                         }
                     });
                     AlertDialog ad = adb.create();
@@ -224,16 +234,26 @@ public class Set extends AppCompatActivity {
 
                 }
             });
-        for (Button player : players2)
+        for (final Button player : players2)
             player.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     AlertDialog.Builder adb = new AlertDialog.Builder(Set.this);
-                    PlayerList adp = new PlayerList(Set.this, playersList2);
+                    ArrayAdapter adp = new ArrayAdapter(Set.this, R.layout.support_simple_spinner_dropdown_item, playersList2);
                     adb.setAdapter(adp, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
+                            String text = player.getText().toString();
+                            int num = playersList2.remove(i);
 
+                            if (!text.startsWith("I") && !text.startsWith("V"))//בודק אם בכפתור הוכנס שחקן
+                                insert(playersList2, Integer.parseInt(text));
+
+                            player.setText("" + num);
+
+                            if (playersList1.size() == size1 - TEAM_SIZE && playersList2.size() == size2 - TEAM_SIZE) {
+                                addPlayers();
+                            }
                         }
                     });
                     AlertDialog ad = adb.create();
@@ -241,6 +261,16 @@ public class Set extends AppCompatActivity {
 
                 }
             });
+    }
+
+    private void addPlayers() {
+        startSet.setEnabled(true);
+        for (int i = 0 ; i < TEAM_SIZE; i++) {
+            playing1.add(Integer.parseInt(playersl[i].getText().toString()));
+            playing2.add(Integer.parseInt(players2[i].getText().toString()));
+            playersl[i].setEnabled(false);
+            players2[i].setEnabled(false);
+        }
     }
 
     public void saveTime() {
@@ -260,6 +290,19 @@ public class Set extends AppCompatActivity {
             t.putExtra("winner", name2.getText().toString());
             startActivity(t);
         }
+    }
+
+    public void insert(List<Integer> l, int num) //מכניסה את השחקן במקום הנכון (מערך ממוין)
+    {
+        int i = 0;
+        int s = l.size();
+        while (i < s)
+        {
+            if (num < l.get(i))
+                break;
+            i++;
+        }
+        l.add(i, num);
     }
 
     public void startSet(View view) {
