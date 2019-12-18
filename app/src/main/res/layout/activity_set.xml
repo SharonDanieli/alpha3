@@ -28,6 +28,13 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
+            <Button
+                android:id="@+id/to1"
+                android:onClick="timeout1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Timeout" />
+
             <TextView
                 android:id="@+id/name1"
                 android:layout_width="match_parent"
@@ -120,6 +127,13 @@
             android:layout_weight="1"
             android:layout_height="match_parent"
             android:orientation="vertical">
+
+            <Button
+                android:id="@+id/to2"
+                android:onClick="timeout2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Timeout" />
 
             <TextView
                 android:id="@+id/name2"

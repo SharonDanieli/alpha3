@@ -22,23 +22,28 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class Set extends AppCompatActivity {
 
     TextView name1, name2, set1, set2, time;
-    Button points1, points2, startSet;
+    Button points1, points2, startSet, to1, to2;
     Button[] playersl, players2;
     List<Integer> playersList1, playersList2, playing1, playing2;
     RadioButton serve1, serve2;
-    List<String> times;
+    List<String> times1, times2, times;
     boolean prev1, prev2;
 
     DatabaseReference r = FirebaseDatabase.getInstance().getReference("Game").child("Players");
 
     int pt1, pt2, limit, s1, s2, size1, size2;
+
+    String[] positions;
 
     public static final int LIMIT = 25;
     public static final int SETLIMIT = 3;
@@ -48,6 +53,8 @@ public class Set extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_set);
+
+        positions = getResources().getStringArray(R.array.positions);
 
         name1 = findViewById(R.id.name1);
         name2 = findViewById(R.id.name2);
@@ -59,6 +66,11 @@ public class Set extends AppCompatActivity {
         serve1 = findViewById(R.id.serve1);
         serve2 = findViewById(R.id.serve2);
         time = findViewById(R.id.time);
+        to1 = findViewById(R.id.to1);
+        to2 = findViewById(R.id.to2);
+
+        times1= new ArrayList<>();
+        times2= new ArrayList<>();
 
 
         startSet.setEnabled(false);
@@ -207,60 +219,80 @@ public class Set extends AppCompatActivity {
         });
     }
 
+
+
     private void setButtons() {
-        for (final Button player : playersl)
+        for (int i = 0; i < playersl.length; i++) {
+            final Button player = playersl[i];
+            final String pos = positions[i];
             player.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    AlertDialog.Builder adb = new AlertDialog.Builder(Set.this);
-                    ArrayAdapter adp = new ArrayAdapter(Set.this, R.layout.support_simple_spinner_dropdown_item, playersList1);
-                    adb.setAdapter(adp, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            String text = player.getText().toString();
-                            int num = playersList1.remove(i);
+                    final String text = player.getText().toString();
+                    if (text.startsWith("I") || text.startsWith("V"))//בודק אם בכפתור הוכנס שחקן
+                    {
+                        AlertDialog.Builder adb = new AlertDialog.Builder(Set.this);
+                        ArrayAdapter adp = new ArrayAdapter(Set.this, R.layout.support_simple_spinner_dropdown_item, playersList1);
+                        adb.setAdapter(adp, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                // String text = player.getText().toString();
+                                int num = playersList1.remove(i);
 
-                            if (!text.startsWith("I") && !text.startsWith("V"))//בודק אם בכפתור הוכנס שחקן
-                                insert(playersList1, Integer.parseInt(text));
+                                //if (!text.startsWith("I") && !text.startsWith("V"))//בודק אם בכפתור הוכנס שחקן
 
-                            player.setText("" + num);
 
-                            if (playersList1.size() == size1 - TEAM_SIZE && playersList2.size() == size2 - TEAM_SIZE)
-                                addPlayers();
-                        }
-                    });
-                    AlertDialog ad = adb.create();
-                    ad.show();
+                                player.setText("" + num);
 
-                }
-            });
-        for (final Button player : players2)
-            player.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    AlertDialog.Builder adb = new AlertDialog.Builder(Set.this);
-                    ArrayAdapter adp = new ArrayAdapter(Set.this, R.layout.support_simple_spinner_dropdown_item, playersList2);
-                    adb.setAdapter(adp, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            String text = player.getText().toString();
-                            int num = playersList2.remove(i);
-
-                            if (!text.startsWith("I") && !text.startsWith("V"))//בודק אם בכפתור הוכנס שחקן
-                                insert(playersList2, Integer.parseInt(text));
-
-                            player.setText("" + num);
-
-                            if (playersList1.size() == size1 - TEAM_SIZE && playersList2.size() == size2 - TEAM_SIZE) {
-                                addPlayers();
+                                if (playersList1.size() == size1 - TEAM_SIZE && playersList2.size() == size2 - TEAM_SIZE)
+                                    addPlayers();
                             }
-                        }
-                    });
-                    AlertDialog ad = adb.create();
-                    ad.show();
-
+                        });
+                        AlertDialog ad = adb.create();
+                        ad.show();
+                    } else {
+                        insert(playersList1, Integer.parseInt(text));
+                        player.setText(pos);
+                    }
                 }
             });
+        }
+        for (int i = 0; i < players2.length; i++) {
+            final Button player = players2[i];
+            final String pos = positions[i];
+            player.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    final String text = player.getText().toString();
+                    if (text.startsWith("I") || text.startsWith("V"))//בודק אם בכפתור הוכנס שחקן
+                    {
+                        AlertDialog.Builder adb = new AlertDialog.Builder(Set.this);
+                        ArrayAdapter adp = new ArrayAdapter(Set.this, R.layout.support_simple_spinner_dropdown_item, playersList2);
+                        adb.setAdapter(adp, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                // String text = player.getText().toString();
+                                int num = playersList2.remove(i);
+
+                                /*if (!text.startsWith("I") && !text.startsWith("V"))//בודק אם בכפתור הוכנס שחקן
+                                    insert(playersList2, Integer.parseInt(text));*/
+
+                                player.setText("" + num);
+
+                                if (playersList1.size() == size1 - TEAM_SIZE && playersList2.size() == size2 - TEAM_SIZE)
+                                    addPlayers();
+                            }
+                        });
+                        AlertDialog ad = adb.create();
+                        ad.show();
+                    }
+                    else {
+                        insert(playersList2, Integer.parseInt(text));
+                        player.setText(pos);
+                    }
+                }
+            });
+        }
     }
 
     private void addPlayers() {
@@ -268,15 +300,17 @@ public class Set extends AppCompatActivity {
         for (int i = 0 ; i < TEAM_SIZE; i++) {
             playing1.add(Integer.parseInt(playersl[i].getText().toString()));
             playing2.add(Integer.parseInt(players2[i].getText().toString()));
-            playersl[i].setEnabled(false);
-            players2[i].setEnabled(false);
+            // playersl[i].setEnabled(false);
+            // players2[i].setEnabled(false);
         }
     }
 
     public void saveTime() {
-        Calendar c = Calendar.getInstance();
+        /*Calendar c = Calendar.getInstance();
         times.add(c.get(Calendar.HOUR_OF_DAY) + ":" + c.get(Calendar.MINUTE));
-        time.setText(times.get(times.size() - 1));
+        time.setText(times.get(times.size() - 1));*/
+        SimpleDateFormat format=new SimpleDateFormat("HH:mm", Locale.getDefault());
+        time.setText(format.format(new Date().getTime()));
     }
 
     public void checkWin()
@@ -307,6 +341,9 @@ public class Set extends AppCompatActivity {
 
     public void startSet(View view) {
         saveTime();
+        //לשמור את פסקי הזמן של המערכה
+        times1.clear();
+        times2.clear();
         pt1 = 0;
         pt2 = 0;
         set1.setText("" + s1);
@@ -314,8 +351,27 @@ public class Set extends AppCompatActivity {
         points1.setText("" + pt1);
         points2.setText("" + pt2);
         limit = LIMIT;
+        to1.setEnabled(true);
+        to2.setEnabled(true);
         checkWin();
         points1.setEnabled(true);
         points2.setEnabled(true);
+    }
+
+    public void timeout1(View view) {
+        if (times1.size() < 2) {
+            times1.add(points1.getText().toString() + ":" + points2.getText().toString());
+            if (times1.size() == 2)
+                to1.setEnabled(false);
+        }Log.e("times1", times1.toString());
+    }
+
+    public void timeout2(View view) {
+        if (times2.size() < 2) {
+            times2.add(points2.getText().toString() + ":" + points1.getText().toString());
+            if (times2.size() == 2)
+                to2.setEnabled(false);
+        }
+        Log.e("times2", times2.toString());
     }
 }
