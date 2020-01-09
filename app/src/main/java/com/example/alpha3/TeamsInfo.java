@@ -1,7 +1,6 @@
 package com.example.alpha3;
 
 import android.app.Dialog;
-import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
@@ -14,7 +13,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.github.gcacace.signaturepad.views.SignaturePad;
@@ -34,7 +32,7 @@ public class TeamsInfo extends AppCompatActivity {
 
     Spinner select1, select2;
     ListView team1, team2;
-    Button clearButton, signButton, time;
+    Button clearButton, signButton;
 
     List<String> teamList;
     List<Player> players1;
@@ -50,7 +48,6 @@ public class TeamsInfo extends AppCompatActivity {
         signatureCaptain = findViewById(R.id.signatureCaptain);
         clearButton = findViewById(R.id.clearButton);
         signButton = findViewById(R.id.signButton);
-        time = findViewById(R.id.time);
 
         signButton.setVisibility(View.INVISIBLE);
         clearButton.setVisibility(View.INVISIBLE);
@@ -177,15 +174,4 @@ public class TeamsInfo extends AppCompatActivity {
         startActivity(t);
     }
 
-    public void chooseTime(View view) {
-        TimePickerDialog picker = new TimePickerDialog(TeamsInfo.this,android.R.style.Theme_Holo_Light_Dialog_NoActionBar,
-                new TimePickerDialog.OnTimeSetListener() {
-                    @Override
-                    public void onTimeSet(TimePicker tp, int sHour, int sMinute) {
-                        time.setText(sHour + ":" + sMinute);
-                    }
-                }, Calendar.getInstance().get(Calendar.HOUR_OF_DAY), Calendar.getInstance().get(Calendar.MINUTE), true);
-        picker.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-        picker .show();
-    }
 }

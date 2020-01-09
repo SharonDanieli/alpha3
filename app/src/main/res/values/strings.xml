@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">alpha3</string>
+    <string name="name_of_the_competition">Name of the competition</string>
+    <string name="city">City</string>
     <string-array name="roles">
         <item>Player</item>
         <item>Official</item>
@@ -18,5 +20,17 @@
         <item>IV</item>
         <item>V</item>
         <item>VI</item>
+    </string-array>
+    <string-array name="phase">
+        <item>Pool/Phase</item>
+        <item>Elim</item>
+        <item>Seeding/Qual</item>
+        <item>Final</item>
+    </string-array>
+    <string-array name="category">
+        <item>Category</item>
+        <item>Senior</item>
+        <item>Junior</item>
+        <item>Youth</item>
     </string-array>
 </resources>

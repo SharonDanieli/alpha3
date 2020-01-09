@@ -1,19 +1,30 @@
 package com.example.alpha3;
 
 import java.util.Calendar;
-
+//this is a class, not an activity.
 public class Info {
+    public String name; // name of the competition
     public String city;
+    public String countryCode;
     public String hall;
-    // pool % country code N* division category
+    public byte phase;
+    public byte num;
+    public byte category;
+    public boolean division;
     public String date;
     public String time;
     public String team1;
     public String team2;
 
-    public Info(String city, String hall, String time, String team1, String team2) {
+    public Info(String name, String city, String countryCode, String hall, byte phase, byte num, byte category, boolean division, String time, String team1, String team2) {
+        this.name = name;
         this.city = city;
+        this.countryCode = countryCode;
         this.hall = hall;
+        this.phase = phase;
+        this.num = num;
+        this.category = category;
+        this.division = division;
         this.time = time;
         this.team1 = team1;
         this.team2 = team2;

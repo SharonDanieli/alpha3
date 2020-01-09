@@ -245,7 +245,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     public void test(View view) {
-        Intent t = new Intent(this, TeamsInfo.class);
+        Intent t = new Intent(this, GameInfo.class);
         startActivity(t);
     }
 }
