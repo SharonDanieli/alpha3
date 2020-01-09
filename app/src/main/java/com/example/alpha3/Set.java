@@ -122,8 +122,8 @@ public class Set extends AppCompatActivity {
         Intent t = getIntent();
         if (t != null)
         {
-            name1.setText(t.getStringExtra("name1"));
-            name2.setText(t.getStringExtra("name2"));
+            name1.setText(t.getStringExtra("team1"));
+            name2.setText(t.getStringExtra("team2"));
 
             r.orderByChild("team").equalTo(Integer.parseInt(name1.getText().toString().split(" - ")[0])).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override

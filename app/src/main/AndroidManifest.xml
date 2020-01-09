@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".GameInfo"></activity>
+        <activity android:name=".Approval"></activity>
+        <activity android:name=".GameInfo" />
         <activity android:name=".Results" />
         <activity android:name=".Set" />
         <activity android:name=".TeamsInfo" />
