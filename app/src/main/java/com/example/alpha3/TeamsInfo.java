@@ -33,7 +33,7 @@ public class TeamsInfo extends AppCompatActivity {
 
     TextView teamName1, teamName2;
     ListView team1, team2;
-    Button clearButton, signButton;
+    Button signButton;
 
     List<String> teamList;
     List<Player> players1;
@@ -45,11 +45,7 @@ public class TeamsInfo extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_teams_info);
 
-        clearButton = findViewById(R.id.clearButton);
         signButton = findViewById(R.id.signButton);
-
-        signButton.setVisibility(View.INVISIBLE);
-        clearButton.setVisibility(View.INVISIBLE);
 
         teamName1 = findViewById(R.id.teamName1);
         teamName2 = findViewById(R.id.teamName2);
@@ -104,7 +100,7 @@ teamName2.setText(t.getStringExtra("team2"));
 
     public void sign(View view) {
         Toast.makeText(TeamsInfo.this, ":D", Toast.LENGTH_SHORT).show();
-        Intent t = new Intent(this, Set.class);
+        Intent t = new Intent(this, Approval.class);
         t.replaceExtras(getIntent());
         startActivity(t);
     }

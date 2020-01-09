@@ -17,6 +17,19 @@
         android:gravity="center"
         android:text="25" />
 
+    <Button
+        android:id="@+id/sanctions1"
+        android:onClick="addSanction1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Sanctions team 1" />
+    <Button
+        android:id="@+id/sanctions2"
+        android:onClick="addSanction2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Sanctions team 2" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

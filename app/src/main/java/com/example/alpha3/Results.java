@@ -7,15 +7,9 @@ import android.widget.TextView;
 
 public class Results extends AppCompatActivity {
 
-    TextView winner;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_results);
-
-        winner = findViewById(R.id.winner);
-
-        winner.setText(getIntent().getStringExtra("winner").split("-")[1]);
     }
 }

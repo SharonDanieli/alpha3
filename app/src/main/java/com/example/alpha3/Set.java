@@ -36,7 +36,7 @@ public class Set extends AppCompatActivity {
     Button[] playersl, players2;
     List<Integer> playersList1, playersList2, playing1, playing2;
     RadioButton serve1, serve2;
-    List<String> times1, times2, times;
+    List<String> times1, times2, sanctionsList1, sanctionsList2;
     boolean prev1, prev2;
 
     DatabaseReference r = FirebaseDatabase.getInstance().getReference("Game").child("Players");
@@ -107,7 +107,8 @@ public class Set extends AppCompatActivity {
             prev2 = true;
         }
 
-        times = new ArrayList<>();
+        sanctionsList1 = new ArrayList<>();
+        sanctionsList2 = new ArrayList<>();
         saveTime();
 
         pt1 = 0;
@@ -373,5 +374,16 @@ public class Set extends AppCompatActivity {
                 to2.setEnabled(false);
         }
         Log.e("times2", times2.toString());
+    }
+
+    public void addSanction1(View view) {
+        sanctionsList1.add(points1.getText().toString() + ":" + points2.getText().toString());
+
+        Log.e("sanctions1", sanctionsList1.toString());
+    }
+    public void addSanction2(View view) {
+        sanctionsList2.add(points1.getText().toString() + ":" + points2.getText().toString());
+
+        Log.e("sanctions2", sanctionsList2.toString());
     }
 }
