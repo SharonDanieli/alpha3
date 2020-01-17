@@ -7,16 +7,16 @@ public class Info {
     public String city;
     public String countryCode;
     public String hall;
-    public byte phase;
-    public byte num;
-    public byte category;
+    public int phase;
+    public int num;
+    public int category;
     public boolean division;
     public String date;
     public String time;
     public String team1;
     public String team2;
 
-    public Info(String name, String city, String countryCode, String hall, byte phase, byte num, byte category, boolean division, String time, String team1, String team2) {
+    public Info(String name, String city, String countryCode, String hall, int phase, int num, int category, boolean division, String time, String team1, String team2) {
         this.name = name;
         this.city = city;
         this.countryCode = countryCode;

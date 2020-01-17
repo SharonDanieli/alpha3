@@ -48,6 +48,11 @@ public class Set extends AppCompatActivity {
     public static final int LIMIT = 25;
     public static final int SETLIMIT = 3;
     public static final int TEAM_SIZE = 6;
+    private List<Integer> first1;
+    private List<Integer> first2;
+    ArrayList<String> points;
+    ArrayList<String> swaps1 = new ArrayList<String>();
+    ArrayList<String> swaps2 = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,6 +114,8 @@ public class Set extends AppCompatActivity {
 
         sanctionsList1 = new ArrayList<>();
         sanctionsList2 = new ArrayList<>();
+
+        points = new ArrayList<>();
         saveTime();
 
         pt1 = 0;
@@ -171,6 +178,8 @@ public class Set extends AppCompatActivity {
                     s1++;
                     points1.setEnabled(false);
                     points2.setEnabled(false);
+
+                    upload();
                 }
                 pt1++;
                 if (pt1 == pt2 && pt2 >= LIMIT - 1)
@@ -198,6 +207,8 @@ public class Set extends AppCompatActivity {
                     s2++;
                     points1.setEnabled(false);
                     points2.setEnabled(false);
+
+                    upload();
                 }
                 pt2++;
                 if (pt1 == pt2 && pt2 >= LIMIT - 1)
@@ -220,6 +231,31 @@ public class Set extends AppCompatActivity {
         });
     }
 
+    private void upload() {
+        String id = getIntent().getStringExtra("id");
+        points.add(pt1 + ":" + pt2);
+
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Games/" + id).child("Results");
+        TeamResults teamsInfo1 = new TeamResults(
+            first1,
+            swaps1,
+            (ArrayList<String>)times1,
+            (ArrayList<String>)sanctionsList1
+        );
+        TeamResults teamsInfo2 = new TeamResults(
+            first2,
+            swaps2,
+            (ArrayList<String>)times2,
+            (ArrayList<String>)sanctionsList2
+        );
+        SetInfo setInfo = new SetInfo(
+                new ArrayList<Boolean>(),
+                points,
+                teamsInfo1,
+                teamsInfo2
+        );
+        ref.setValue(setInfo);
+    }
 
 
     private void setButtons() {
@@ -297,8 +333,12 @@ public class Set extends AppCompatActivity {
     }
 
     private void addPlayers() {
+        first1 = new ArrayList<>();
+        first2 = new ArrayList<>();
         startSet.setEnabled(true);
         for (int i = 0 ; i < TEAM_SIZE; i++) {
+            first1.add(Integer.parseInt(playersl[i].getText().toString()));
+            first2.add(Integer.parseInt(players2[i].getText().toString()));
             playing1.add(Integer.parseInt(playersl[i].getText().toString()));
             playing2.add(Integer.parseInt(players2[i].getText().toString()));
             // playersl[i].setEnabled(false);

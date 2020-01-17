@@ -95,19 +95,29 @@ public class GameInfo extends AppCompatActivity {
     }
 
     public void next(View view) {
-        Intent t = new Intent(this, TeamsInfo.class);
-        t.putExtra("name", nameText.getText().toString());
-        t.putExtra("city", cityText.getText().toString());
-        t.putExtra("hall", hallText.getText().toString());
-        t.putExtra("code", codeText.getText().toString());
-        t.putExtra("phase", (String)phase.getSelectedItem());
-        t.putExtra("category", (String)category.getSelectedItem());
-        t.putExtra("time", time.getText().toString());
-        t.putExtra("menOrWomen", menOrWomen.isChecked());
-        t.putExtra("number", numberText.getText().toString());
-        t.putExtra("team1", (String)select1.getSelectedItem());
-        t.putExtra("team2", (String)select2.getSelectedItem());
 
+        Info info = new Info(nameText.getText().toString(),
+                cityText.getText().toString(),
+                codeText.getText().toString(),
+                hallText.getText().toString(),
+                (byte)phase.getSelectedItemPosition(),
+                Byte.parseByte(numberText.getText().toString()),
+                (byte)category.getSelectedItemPosition(),
+                menOrWomen.isChecked(),
+                time.getText().toString(),
+                (String)select1.getSelectedItem(),
+                (String)select2.getSelectedItem());
+
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Games");
+        String id = ref.push().getKey();
+        ref = ref.child(id).child("Info");
+        ref.setValue(info);
+
+        Intent t = new Intent(this, TeamsInfo.class);
+
+        t.putExtra("team1", info.team1);
+        t.putExtra("team2", info.team2);
+        t.putExtra("id", id);
         startActivity(t);
     }
 }
