@@ -39,7 +39,7 @@ public class Set extends AppCompatActivity {
     List<String> times1, times2, sanctionsList1, sanctionsList2;
     boolean prev1, prev2;
 
-    DatabaseReference r = FirebaseDatabase.getInstance().getReference("Game").child("Players");
+    DatabaseReference r;
 
     int pt1, pt2, limit, s1, s2, size1, size2;
 
@@ -60,6 +60,8 @@ public class Set extends AppCompatActivity {
         setContentView(R.layout.activity_set);
 
         positions = getResources().getStringArray(R.array.positions);
+
+        r = FirebaseDatabase.getInstance().getReference("Game").child("Players");
 
         name1 = findViewById(R.id.name1);
         name2 = findViewById(R.id.name2);
@@ -174,17 +176,17 @@ public class Set extends AppCompatActivity {
         points1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (pt1 >= limit - 1) {
+                pt1++;
+                points1.setText("" + pt1);
+                if (pt1 - 1 >= limit - 1) {
                     s1++;
                     points1.setEnabled(false);
                     points2.setEnabled(false);
 
                     upload();
                 }
-                pt1++;
                 if (pt1 == pt2 && pt2 >= LIMIT - 1)
                     limit++;
-                points1.setText("" + pt1);
 
                 serve1.setChecked(true);
                 serve2.setChecked(false);
@@ -203,17 +205,18 @@ public class Set extends AppCompatActivity {
         points2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (pt2 >= limit - 1) {
+                pt2++;
+                points2.setText("" + pt2);
+                if (pt2 - 1 >= limit - 1) {
                     s2++;
                     points1.setEnabled(false);
                     points2.setEnabled(false);
 
                     upload();
                 }
-                pt2++;
+
                 if (pt1 == pt2 && pt2 >= LIMIT - 1)
                     limit++;
-                points2.setText("" + pt2);
 
                 serve1.setChecked(false);
                 serve2.setChecked(true);
