@@ -7,14 +7,11 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -24,7 +21,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -36,8 +34,10 @@ public class Set extends AppCompatActivity {
     Button[] playersl, players2;
     List<Integer> playersList1, playersList2, playing1, playing2;
     RadioButton serve1, serve2;
-    List<String> times1, times2, sanctionsList1, sanctionsList2;
+    List<String> times1, times2, sanctions1, sanctions2;
+    List<TeamResults> resultsA, resultsB;
     boolean prev1, prev2;
+    String[] letters;
 
     DatabaseReference r;
 
@@ -58,6 +58,8 @@ public class Set extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_set);
+
+        letters = getResources().getStringArray(R.array.sanctions);
 
         positions = getResources().getStringArray(R.array.positions);
 
@@ -103,6 +105,9 @@ public class Set extends AppCompatActivity {
         playing1 = new ArrayList<>();
         playing2 = new ArrayList<>();
 
+        resultsA = new ArrayList<>();
+        resultsB = new ArrayList<>();
+
         prev1 = false;
         prev2 = false;
         if ((int)(Math.random() * 2) == 0) {
@@ -114,8 +119,8 @@ public class Set extends AppCompatActivity {
             prev2 = true;
         }
 
-        sanctionsList1 = new ArrayList<>();
-        sanctionsList2 = new ArrayList<>();
+        sanctions1 = new ArrayList<>();
+        sanctions2 = new ArrayList<>();
 
         points = new ArrayList<>();
         saveTime();
@@ -239,23 +244,23 @@ public class Set extends AppCompatActivity {
         points.add(pt1 + ":" + pt2);
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Games/" + id).child("Results");
-        TeamResults teamsInfo1 = new TeamResults(
+        resultsA.add(new TeamResults(
             first1,
             swaps1,
             (ArrayList<String>)times1,
-            (ArrayList<String>)sanctionsList1
-        );
-        TeamResults teamsInfo2 = new TeamResults(
+            (ArrayList<String>) sanctions1
+        ));
+        resultsB.add(new TeamResults(
             first2,
             swaps2,
             (ArrayList<String>)times2,
-            (ArrayList<String>)sanctionsList2
-        );
+            (ArrayList<String>) sanctions2
+        ));
         SetInfo setInfo = new SetInfo(
                 new ArrayList<Boolean>(),
                 points,
-                teamsInfo1,
-                teamsInfo2
+                resultsA,
+                resultsB
         );
         ref.setValue(setInfo);
     }
@@ -388,6 +393,8 @@ public class Set extends AppCompatActivity {
         //לשמור את פסקי הזמן של המערכה
         times1.clear();
         times2.clear();
+        sanctions1.clear();
+        sanctions2.clear();
         pt1 = 0;
         pt2 = 0;
         set1.setText("" + s1);
@@ -420,13 +427,72 @@ public class Set extends AppCompatActivity {
     }
 
     public void addSanction1(View view) {
-        sanctionsList1.add(points1.getText().toString() + ":" + points2.getText().toString());
+        ArrayAdapter adp = new ArrayAdapter(Set.this, R.layout.support_simple_spinner_dropdown_item, letters);
+        AlertDialog.Builder adb = new AlertDialog.Builder(this);
+        adb.setAdapter(adp, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, final int i) {
+                if (i == 3)
+                    sanctions1.add(letters[i] + ", " + pt1 + ":" + pt2);
+                else {
+                    final List<Integer> players = new ArrayList<>();
+                    players.addAll(playersList1);
+                    players.addAll(playing1);
+                    Collections.sort(players); // מיון השחקנים לפי המספרים
+                    AlertDialog.Builder adb = new AlertDialog.Builder(Set.this);
+                    ArrayAdapter adp = new ArrayAdapter(Set.this, R.layout.support_simple_spinner_dropdown_item, players);
 
-        Log.e("sanctions1", sanctionsList1.toString());
+                    adb.setAdapter(adp, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int j) {
+                            sanctions1.add(letters[i] + " - " + players.get(j) + ", " + pt1 + ":" + pt2);
+                            Log.e("sanctions1", sanctions1.toString());
+                        }
+                    });
+
+                    AlertDialog ad = adb.create();
+                    ad.show();
+                }
+            }
+        });
+        AlertDialog ad = adb.create();
+        ad.show();
+
+
+        // sanctions1.add(points1.getText().toString() + ":" + points2.getText().toString());
     }
     public void addSanction2(View view) {
-        sanctionsList2.add(points1.getText().toString() + ":" + points2.getText().toString());
+        // sanctions2.add(points1.getText().toString() + ":" + points2.getText().toString());
+        ArrayAdapter adp = new ArrayAdapter(Set.this, R.layout.support_simple_spinner_dropdown_item, letters);
+        AlertDialog.Builder adb = new AlertDialog.Builder(this);
+        adb.setAdapter(adp, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, final int i) {
+                if (i == 3)
+                    sanctions2.add(letters[i] + ", " + pt2 + ":" + pt1);
+                else {
+                    final List<Integer> players = new ArrayList<>();
+                    players.addAll(playersList2);
+                    players.addAll(playing2);
+                    Collections.sort(players); // מיון השחקנים לפי המספרים
+                    AlertDialog.Builder adb = new AlertDialog.Builder(Set.this);
+                    ArrayAdapter adp = new ArrayAdapter(Set.this, R.layout.support_simple_spinner_dropdown_item, players);
 
-        Log.e("sanctions2", sanctionsList2.toString());
+                    adb.setAdapter(adp, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int j) {
+                            sanctions2.add(letters[i] + " - " + players.get(j) + ", " + pt2 + ":" + pt1);
+                            Log.e("sanctions2", sanctions2.toString());
+                        }
+                    });
+
+                    AlertDialog ad = adb.create();
+                    ad.show();
+                }
+            }
+        });
+
+        AlertDialog ad = adb.create();
+        ad.show();
     }
 }

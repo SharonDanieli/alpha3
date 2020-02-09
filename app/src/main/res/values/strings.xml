@@ -33,4 +33,10 @@
         <item>Junior</item>
         <item>Youth</item>
     </string-array>
+    <string-array name="sanctions">
+        <item>W</item>
+        <item>P</item>
+        <item>E</item>
+        <item>D</item>
+    </string-array>
 </resources>
