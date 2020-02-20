@@ -60,6 +60,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         list = findViewById(R.id.list);
         list.setOnItemClickListener(this);
 
@@ -72,8 +73,29 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         currentUser = mAuth.getCurrentUser();
         if (currentUser == null)
             signIn();
-        else
+        else {
+            // Hide buttons if the user isn't an authorized person
+            FirebaseDatabase.getInstance().getReference("Authorized").addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    String userId = FirebaseAuth.getInstance().getUid();
+                    Log.println(Log.ERROR, "User ID", userId);
+                    if (!dataSnapshot.hasChild(userId))
+                    {
+                        Intent t = new Intent(MainActivity.this, GameInfo.class);
+                        finish();
+                        startActivity(t);
+                    }
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
             initiate();
+        }
     }
 
     void initiate()
