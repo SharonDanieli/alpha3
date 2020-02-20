@@ -34,9 +34,10 @@
         <item>Youth</item>
     </string-array>
     <string-array name="sanctions">
-        <item>W</item>
-        <item>P</item>
-        <item>E</item>
-        <item>D</item>
+        <item>Delay</item>
+        <item>Warning</item>
+        <item>Penalty</item>
+        <item>Expulsion</item>
+        <item>Disqualification</item>
     </string-array>
 </resources>

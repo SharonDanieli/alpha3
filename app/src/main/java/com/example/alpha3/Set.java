@@ -30,11 +30,11 @@ import java.util.Locale;
 public class Set extends AppCompatActivity {
 
     TextView name1, name2, set1, set2, time;
-    Button points1, points2, startSet, to1, to2;
+    Button points1, points2, startSet, to1, to2, sanctions1, sanctions2;
     Button[] playersl, players2;
     List<Integer> playersList1, playersList2, playing1, playing2;
     RadioButton serve1, serve2;
-    List<String> times1, times2, sanctions1, sanctions2;
+    List<String> times1, times2, sanctionsList1, sanctionsList2;
     List<TeamResults> resultsA, resultsB;
     boolean prev1, prev2;
     String[] letters;
@@ -80,6 +80,8 @@ public class Set extends AppCompatActivity {
         time = findViewById(R.id.time);
         to1 = findViewById(R.id.to1);
         to2 = findViewById(R.id.to2);
+        sanctions1 = findViewById(R.id.sanctions1);
+        sanctions2 = findViewById(R.id.sanctions2);
 
         times1= new ArrayList<>();
         times2= new ArrayList<>();
@@ -122,8 +124,8 @@ public class Set extends AppCompatActivity {
             prev2 = true;
         }
 
-        sanctions1 = new ArrayList<>();
-        sanctions2 = new ArrayList<>();
+        sanctionsList1 = new ArrayList<>();
+        sanctionsList2 = new ArrayList<>();
 
         points = new ArrayList<>();
         saveTime();
@@ -136,6 +138,10 @@ public class Set extends AppCompatActivity {
 
         points1.setEnabled(false);
         points2.setEnabled(false);
+        to1.setEnabled(false);
+        to2.setEnabled(false);
+        sanctions1.setEnabled(false);
+        sanctions2.setEnabled(false);
 
         Intent t = getIntent();
         if (t != null)
@@ -190,6 +196,10 @@ public class Set extends AppCompatActivity {
                     s1++;
                     points1.setEnabled(false);
                     points2.setEnabled(false);
+                    to1.setEnabled(false);
+                    to2.setEnabled(false);
+                    sanctions1.setEnabled(false);
+                    sanctions2.setEnabled(false);
 
                     upload();
                 }
@@ -219,6 +229,10 @@ public class Set extends AppCompatActivity {
                     s2++;
                     points1.setEnabled(false);
                     points2.setEnabled(false);
+                    to1.setEnabled(false);
+                    to2.setEnabled(false);
+                    sanctions1.setEnabled(false);
+                    sanctions2.setEnabled(false);
 
                     upload();
                 }
@@ -255,13 +269,13 @@ public class Set extends AppCompatActivity {
             first1,
             swaps1,
             (ArrayList<String>)times1,
-            (ArrayList<String>) sanctions1
+            (ArrayList<String>) sanctionsList1
         ));
         resultsB.add(new TeamResults(
             first2,
             swaps2,
             (ArrayList<String>)times2,
-            (ArrayList<String>) sanctions2
+            (ArrayList<String>) sanctionsList2
         ));
         SetInfo setInfo = new SetInfo(
                 new ArrayList<Boolean>(),
@@ -451,8 +465,8 @@ public class Set extends AppCompatActivity {
         //לשמור את פסקי הזמן של המערכה
         times1.clear();
         times2.clear();
-        sanctions1.clear();
-        sanctions2.clear();
+        sanctionsList1.clear();
+        sanctionsList2.clear();
         pt1 = 0;
         pt2 = 0;
         set1.setText("" + s1);
@@ -461,6 +475,9 @@ public class Set extends AppCompatActivity {
         points2.setText("" + pt2);
         limit = LIMIT;
         to1.setEnabled(true);
+        to2.setEnabled(true);
+        sanctions1.setEnabled(true);
+        sanctions2.setEnabled(true);
         to2.setEnabled(true);
         checkWin();
         points1.setEnabled(true);
@@ -490,8 +507,8 @@ public class Set extends AppCompatActivity {
         adb.setAdapter(adp, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, final int i) {
-                if (i == 3)
-                    sanctions1.add(letters[i] + ", " + pt1 + ":" + pt2);
+                if (i == 0)
+        sanctionsList1.add(letters[i] + ", " + pt1 + ":" + pt2);
                 else {
                     final List<Integer> players = new ArrayList<>();
                     players.addAll(playersList1);
@@ -503,8 +520,8 @@ public class Set extends AppCompatActivity {
                     adb.setAdapter(adp, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int j) {
-                            sanctions1.add(letters[i] + " - " + players.get(j) + ", " + pt1 + ":" + pt2);
-                            Log.e("sanctions1", sanctions1.toString());
+                            sanctionsList1.add(letters[i] + " - " + players.get(j) + ", " + pt1 + ":" + pt2);
+                            Log.e("sanctionsList1", sanctionsList1.toString());
                         }
                     });
 
@@ -517,17 +534,17 @@ public class Set extends AppCompatActivity {
         ad.show();
 
 
-        // sanctions1.add(points1.getText().toString() + ":" + points2.getText().toString());
+        // sanctionsList1.add(points1.getText().toString() + ":" + points2.getText().toString());
     }
     public void addSanction2(View view) {
-        // sanctions2.add(points1.getText().toString() + ":" + points2.getText().toString());
+        // sanctionsList2.add(points1.getText().toString() + ":" + points2.getText().toString());
         ArrayAdapter adp = new ArrayAdapter(Set.this, R.layout.support_simple_spinner_dropdown_item, letters);
         AlertDialog.Builder adb = new AlertDialog.Builder(this);
         adb.setAdapter(adp, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, final int i) {
-                if (i == 3)
-                    sanctions2.add(letters[i] + ", " + pt2 + ":" + pt1);
+                if (i == 0)
+                    sanctionsList2.add(letters[i] + ", " + pt2 + ":" + pt1);
                 else {
                     final List<Integer> players = new ArrayList<>();
                     players.addAll(playersList2);
@@ -539,8 +556,8 @@ public class Set extends AppCompatActivity {
                     adb.setAdapter(adp, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int j) {
-                            sanctions2.add(letters[i] + " - " + players.get(j) + ", " + pt2 + ":" + pt1);
-                            Log.e("sanctions2", sanctions2.toString());
+                            sanctionsList2.add(letters[i] + " - " + players.get(j) + ", " + pt2 + ":" + pt1);
+                            Log.e("sanctionsList2", sanctionsList2.toString());
                         }
                     });
 
