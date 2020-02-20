@@ -38,6 +38,7 @@ public class Set extends AppCompatActivity {
     List<TeamResults> resultsA, resultsB;
     boolean prev1, prev2;
     String[] letters;
+    boolean hasStarted;
 
     DatabaseReference r;
 
@@ -58,6 +59,8 @@ public class Set extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_set);
+
+        hasStarted = false;
 
         letters = getResources().getStringArray(R.array.sanctions);
 
@@ -240,6 +243,10 @@ public class Set extends AppCompatActivity {
     }
 
     private void upload() {
+
+        startSet.setEnabled(true);
+        hasStarted = false;
+
         String id = getIntent().getStringExtra("id");
         points.add(pt1 + ":" + pt2);
 
@@ -288,7 +295,6 @@ public class Set extends AppCompatActivity {
 
 
                                 player.setText("" + num);
-
                                 if (playersList1.size() == size1 - TEAM_SIZE && playersList2.size() == size2 - TEAM_SIZE)
                                     addPlayers();
                             }
@@ -296,8 +302,17 @@ public class Set extends AppCompatActivity {
                         AlertDialog ad = adb.create();
                         ad.show();
                     } else {
-                        insert(playersList1, Integer.parseInt(text));
-                        player.setText(pos);
+                        if (hasStarted)
+                        {
+                            int out = Integer.valueOf(text);
+                            playing1.remove(playing1.indexOf(out));
+                            insert(playersList1, Integer.valueOf(out));
+                            insert(playing1, Integer.parseInt(player.getText().toString()));
+                        }
+                        else {
+                            insert(playersList1, Integer.parseInt(text));
+                            player.setText(pos);
+                        }
                     }
                 }
             });
@@ -319,11 +334,10 @@ public class Set extends AppCompatActivity {
                                 // String text = player.getText().toString();
                                 int num = playersList2.remove(i);
 
-                                /*if (!text.startsWith("I") && !text.startsWith("V"))//בודק אם בכפתור הוכנס שחקן
-                                    insert(playersList2, Integer.parseInt(text));*/
+                                //if (!text.startsWith("I") && !text.startsWith("V"))//בודק אם בכפתור הוכנס שחקן
+
 
                                 player.setText("" + num);
-
                                 if (playersList1.size() == size1 - TEAM_SIZE && playersList2.size() == size2 - TEAM_SIZE)
                                     addPlayers();
                             }
@@ -332,9 +346,18 @@ public class Set extends AppCompatActivity {
                         ad.show();
                     }
                     else {
+                    if (hasStarted)
+                    {
+                        int out = Integer.valueOf(text);
+                        playing2.remove(playing2.indexOf(out));
+                        insert(playersList2, Integer.valueOf(out));
+                        insert(playing2, Integer.parseInt(player.getText().toString()));
+                    }
+                    else {
                         insert(playersList2, Integer.parseInt(text));
                         player.setText(pos);
                     }
+                }
                 }
             });
         }
@@ -389,6 +412,9 @@ public class Set extends AppCompatActivity {
     }
 
     public void startSet(View view) {
+        hasStarted = true;
+        startSet.setEnabled(false);
+
         saveTime();
         //לשמור את פסקי הזמן של המערכה
         times1.clear();
