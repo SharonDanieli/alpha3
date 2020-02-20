@@ -304,10 +304,26 @@ public class Set extends AppCompatActivity {
                     } else {
                         if (hasStarted)
                         {
-                            int out = Integer.valueOf(text);
-                            playing1.remove(playing1.indexOf(out));
-                            insert(playersList1, Integer.valueOf(out));
-                            insert(playing1, Integer.parseInt(player.getText().toString()));
+                            AlertDialog.Builder adb = new AlertDialog.Builder(Set.this);
+                            ArrayAdapter adp = new ArrayAdapter(Set.this, R.layout.support_simple_spinner_dropdown_item, playersList1);
+                            adb.setAdapter(adp, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    // String text = player.getText().toString();
+                                    int num = playersList1.remove(i);
+
+                                    //if (!text.startsWith("I") && !text.startsWith("V"))//בודק אם בכפתור הוכנס שחקן
+
+                                    int out = Integer.valueOf(text);
+                                    playing1.remove(playing1.indexOf(out));
+                                    insert(playersList1, Integer.valueOf(out));
+                                    insert(playing1, num);
+
+                                    player.setText("" + num);
+                                }
+                            });
+                            AlertDialog ad = adb.create();
+                            ad.show();
                         }
                         else {
                             insert(playersList1, Integer.parseInt(text));
@@ -348,10 +364,26 @@ public class Set extends AppCompatActivity {
                     else {
                     if (hasStarted)
                     {
-                        int out = Integer.valueOf(text);
-                        playing2.remove(playing2.indexOf(out));
-                        insert(playersList2, Integer.valueOf(out));
-                        insert(playing2, Integer.parseInt(player.getText().toString()));
+                        AlertDialog.Builder adb = new AlertDialog.Builder(Set.this);
+                        ArrayAdapter adp = new ArrayAdapter(Set.this, R.layout.support_simple_spinner_dropdown_item, playersList2);
+                        adb.setAdapter(adp, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                // String text = player.getText().toString();
+                                int num = playersList2.remove(i);
+
+                                //if (!text.startsWith("I") && !text.startsWith("V"))//בודק אם בכפתור הוכנס שחקן
+
+                                int out = Integer.valueOf(text);
+                                playing2.remove(playing2.indexOf(out));
+                                insert(playersList2, Integer.valueOf(out));
+                                insert(playing2, num);
+
+                                player.setText("" + num);
+                            }
+                        });
+                        AlertDialog ad = adb.create();
+                        ad.show();
                     }
                     else {
                         insert(playersList2, Integer.parseInt(text));
