@@ -11,7 +11,7 @@ public class SetInfo {
 
     public SetInfo() { }
 
-    public SetInfo(List<Boolean> distribution, List<String> points, List<TeamResults> resultsA, List<TeamResults> resultsB) {
+    public SetInfo(List<Boolean> distribution, List<String> points, List<TeamResults> resultsA, List<TeamResults>  resultsB) {
         this.distribution = distribution;
         this.resultsA = resultsA;
         this.resultsB = resultsB;

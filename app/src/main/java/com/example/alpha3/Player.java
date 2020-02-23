@@ -1,10 +1,7 @@
 package com.example.alpha3;
 
 public class Player extends Person {
-    //public String fname;
-    //public String lname;
     public String birth;
-    //public String id;
     public int team;
     public int num;
     public String imgURL;

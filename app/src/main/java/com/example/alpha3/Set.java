@@ -209,7 +209,7 @@ public class Set extends AppCompatActivity {
                 serve1.setChecked(true);
                 serve2.setChecked(false);
 
-                if (prev1 != serve1.isChecked() && serve1.isChecked())
+                if (prev1 != serve1.isChecked() && serve1.isChecked())//מחליפה את השחקנים לפי כיוון השעון
                 {
                     Integer p = playing1.remove(0);
                     playing1.add(p);
@@ -243,7 +243,7 @@ public class Set extends AppCompatActivity {
                 serve1.setChecked(false);
                 serve2.setChecked(true);
 
-                if (prev2 != serve2.isChecked() && serve2.isChecked())
+                if (prev2 != serve2.isChecked() && serve2.isChecked())//מחליפה את סדר השחקנים לפי כיוון השעון
                 {
                     int p = playing2.remove(0);
                     playing2.add(p);
@@ -256,7 +256,7 @@ public class Set extends AppCompatActivity {
         });
     }
 
-    private void upload() {
+    private void upload() {//הפעולה נקראת בסיום מערכה
 
         startSet.setEnabled(true);
         hasStarted = false;
@@ -409,7 +409,7 @@ public class Set extends AppCompatActivity {
         }
     }
 
-    private void addPlayers() {
+    private void addPlayers() {//הפעולה נקראת מיד אחרי ששמים 6 שחקנים
         first1 = new ArrayList<>();
         first2 = new ArrayList<>();
         startSet.setEnabled(true);
@@ -423,7 +423,7 @@ public class Set extends AppCompatActivity {
         }
     }
 
-    public void saveTime() {
+    public void saveTime() {//שומרת את הזמן
         /*Calendar c = Calendar.getInstance();
         times.add(c.get(Calendar.HOUR_OF_DAY) + ":" + c.get(Calendar.MINUTE));
         time.setText(times.get(times.size() - 1));*/
