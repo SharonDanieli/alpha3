@@ -1,19 +1,18 @@
 package com.example.alpha3;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.support.annotation.NonNull;
-import android.support.v4.app.DialogFragment;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import android.app.DialogFragment;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.format.DateFormat;
+import android.view.ContextMenu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,7 +29,6 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 public class TeamsInfo extends AppCompatActivity {
@@ -60,7 +58,10 @@ public class TeamsInfo extends AppCompatActivity {
         team1 = findViewById(R.id.team1);
         team2 = findViewById(R.id.team2);
 
-        signaturePad = findViewById(R.id.signature_pad);
+        signaturePad = findViewById(R.id.signature_tc1);
+        signaturePad = findViewById(R.id.signature_c1);
+        signaturePad = findViewById(R.id.signature_tc2);
+        signaturePad = findViewById(R.id.signature_c2);
 
         teamList = new ArrayList<>();
         players1 = new ArrayList<>();
@@ -70,7 +71,7 @@ public class TeamsInfo extends AppCompatActivity {
         Intent t = getIntent();
 
         teamName1.setText(t.getStringExtra("team1"));
-teamName2.setText(t.getStringExtra("team2"));
+        teamName2.setText(t.getStringExtra("team2"));
 
         int id = Integer.parseInt(t.getStringExtra("team1").split(" - ")[0]);
         r.child("Players").orderByChild("team").equalTo(id).addValueEventListener(new ValueEventListener() {
@@ -106,6 +107,37 @@ teamName2.setText(t.getStringExtra("team2"));
 
             }
         });
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+
+        menu.add("Not Playing");
+        menu.add("Captain");
+        menu.add("Libero");
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        String title = item.getTitle().toString();
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        int index = info.position;
+
+        if (title.equals("Not Playing"))
+        {
+            //להסיר את האיבר מהרשימה (לא מה-firebase)
+        }
+        if (title.equals("Captain"))
+        {
+            //במסך set קו תחתון מתחת למספר הקפטן
+        }
+        if (title.equals("Libero"))
+        {
+            //במסך set כפתור מספר הליברו יהיה בצבע שונה
+        }
+
+        return super.onContextItemSelected(item);
     }
 
     public void sign(View view) {

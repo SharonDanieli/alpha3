@@ -1,7 +1,7 @@
 package com.example.alpha3;
 
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -39,6 +39,7 @@ public class Verification extends AppCompatActivity {
         phone = getIntent().getStringExtra("phone");
 
         mAuth = FirebaseAuth.getInstance();
+
 
         mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
 

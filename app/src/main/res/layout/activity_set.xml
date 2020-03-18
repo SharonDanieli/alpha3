@@ -17,29 +17,6 @@
         android:gravity="center"
         android:text="25" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/sanctions1"
-            android:onClick="addSanction1"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:text="Sanctions" />
-        <Button
-            android:id="@+id/sanctions2"
-            android:onClick="addSanction2"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:text="Sanctions" />
-
-    </LinearLayout>
-
-
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -52,12 +29,27 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <Button
-                android:id="@+id/to1"
-                android:onClick="timeout1"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Timeout" />
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/to1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:onClick="timeout1"
+                    android:text="Timeout" />
+
+                <Button
+                    android:id="@+id/sanctions1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:onClick="addSanction1"
+                    android:text="Sanctions" />
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/name1"
@@ -152,12 +144,27 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <Button
-                android:id="@+id/to2"
-                android:onClick="timeout2"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Timeout" />
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/to2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:onClick="timeout2"
+                    android:text="Timeout" />
+
+                <Button
+                    android:id="@+id/sanctions2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:onClick="addSanction2"
+                    android:text="Sanctions" />
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/name2"
