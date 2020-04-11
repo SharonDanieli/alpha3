@@ -40,4 +40,649 @@
         <item>Expulsion</item>
         <item>Disqualification</item>
     </string-array>
+
+
+    <string name="html">
+        <![CDATA[
+       <table style="width: 555px; height: 50px;" border="1"><caption>
+<h2>TEAMS</h2>
+</caption>
+<tbody>
+<tr>
+<td style="width: 50px; height: 25px;" colspan="2">&nbsp;<strong>Asa Ben-Gurion</strong></td>
+<td style="height: 25px; width: 50px;" colspan="2">&nbsp;<strong>Maccabi Tel-Aviv</strong></td>
+</tr>
+<tr>
+<td style="width: 25px; height: 25px; text-align: center;">&nbsp;2</td>
+<td style="height: 25px;">&nbsp;Sharon Danieli</td>
+<td style="height: 25px; width: 25px; text-align: center;">&nbsp;3</td>
+<td style="height: 25px;">&nbsp;Sharon Danieli</td>
+</tr>
+<tr>
+<td style="width: 25px; height: 25px; text-align: center;">3&nbsp;</td>
+<td style="height: 25px;">&nbsp;</td>
+<td style="height: 25px; width: 25px; text-align: center;">5&nbsp;</td>
+<td style="height: 25px;">&nbsp;</td>
+</tr>
+<tr>
+<td style="width: 25px; height: 25px; text-align: center;">5</td>
+<td style="height: 25px;">&nbsp;</td>
+<td style="height: 25px; width: 25px; text-align: center;">6&nbsp;</td>
+<td style="height: 25px;">&nbsp;</td>
+</tr>
+<tr>
+<td style="width: 25px; height: 25px; text-align: center;">7&nbsp;</td>
+<td style="height: 25px;">&nbsp;</td>
+<td style="height: 25px; width: 25px; text-align: center;">8&nbsp;</td>
+<td style="height: 25px;">&nbsp;</td>
+</tr>
+<tr>
+<td style="width: 25px; height: 25px; text-align: center;">9&nbsp;</td>
+<td style="height: 25px;">&nbsp;</td>
+<td style="height: 25px; width: 25px; text-align: center;">10&nbsp;</td>
+<td style="height: 25px;">&nbsp;</td>
+</tr>
+<tr>
+<td style="width: 25px; height: 25px; text-align: center;">11&nbsp;</td>
+<td style="height: 25px;">&nbsp;</td>
+<td style="height: 25px; width: 25px; text-align: center;">12&nbsp;</td>
+<td style="height: 25px;">&nbsp;</td>
+</tr>
+<tr>
+<td style="width: 25px; height: 25px; text-align: center;">12&nbsp;</td>
+<td style="height: 25px;">&nbsp;</td>
+<td style="height: 25px; width: 25px; text-align: center;">15&nbsp;</td>
+<td style="height: 25px;">&nbsp;</td>
+</tr>
+<tr>
+<td style="width: 25px; height: 25px; text-align: center;">18&nbsp;</td>
+<td style="height: 25px;">&nbsp;</td>
+<td style="height: 25px; width: 25px; text-align: center;">17&nbsp;</td>
+<td style="height: 25px;">&nbsp;</td>
+</tr>
+<tr>
+<td style="width: 25px; height: 25px; text-align: center;">&nbsp;</td>
+<td style="height: 25px;">&nbsp;</td>
+<td style="height: 25px; width: 25px; text-align: center;">20&nbsp;</td>
+<td style="height: 25px;">&nbsp;</td>
+</tr>
+<tr>
+<td style="width: 25px; height: 25px; text-align: center;">&nbsp;</td>
+<td style="height: 25px;">&nbsp;</td>
+<td style="height: 25px; width: 25px; text-align: center;">&nbsp;</td>
+<td style="height: 25px;">&nbsp;</td>
+</tr>
+<tr>
+<td style="width: 25px; height: 25px; text-align: center;">&nbsp;</td>
+<td style="height: 25px;">&nbsp;</td>
+<td style="height: 25px; width: 25px; text-align: center;">&nbsp;</td>
+<td style="height: 25px;">&nbsp;</td>
+</tr>
+<tr>
+<td style="width: 25px; height: 25px; text-align: center;">&nbsp;</td>
+<td style="height: 25px;">&nbsp;</td>
+<td style="height: 25px; width: 25px; text-align: center;">&nbsp;</td>
+<td style="height: 25px;">&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<table style="width: 555px; height: 25px;" border="1"><caption><strong>Officials</strong></caption>
+<tbody>
+<tr>
+<td>&nbsp;</td>
+<td style="width: 50px; text-align: center;">C</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td style="width: 50px; text-align: center;">AC&sup1;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td style="width: 50px; text-align: center;">AC&sup2;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td style="width: 50px; text-align: center;">T</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td style="width: 50px; text-align: center;">M</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<table style="width: 555px; height: 25px;" border="1"><caption><strong>Signatures</strong></caption>
+<tbody>
+<tr>
+<td style="height: 50px; width: 100px;">Team Captain</td>
+<td style="height: 50px;">&nbsp;</td>
+<td style="height: 50px; width: 100px;">Team Captain</td>
+<td style="height: 50px;">&nbsp;</td>
+</tr>
+<tr>
+<td style="height: 50px; width: 100px;">Coach</td>
+<td style="height: 50px;">&nbsp;</td>
+<td style="height: 50px; width: 100px;">Coach</td>
+<td style="height: 50px;">&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<p>&nbsp;</p>
+<h2>SET 1</h2>
+<p>19:31-20:20</p>
+<table style="width: 1000px; height: 25px;" border="1">
+<tbody>
+<tr>
+<td style="width: 150px;">Asa Ben-Gurion</td>
+<td style="width: 10px;">1</td>
+<td style="width: 10px;">2</td>
+<td style="width: 10px;">3</td>
+<td style="width: 10px;">&nbsp;</td>
+<td style="width: 10px;">&nbsp;</td>
+<td style="width: 10px;">4</td>
+<td style="width: 10px;">&nbsp;</td>
+<td style="width: 10px;">5</td>
+<td style="width: 10px;">&nbsp;</td>
+<td style="width: 10px;">&nbsp;</td>
+<td style="width: 10px;">&nbsp;</td>
+<td style="width: 10px;">&nbsp;</td>
+<td style="width: 10px;">&nbsp;</td>
+<td style="width: 10px;">&nbsp;</td>
+<td style="width: 10px;">&nbsp;</td>
+<td style="width: 10px;">&nbsp;</td>
+<td style="width: 10px;">&nbsp;</td>
+<td style="width: 10px;">&nbsp;</td>
+<td style="width: 10px;">&nbsp;</td>
+<td style="width: 10px;">&nbsp;</td>
+<td style="width: 10px;">&nbsp;</td>
+<td style="width: 10px;">&nbsp;</td>
+<td style="width: 10px;">&nbsp;</td>
+<td style="width: 10px;">&nbsp;</td>
+<td style="width: 10px;">&nbsp;</td>
+<td style="width: 10px;">&nbsp;</td>
+<td style="width: 10px;">&nbsp;</td>
+<td style="width: 10px;">&nbsp;</td>
+<td style="width: 10px;">&nbsp;</td>
+<td style="width: 10px;">&nbsp;</td>
+<td style="width: 10px;">&nbsp;</td>
+<td style="width: 10px;">&nbsp;</td>
+<td style="width: 10px;">&nbsp;</td>
+<td style="width: 10px;">&nbsp;</td>
+<td style="width: 10px;">&nbsp;</td>
+<td style="width: 10px;">&nbsp;</td>
+<td style="width: 10px;">&nbsp;</td>
+<td style="width: 10px;">&nbsp;</td>
+<td style="width: 10px;">&nbsp;</td>
+<td style="width: 10px;">&nbsp;</td>
+<td style="width: 10px;">&nbsp;</td>
+<td style="width: 10px;">&nbsp;</td>
+<td style="width: 10px;">&nbsp;</td>
+<td style="width: 10px;">&nbsp;</td>
+<td style="width: 10px;">&nbsp;</td>
+<td style="width: 10px;">&nbsp;</td>
+<td style="width: 10px;">&nbsp;</td>
+<td style="width: 10px;">&nbsp;</td>
+<td style="width: 10px;">&nbsp;</td>
+</tr>
+<tr>
+<td style="width: 150px;">Maccabi Tel-Aviv</td>
+<td style="width: 10px;">&nbsp;</td>
+<td style="width: 10px;">&nbsp;</td>
+<td style="width: 10px;">&nbsp;</td>
+<td style="width: 10px;">1</td>
+<td style="width: 10px;">2</td>
+<td style="width: 10px;">&nbsp;</td>
+<td style="width: 10px;">3</td>
+<td style="width: 10px;">&nbsp;</td>
+<td style="width: 10px;">&nbsp;</td>
+<td style="width: 10px;">&nbsp;</td>
+<td style="width: 10px;">&nbsp;</td>
+<td style="width: 10px;">&nbsp;</td>
+<td style="width: 10px;">&nbsp;</td>
+<td style="width: 10px;">&nbsp;</td>
+<td style="width: 10px;">&nbsp;</td>
+<td style="width: 10px;">&nbsp;</td>
+<td style="width: 10px;">&nbsp;</td>
+<td style="width: 10px;">&nbsp;</td>
+<td style="width: 10px;">&nbsp;</td>
+<td style="width: 10px;">&nbsp;</td>
+<td style="width: 10px;">&nbsp;</td>
+<td style="width: 10px;">&nbsp;</td>
+<td style="width: 10px;">&nbsp;</td>
+<td style="width: 10px;">&nbsp;</td>
+<td style="width: 10px;">&nbsp;</td>
+<td style="width: 10px;">&nbsp;</td>
+<td style="width: 10px;">&nbsp;</td>
+<td style="width: 10px;">&nbsp;</td>
+<td style="width: 10px;">&nbsp;</td>
+<td style="width: 10px;">&nbsp;</td>
+<td style="width: 10px;">&nbsp;</td>
+<td style="width: 10px;">&nbsp;</td>
+<td style="width: 10px;">&nbsp;</td>
+<td style="width: 10px;">&nbsp;</td>
+<td style="width: 10px;">&nbsp;</td>
+<td style="width: 10px;">&nbsp;</td>
+<td style="width: 10px;">&nbsp;</td>
+<td style="width: 10px;">&nbsp;</td>
+<td style="width: 10px;">&nbsp;</td>
+<td style="width: 10px;">&nbsp;</td>
+<td style="width: 10px;">&nbsp;</td>
+<td style="width: 10px;">&nbsp;</td>
+<td style="width: 10px;">&nbsp;</td>
+<td style="width: 10px;">&nbsp;</td>
+<td style="width: 10px;">&nbsp;</td>
+<td style="width: 10px;">&nbsp;</td>
+<td style="width: 10px;">&nbsp;</td>
+<td style="width: 10px;">&nbsp;</td>
+<td style="width: 10px;">&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<p>&nbsp;</p>
+<table style="width: 552px; height: 25px;" border="1">
+<tbody>
+<tr>
+<td colspan="6">Asa Ben-Gurion</td>
+<td colspan="6">Maccabi Tel-Aviv</td>
+</tr>
+<tr>
+<td style="text-align: center;" colspan="12"><strong>Starting Players</strong></td>
+</tr>
+<tr>
+<td style="width: 46px; text-align: center;">I</td>
+<td style="width: 46px; text-align: center;">II</td>
+<td style="width: 46px; text-align: center;">III</td>
+<td style="width: 46px; text-align: center;">IV</td>
+<td style="width: 46px; text-align: center;">V</td>
+<td style="width: 46px; text-align: center;">VI</td>
+<td style="width: 46px; text-align: center;">I</td>
+<td style="width: 46px; text-align: center;">II</td>
+<td style="width: 46px; text-align: center;">III</td>
+<td style="width: 46px; text-align: center;">IV</td>
+<td style="width: 46px; text-align: center;">V</td>
+<td style="width: 46px; text-align: center;">VI</td>
+</tr>
+<tr>
+<td style="text-align: center;">7</td>
+<td style="text-align: center;">13</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">11</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">6</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">15</td>
+<td style="text-align: center;">8</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">17</td>
+</tr>
+<tr>
+<td style="text-align: center;" colspan="12"><strong>Substitutes</strong></td>
+</tr>
+<tr>
+<td colspan="2">1) 12&uarr;&darr;2</td>
+<td colspan="2">2) 18&uarr;&darr;7</td>
+<td colspan="2">3)</td>
+<td colspan="2">1) 12&uarr;&darr;17</td>
+<td colspan="2">2) 20&uarr;&darr;8</td>
+<td colspan="2">3) 10&uarr;&darr;5</td>
+</tr>
+<tr>
+<td colspan="2">4)</td>
+<td colspan="2">5)</td>
+<td colspan="2">6)</td>
+<td colspan="2">4) 5&uarr;&darr;10</td>
+<td colspan="2">5)</td>
+<td colspan="2">6)</td>
+</tr>
+<tr>
+<td style="text-align: center;" colspan="12"><strong>Time outs</strong></td>
+</tr>
+<tr>
+<td style="text-align: center;" colspan="3">5:9</td>
+<td style="text-align: center;" colspan="3">&nbsp;</td>
+<td style="text-align: center;" colspan="3">10:12</td>
+<td style="text-align: center;" colspan="3">11:14</td>
+</tr>
+<tr>
+<td style="text-align: center;" colspan="12"><strong>Sanctions</strong></td>
+</tr>
+<tr>
+<td style="text-align: center;" colspan="3">D</td>
+<td style="text-align: center;" colspan="3">20:14</td>
+<td style="text-align: center;" colspan="3">W&nbsp;&rarr; C</td>
+<td style="text-align: center;" colspan="3">7:14</td>
+</tr>
+<tr>
+<td style="text-align: center;" colspan="3">W&nbsp;&rarr; 13</td>
+<td style="text-align: center;" colspan="3">21:15</td>
+<td style="text-align: center;" colspan="3">P&nbsp;&rarr; 15</td>
+<td style="text-align: center;" colspan="3">9:17</td>
+</tr>
+<tr>
+<td style="text-align: center;" colspan="3">&nbsp;</td>
+<td style="text-align: center;" colspan="3">&nbsp;</td>
+<td style="text-align: center;" colspan="3">E&nbsp;&rarr; C</td>
+<td style="text-align: center;" colspan="3">9:17</td>
+</tr>
+<tr>
+<td style="text-align: center;" colspan="3">&nbsp;</td>
+<td style="text-align: center;" colspan="3">&nbsp;</td>
+<td style="text-align: center;" colspan="3">&nbsp;</td>
+<td style="text-align: center;" colspan="3">&nbsp;</td>
+</tr>
+<tr>
+<td style="text-align: center;" colspan="3">&nbsp;</td>
+<td style="text-align: center;" colspan="3">&nbsp;</td>
+<td style="text-align: center;" colspan="3">&nbsp;</td>
+<td style="text-align: center;" colspan="3">&nbsp;</td>
+</tr>
+<tr>
+<td style="text-align: center;" colspan="3">&nbsp;</td>
+<td style="text-align: center;" colspan="3">&nbsp;</td>
+<td style="text-align: center;" colspan="3">&nbsp;</td>
+<td style="text-align: center;" colspan="3">&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<p>&nbsp;</p>
+<table style="width: 550px; height: 25px;" border="1"><caption>
+<h2 style="text-align: center;">RESULTS</h2>
+</caption>
+<tbody>
+<tr>
+<td style="text-align: left; width: 275px;">Asa Ben-Gurion</td>
+<td style="width: 275px; text-align: left;">Maccabi Tel-Aviv</td>
+</tr>
+</tbody>
+</table>
+<table style="width: 550px; height: 25px;" border="1">
+<tbody>
+<tr>
+<td style="text-align: center;"><strong>"T"</strong></td>
+<td style="text-align: center;"><strong>S</strong></td>
+<td style="text-align: center;"><strong>W</strong></td>
+<td style="text-align: center;"><strong>P</strong></td>
+<td style="text-align: center;"><strong>Set Duration</strong></td>
+<td style="text-align: center;"><strong>P</strong></td>
+<td style="text-align: center;"><strong>W</strong></td>
+<td style="text-align: center;"><strong>S</strong></td>
+<td style="text-align: center;"><strong>"T"</strong></td>
+</tr>
+<tr>
+<td style="text-align: center; width: 56px;">&nbsp;</td>
+<td style="text-align: center; width: 56px;">&nbsp;</td>
+<td style="text-align: center; width: 56px;">&nbsp;</td>
+<td style="text-align: center; width: 56px;">&nbsp;</td>
+<td style="text-align: center;">&nbsp;</td>
+<td style="text-align: center; width: 56px;">&nbsp;</td>
+<td style="text-align: center; width: 56px;">&nbsp;</td>
+<td style="text-align: center; width: 56px;">&nbsp;</td>
+<td style="text-align: center; width: 56px;">&nbsp;</td>
+</tr>
+<tr>
+<td style="text-align: center; width: 56px;">&nbsp;</td>
+<td style="text-align: center; width: 56px;">&nbsp;</td>
+<td style="text-align: center; width: 56px;">&nbsp;</td>
+<td style="text-align: center; width: 56px;">&nbsp;</td>
+<td style="text-align: center;">&nbsp;</td>
+<td style="text-align: center; width: 56px;">&nbsp;</td>
+<td style="text-align: center; width: 56px;">&nbsp;</td>
+<td style="text-align: center; width: 56px;">&nbsp;</td>
+<td style="text-align: center; width: 56px;">&nbsp;</td>
+</tr>
+<tr>
+<td style="text-align: center; width: 56px;">&nbsp;</td>
+<td style="text-align: center; width: 56px;">&nbsp;</td>
+<td style="text-align: center; width: 56px;">&nbsp;</td>
+<td style="text-align: center; width: 56px;">&nbsp;</td>
+<td style="text-align: center;">&nbsp;</td>
+<td style="text-align: center; width: 56px;">&nbsp;</td>
+<td style="text-align: center; width: 56px;">&nbsp;</td>
+<td style="text-align: center; width: 56px;">&nbsp;</td>
+<td style="text-align: center; width: 56px;">&nbsp;</td>
+</tr>
+<tr>
+<td style="text-align: center; width: 56px;">&nbsp;</td>
+<td style="text-align: center; width: 56px;">&nbsp;</td>
+<td style="text-align: center; width: 56px;">&nbsp;</td>
+<td style="text-align: center; width: 56px;">&nbsp;</td>
+<td style="text-align: center;">&nbsp;</td>
+<td style="text-align: center; width: 56px;">&nbsp;</td>
+<td style="text-align: center; width: 56px;">&nbsp;</td>
+<td style="text-align: center; width: 56px;">&nbsp;</td>
+<td style="text-align: center; width: 56px;">&nbsp;</td>
+</tr>
+<tr>
+<td style="text-align: center; width: 56px;">&nbsp;</td>
+<td style="text-align: center; width: 56px;">&nbsp;</td>
+<td style="text-align: center; width: 56px;">&nbsp;</td>
+<td style="text-align: center; width: 56px;">&nbsp;</td>
+<td style="text-align: center;">&nbsp;</td>
+<td style="text-align: center; width: 56px;">&nbsp;</td>
+<td style="text-align: center; width: 56px;">&nbsp;</td>
+<td style="text-align: center; width: 56px;">&nbsp;</td>
+<td style="text-align: center; width: 56px;">&nbsp;</td>
+</tr>
+<tr>
+<td style="text-align: center; width: 56px;" colspan="9"><strong>Total</strong></td>
+</tr>
+<tr>
+<td style="text-align: center; width: 56px;">&nbsp;</td>
+<td style="text-align: center; width: 56px;">&nbsp;</td>
+<td style="text-align: center; width: 56px;">&nbsp;</td>
+<td style="text-align: center; width: 56px;">&nbsp;</td>
+<td style="text-align: center;">&nbsp;</td>
+<td style="text-align: center; width: 56px;">&nbsp;</td>
+<td style="text-align: center; width: 56px;">&nbsp;</td>
+<td style="text-align: center; width: 56px;">&nbsp;</td>
+<td style="text-align: center; width: 56px;">&nbsp;</td>
+</tr>
+<tr>
+<td style="text-align: center; width: 56px;" colspan="3"><strong>Match Starting Time</strong></td>
+<td style="text-align: center; width: 56px;" colspan="3"><strong>Match Ending Time</strong></td>
+<td style="text-align: center; width: 56px;" colspan="3"><strong>Total Match Duration</strong></td>
+</tr>
+<tr>
+<td style="text-align: center; width: 56px;" colspan="3">19:01</td>
+<td style="text-align: center; width: 56px;" colspan="3">21:35</td>
+<td style="text-align: center; width: 56px;" colspan="3">02:34</td>
+</tr>
+<tr>
+<td style="text-align: center; width: 56px;" colspan="3"><strong>WINNER</strong></td>
+<td style="text-align: center; width: 56px;" colspan="3">Asa Ben-Gurion</td>
+<td style="text-align: center; width: 56px;" colspan="3">3:1</td>
+</tr>
+</tbody>
+</table>
+<p>&nbsp;</p>
+<table style="width: 450px; height: 25px;" border="1"><caption>
+<h2 style="text-align: center;">SANCTIONS</h2>
+</caption>
+<tbody>
+<tr>
+<td style="text-align: center; width: 25px;"><strong>W</strong></td>
+<td style="text-align: center; width: 25px;"><strong>P</strong></td>
+<td style="text-align: center; width: 25px;"><strong>E</strong></td>
+<td style="text-align: center; width: 25px;"><strong>D</strong></td>
+<td style="text-align: center;"><strong>Team</strong></td>
+<td style="text-align: center; width: 25px;"><strong>SET</strong></td>
+<td style="text-align: center; width: 50px;"><strong>SCORE</strong></td>
+</tr>
+<tr>
+<td style="text-align: center; width: 25px;">C</td>
+<td style="text-align: center; width: 25px;">&nbsp;</td>
+<td style="text-align: center; width: 25px;">&nbsp;</td>
+<td style="text-align: center; width: 25px;">&nbsp;</td>
+<td style="text-align: center;">Maccabi tel-aviv</td>
+<td style="text-align: center; width: 25px;">1</td>
+<td style="text-align: center; width: 50px;">7:14</td>
+</tr>
+<tr>
+<td style="text-align: center; width: 25px;">&nbsp;</td>
+<td style="text-align: center; width: 25px;">&nbsp;</td>
+<td style="text-align: center; width: 25px;">&nbsp;</td>
+<td style="text-align: center; width: 25px;">&nbsp;</td>
+<td style="text-align: center;">&nbsp;</td>
+<td style="text-align: center; width: 25px;">&nbsp;</td>
+<td style="text-align: center; width: 50px;">&nbsp;</td>
+</tr>
+<tr>
+<td style="text-align: center; width: 25px;">&nbsp;</td>
+<td style="text-align: center; width: 25px;">&nbsp;</td>
+<td style="text-align: center; width: 25px;">&nbsp;</td>
+<td style="text-align: center; width: 25px;">&nbsp;</td>
+<td style="text-align: center;">&nbsp;</td>
+<td style="text-align: center; width: 25px;">&nbsp;</td>
+<td style="text-align: center; width: 50px;">&nbsp;</td>
+</tr>
+<tr>
+<td style="text-align: center; width: 25px;">&nbsp;</td>
+<td style="text-align: center; width: 25px;">&nbsp;</td>
+<td style="text-align: center; width: 25px;">&nbsp;</td>
+<td style="text-align: center; width: 25px;">&nbsp;</td>
+<td style="text-align: center;">&nbsp;</td>
+<td style="text-align: center; width: 25px;">&nbsp;</td>
+<td style="text-align: center; width: 50px;">&nbsp;</td>
+</tr>
+<tr>
+<td style="text-align: center; width: 25px;">&nbsp;</td>
+<td style="text-align: center; width: 25px;">&nbsp;</td>
+<td style="text-align: center; width: 25px;">&nbsp;</td>
+<td style="text-align: center; width: 25px;">&nbsp;</td>
+<td style="text-align: center;">&nbsp;</td>
+<td style="text-align: center; width: 25px;">&nbsp;</td>
+<td style="text-align: center; width: 50px;">&nbsp;</td>
+</tr>
+<tr>
+<td style="text-align: center; width: 25px;">&nbsp;</td>
+<td style="text-align: center; width: 25px;">&nbsp;</td>
+<td style="text-align: center; width: 25px;">&nbsp;</td>
+<td style="text-align: center; width: 25px;">&nbsp;</td>
+<td style="text-align: center;">&nbsp;</td>
+<td style="text-align: center; width: 25px;">&nbsp;</td>
+<td style="text-align: center; width: 50px;">&nbsp;</td>
+</tr>
+<tr>
+<td style="text-align: center; width: 25px;">&nbsp;</td>
+<td style="text-align: center; width: 25px;">&nbsp;</td>
+<td style="text-align: center; width: 25px;">&nbsp;</td>
+<td style="text-align: center; width: 25px;">&nbsp;</td>
+<td style="text-align: center;">&nbsp;</td>
+<td style="text-align: center; width: 25px;">&nbsp;</td>
+<td style="text-align: center; width: 50px;">&nbsp;</td>
+</tr>
+<tr>
+<td style="text-align: center; width: 25px;">&nbsp;</td>
+<td style="text-align: center; width: 25px;">&nbsp;</td>
+<td style="text-align: center; width: 25px;">&nbsp;</td>
+<td style="text-align: center; width: 25px;">&nbsp;</td>
+<td style="text-align: center;">&nbsp;</td>
+<td style="text-align: center; width: 25px;">&nbsp;</td>
+<td style="text-align: center; width: 50px;">&nbsp;</td>
+</tr>
+<tr>
+<td style="text-align: center; width: 25px;">&nbsp;</td>
+<td style="text-align: center; width: 25px;">&nbsp;</td>
+<td style="text-align: center; width: 25px;">&nbsp;</td>
+<td style="text-align: center; width: 25px;">&nbsp;</td>
+<td style="text-align: center;">&nbsp;</td>
+<td style="text-align: center; width: 25px;">&nbsp;</td>
+<td style="text-align: center; width: 50px;">&nbsp;</td>
+</tr>
+<tr>
+<td style="text-align: center; width: 25px;">&nbsp;</td>
+<td style="text-align: center; width: 25px;">&nbsp;</td>
+<td style="text-align: center; width: 25px;">&nbsp;</td>
+<td style="text-align: center; width: 25px;">&nbsp;</td>
+<td style="text-align: center;">&nbsp;</td>
+<td style="text-align: center; width: 25px;">&nbsp;</td>
+<td style="text-align: center; width: 50px;">&nbsp;</td>
+</tr>
+<tr>
+<td style="text-align: center; width: 25px;">&nbsp;</td>
+<td style="text-align: center; width: 25px;">&nbsp;</td>
+<td style="text-align: center; width: 25px;">&nbsp;</td>
+<td style="text-align: center; width: 25px;">&nbsp;</td>
+<td style="text-align: center;">&nbsp;</td>
+<td style="text-align: center; width: 25px;">&nbsp;</td>
+<td style="text-align: center; width: 50px;">&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<p>&nbsp;</p>
+<table style="width: 552px; height: 25px;" border="1"><caption>
+<h2 style="text-align: center;">APPROVAL</h2>
+</caption>
+<tbody>
+<tr>
+<td style="text-align: center; width: 80px;"><strong>Referees</strong></td>
+<td style="text-align: center; width: 200px;"><strong>Name</strong></td>
+<td style="width: 60px; text-align: center;"><strong>Country</strong></td>
+<td style="text-align: center;"><strong>Signature</strong></td>
+</tr>
+<tr>
+<td style="width: 80px; text-align: center; height: 50px;">1st</td>
+<td style="width: 200px; height: 50px;">&nbsp;</td>
+<td style="width: 60px; height: 50px;">&nbsp;</td>
+<td style="height: 50px;">&nbsp;</td>
+</tr>
+<tr>
+<td style="width: 80px; text-align: center; height: 50px;">2nd</td>
+<td style="width: 200px; height: 50px;">&nbsp;</td>
+<td style="width: 60px; height: 50px;">&nbsp;</td>
+<td style="height: 50px;">&nbsp;</td>
+</tr>
+<tr>
+<td style="width: 80px; text-align: center; height: 50px;">Scorer</td>
+<td style="width: 200px; height: 50px;">&nbsp;</td>
+<td style="width: 60px; height: 50px;">&nbsp;</td>
+<td style="height: 50px;">&nbsp;</td>
+</tr>
+<tr>
+<td style="width: 80px; text-align: center; height: 50px;">Assistant Scorer</td>
+<td style="height: 50px; width: 200px;">&nbsp;</td>
+<td style="height: 50px; width: 60px;">&nbsp;</td>
+<td style="height: 50px;">&nbsp;</td>
+</tr>
+<tr>
+<td style="width: 80px; text-align: center; height: 25px;" colspan="4"><strong>Line Judges</strong></td>
+</tr>
+<tr>
+<td style="width: 80px; text-align: center; height: 25px;" colspan="4">&nbsp;</td>
+</tr>
+<tr>
+<td style="width: 80px; text-align: center; height: 25px;" colspan="4">&nbsp;</td>
+</tr>
+<tr>
+<td style="width: 80px; text-align: center; height: 25px;" colspan="4">&nbsp;</td>
+</tr>
+<tr>
+<td style="width: 80px; text-align: center; height: 25px;" colspan="4">&nbsp;</td>
+</tr>
+<tr>
+<td style="width: 80px; text-align: center; height: 25px;" colspan="4">&nbsp;</td>
+</tr>
+<tr>
+<td style="width: 80px; text-align: center; height: 25px;" colspan="4"><strong>Team Captains</strong></td>
+</tr>
+<tr>
+<td style="width: 80px; height: 50px; text-align: left;" colspan="3">Asa Ben-Gurion</td>
+<td style="height: 50px;">&nbsp;</td>
+</tr>
+<tr>
+<td style="width: 80px; height: 50px; text-align: left;" colspan="3">Maccabi Tel-Aviv</td>
+<td style="height: 50px;">&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<p>&nbsp;</p>
+<h2>REMARKS<br /><br /><br /><br /></h2>
+<p>&nbsp;</p>
+]]>
+    </string>
 </resources>
