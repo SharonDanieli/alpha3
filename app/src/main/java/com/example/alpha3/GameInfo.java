@@ -5,21 +5,25 @@ import android.content.Intent;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TimePicker;
 import android.widget.Toast;
-
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.switchmaterial.SwitchMaterial;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -28,20 +32,23 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class GameInfo extends AppCompatActivity {
 
-    private static final int RC_SIGN_IN = 4;
     Button time;
-    Spinner select1, select2, phase, category;
-    EditText nameText, cityText, codeText, hallText, numberText;
-    Switch menOrWomen;
+    TextInputEditText nameText, cityText, codeText, hallText, numberText;
+    TextInputLayout nameText1, cityText1, codeText1, hallText1, numberText1, firstT, secondT;
+    SwitchMaterial menOrWomen;
+    AutoCompleteTextView select1, select2, phase, category;
     FirebaseAuth mAuth;
-    private FirebaseUser currentUser;
+    FirebaseUser currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,16 +61,25 @@ public class GameInfo extends AppCompatActivity {
             signIn();
 
         menOrWomen = findViewById(R.id.menOrWomen);
+        select1 = findViewById(R.id.select1);
+        select2 = findViewById(R.id.select2);
+        firstT = findViewById(R.id.firstT);
+        secondT = findViewById(R.id.secondT);
+
+        nameText1 = findViewById(R.id.nameText1);
+        cityText1 = findViewById(R.id.cityText1);
+        codeText1 = findViewById(R.id.codeText1);
+        hallText1 = findViewById(R.id.hallText1);
+        numberText1 = findViewById(R.id.numText1);
 
         nameText = findViewById(R.id.nameText);
         cityText = findViewById(R.id.cityText);
         codeText = findViewById(R.id.codeText);
         hallText = findViewById(R.id.hallText);
-        numberText = findViewById(R.id.numberText);
+        numberText = findViewById(R.id.numText);
 
         time = findViewById(R.id.time);
-        select1  = findViewById(R.id.select1);
-        select2  = findViewById(R.id.select2);
+
         phase  = findViewById(R.id.phase);
         category  = findViewById(R.id.category);
 
@@ -98,12 +114,14 @@ public class GameInfo extends AppCompatActivity {
 
             }
         });
+
+        String locale = getResources().getConfiguration().locale.getISO3Country();
+        codeText.setText(locale);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         menu.add("Sign out");
-
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -122,45 +140,13 @@ public class GameInfo extends AppCompatActivity {
                         }
                     });
         }
-
         return super.onOptionsItemSelected(item);
     }
 
 
     private void signIn() {
-        // Choose authentication providers
-        List<AuthUI.IdpConfig> providers = Arrays.asList(
-                new AuthUI.IdpConfig.EmailBuilder().build(),
-                new AuthUI.IdpConfig.PhoneBuilder().build());
-
-        // Create and launch sign-in intent
-        startActivityForResult(
-                AuthUI.getInstance()
-                        .createSignInIntentBuilder()
-                        .setAvailableProviders(providers)
-                        .build(),
-                RC_SIGN_IN);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == RC_SIGN_IN) {
-            IdpResponse response = IdpResponse.fromResultIntent(data);
-
-            if (resultCode == RESULT_OK) {
-                // Successfully signed in
-                currentUser = FirebaseAuth.getInstance().getCurrentUser();
-                // ...
-            } else {
-                // Sign in failed. If response is null the user canceled the
-                // sign-in flow using the back button. Otherwise check
-                // response.getError().getErrorCode() and handle the error.
-                // ...
-                onBackPressed();
-            }
-        }
+        Intent t = new Intent(this, SignUp.class);
+        startActivity(t);
     }
 
     public void chooseTime(View view) {
@@ -169,6 +155,8 @@ public class GameInfo extends AppCompatActivity {
                     @Override
                     public void onTimeSet(TimePicker tp, int sHour, int sMinute) {
                         time.setText(sHour + ":" + sMinute);
+                        time.setError(null);
+                        time.clearFocus();
                     }
                 }, Calendar.getInstance().get(Calendar.HOUR_OF_DAY), Calendar.getInstance().get(Calendar.MINUTE), true);
         picker.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
@@ -177,28 +165,83 @@ public class GameInfo extends AppCompatActivity {
 
     public void next(View view) {
 
-        Info info = new Info(nameText.getText().toString(),
-                cityText.getText().toString(),
-                codeText.getText().toString(),
-                hallText.getText().toString(),
-                (byte)phase.getSelectedItemPosition(),
-                Byte.parseByte(numberText.getText().toString()),
-                (byte)category.getSelectedItemPosition(),
-                menOrWomen.isChecked(),
-                time.getText().toString(),
-                (String)select1.getSelectedItem(),
-                (String)select2.getSelectedItem());
+        if (TextUtils.isEmpty(cityText.getText().toString()) || TextUtils.isEmpty(codeText.getText().toString()) || TextUtils.isEmpty(hallText.getText().toString()) || TextUtils.isEmpty(time.getText().toString()) || TextUtils.isEmpty(select1.getText().toString()) || TextUtils.isEmpty(select2.getText().toString())) {
+            if (TextUtils.isEmpty(cityText.getText().toString())) {
+                cityText1.setError("Please enter city");
+            }
+            if (TextUtils.isEmpty(codeText.getText().toString())) {
+                codeText1.setError("Please enter country code");
+            }
+            if (TextUtils.isEmpty(hallText.getText().toString())) {
+                hallText1.setError("Please enter the hall name");
+            }
+            if (time.getText().toString().equals("Choose time")) {
+                time.setError("Please enter the scheduled start time");
+            }
+            if (TextUtils.isEmpty(select1.getText().toString())) {
+                firstT.setError("Please choose a team");
+            }
+            if (TextUtils.isEmpty(select2.getText().toString())) {
+                secondT.setError("Please choose a team");
+            }
+        }
+        else {
+            int mNumber;
+            if (TextUtils.isEmpty(numberText.getText().toString())) {
+                 mNumber = 0;
+            }
+            else {
+                mNumber = Byte.parseByte(numberText.getText().toString());
+            }
+            Info info = new Info(nameText.getText().toString(),
+                    cityText.getText().toString(),
+                    codeText.getText().toString(),
+                    hallText.getText().toString(),
+                    phase.toString(),
+                    mNumber,
+                    category.toString(),
+                    menOrWomen.isChecked(),
+                    time.getText().toString(),
+                    select1.getText().toString(),
+                    select2.getText().toString());
 
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Games");
-        String id = ref.push().getKey();
-        ref = ref.child(id).child("Info");
-        ref.setValue(info);
+            DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Games");
+            String id = ref.push().getKey();
+            ref = ref.child(id).child("Info");
+            ref.setValue(info);
 
-        Intent t = new Intent(this, TeamsInfo.class);
+            Intent intent = new Intent(this, TeamsInfo.class);
+            intent.putExtra("sheet", updateScoreSheet());
+            intent.putExtra("team1", info.team1);
+            intent.putExtra("team2", info.team2);
+            intent.putExtra("id", id);
+            startActivity(intent);
+        }
+    }
 
-        t.putExtra("team1", info.team1);
-        t.putExtra("team2", info.team2);
-        t.putExtra("id", id);
-        startActivity(t);
+    public String updateScoreSheet() {
+        //get html content
+        String htmlAsString = getString(R.string.html);
+        SimpleDateFormat simpleDate = new SimpleDateFormat("dd/MM/yyyy");
+        String date = simpleDate.format(new Date());
+
+        htmlAsString = htmlAsString.replace("nameComp", nameText.getText().toString());
+        htmlAsString = htmlAsString.replace("cityText", cityText.getText().toString());
+        htmlAsString = htmlAsString.replace("codeText", codeText.getText().toString());
+        htmlAsString = htmlAsString.replace("hallText", hallText.getText().toString());
+        if (phase.toString().equals("Pool/Phase")) htmlAsString = htmlAsString.replace("poph","");
+        else htmlAsString = htmlAsString.replace("poph", phase.toString());
+        htmlAsString = htmlAsString.replace("matchNum", numberText.getText().toString());
+        if (menOrWomen.isChecked()) htmlAsString = htmlAsString.replace("menWo", "Women");
+        else htmlAsString = htmlAsString.replace("menWo", "Men");
+        if (category.toString().equals("Category")) htmlAsString = htmlAsString.replace("cateText","");
+        else htmlAsString = htmlAsString.replace("cateText", category.toString());
+        htmlAsString = htmlAsString.replace("dateText", date.toString());
+        htmlAsString = htmlAsString.replace("timeText", time.getText().toString());
+
+        htmlAsString = htmlAsString.replaceAll("team1", select1.toString());
+        htmlAsString = htmlAsString.replaceAll("team2", select2.toString());
+
+        return htmlAsString;
     }
 }
