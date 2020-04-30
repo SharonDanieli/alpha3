@@ -2,16 +2,19 @@ package com.example.alpha3;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -21,15 +24,16 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Stack;
 
 public class Set extends AppCompatActivity {
 
-    TextView name1, name2, set1, set2, time;
+    TextView name1, name2, set1, set2, time, setNum;
+    int setNumber = 0;
     Button points1, points2, startSet, to1, to2, sanctions1, sanctions2;
     Button[] playersl, players2;
     List<Integer> playersList1, playersList2, playing1, playing2;
@@ -51,9 +55,15 @@ public class Set extends AppCompatActivity {
     public static final int TEAM_SIZE = 6;
     private List<Integer> first1;
     private List<Integer> first2;
-    ArrayList<String> points;
+    ArrayList<String> points = new ArrayList<>();
     ArrayList<String> swaps1 = new ArrayList<String>();
     ArrayList<String> swaps2 = new ArrayList<String>();
+
+    ArrayList<String> pointsDiv = new ArrayList<>();
+    StringBuilder p1 = new StringBuilder("");
+    StringBuilder p2 = new StringBuilder("");
+    ArrayList<String> savePointsDiv = new ArrayList<>(); //שומר את התפלגות הנקודות של כל קבוצה בכל מערכה
+    ArrayList<String> saveTimeSets = new ArrayList<>(); //שומר את זמן תחילת וסיום כל מערכה
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +77,7 @@ public class Set extends AppCompatActivity {
         positions = getResources().getStringArray(R.array.positions);
 
         r = FirebaseDatabase.getInstance().getReference("Game").child("Players");
+        setNum = findViewById(R.id.setNum);
 
         name1 = findViewById(R.id.name1);
         name2 = findViewById(R.id.name2);
@@ -83,8 +94,8 @@ public class Set extends AppCompatActivity {
         sanctions1 = findViewById(R.id.sanctions1);
         sanctions2 = findViewById(R.id.sanctions2);
 
-        times1= new ArrayList<>();
-        times2= new ArrayList<>();
+        times1 = new ArrayList<>();
+        times2 = new ArrayList<>();
 
 
         startSet.setEnabled(false);
@@ -115,20 +126,16 @@ public class Set extends AppCompatActivity {
 
         prev1 = false;
         prev2 = false;
-        if ((int)(Math.random() * 2) == 0) {
+        if ((int) (Math.random() * 2) == 0) {
             serve1.setChecked(true);
             prev1 = true;
-        }
-        else {
+        } else {
             serve2.setChecked(true);
             prev2 = true;
         }
 
         sanctionsList1 = new ArrayList<>();
         sanctionsList2 = new ArrayList<>();
-
-        points = new ArrayList<>();
-        saveTime();
 
         pt1 = 0;
         pt2 = 0;
@@ -144,8 +151,7 @@ public class Set extends AppCompatActivity {
         sanctions2.setEnabled(false);
 
         Intent t = getIntent();
-        if (t != null)
-        {
+        if (t != null) {
             name1.setText(t.getStringExtra("team1"));
             name2.setText(t.getStringExtra("team2"));
 
@@ -153,8 +159,7 @@ public class Set extends AppCompatActivity {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     size1 = 0;
-                    for (DataSnapshot ds : dataSnapshot.getChildren())
-                    {
+                    for (DataSnapshot ds : dataSnapshot.getChildren()) {
                         Player player = ds.getValue(Player.class);
                         insert(playersList1, player.num);
                         size1++;
@@ -172,8 +177,7 @@ public class Set extends AppCompatActivity {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     size2 = 0;
-                    for (DataSnapshot ds : dataSnapshot.getChildren())
-                    {
+                    for (DataSnapshot ds : dataSnapshot.getChildren()) {
                         Player player = ds.getValue(Player.class);
                         insert(playersList2, player.num);
                         size2++;
@@ -187,77 +191,146 @@ public class Set extends AppCompatActivity {
             });
         }
 
-        points1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                pt1++;
-                points1.setText("" + pt1);
-                if (pt1 - 1 >= limit - 1) {
-                    s1++;
-                    points1.setEnabled(false);
-                    points2.setEnabled(false);
-                    to1.setEnabled(false);
-                    to2.setEnabled(false);
-                    sanctions1.setEnabled(false);
-                    sanctions2.setEnabled(false);
+        points1.setOnClickListener(view -> {
+            pt1++;
+            points1.setText("" + pt1);
+            StringBuilder space = new StringBuilder("");
 
-                    upload();
-                }
-                if (pt1 == pt2 && pt2 >= LIMIT - 1)
-                    limit++;
+            for (int i=0; i < String.valueOf(pt1).length(); i++)
+                space.append("_");
+            pointsDiv.add(pt1 + " ," + space);
+            actions.push(TAKEOUT_POINT1);//when point is taken
 
-                serve1.setChecked(true);
-                serve2.setChecked(false);
+            if (pt1 - 1 >= limit - 1) {
+                s1++;
+                points1.setEnabled(false);
+                points2.setEnabled(false);
+                to1.setEnabled(false);
+                to2.setEnabled(false);
+                sanctions1.setEnabled(false);
+                sanctions2.setEnabled(false);
 
-                if (prev1 != serve1.isChecked() && serve1.isChecked())//מחליפה את השחקנים לפי כיוון השעון
-                {
-                    Integer p = playing1.remove(0);
-                    playing1.add(p);
-                    for (int i = 0; i < playersl.length; i++)
-                        playersl[i].setText("" + playing1.get(i));
-                }
-                prev1 = true;
-                prev2 = false;
+                LayoutInflater layoutInflater = LayoutInflater.from(this);
+                View dialogView = layoutInflater.inflate(R.layout.dialog_end_set, null);
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setView(dialogView);
+                builder.setMessage("Are you sure you want to end the set?");
+                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // User clicked OK button
+                        upload();
+                    }
+                });
+                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // User cancelled the dialog
+                        dialog.dismiss();
+                    }
+                });
+
+                AlertDialog dialog = builder.create();
+                dialog.show();
+
             }
+            if (pt1 == pt2 && pt2 >= LIMIT - 1)
+                limit++;
+
+            serve1.setChecked(true);
+            serve2.setChecked(false);
+
+            if (prev1 != serve1.isChecked() && serve1.isChecked())//מחליפה את השחקנים לפי כיוון השעון
+            {
+                Integer p = playing1.remove(0);
+                playing1.add(p);
+                for (int i = 0; i < playersl.length; i++)
+                    playersl[i].setText("" + playing1.get(i));
+            }
+            prev1 = true;
+            prev2 = false;
         });
-        points2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                pt2++;
-                points2.setText("" + pt2);
-                if (pt2 - 1 >= limit - 1) {
-                    s2++;
-                    points1.setEnabled(false);
-                    points2.setEnabled(false);
-                    to1.setEnabled(false);
-                    to2.setEnabled(false);
-                    sanctions1.setEnabled(false);
-                    sanctions2.setEnabled(false);
 
-                    upload();
-                }
 
-                if (pt1 == pt2 && pt2 >= LIMIT - 1)
-                    limit++;
+        points2.setOnClickListener(view -> {
+            pt2++;
+            points2.setText("" + pt2);
 
-                serve1.setChecked(false);
-                serve2.setChecked(true);
+            StringBuilder space = new StringBuilder("");
+            for (int i=0; i < String.valueOf(pt2).length(); i++)
+                space.append("_");
+            pointsDiv.add(space + " ," + pt2);
 
-                if (prev2 != serve2.isChecked() && serve2.isChecked())//מחליפה את סדר השחקנים לפי כיוון השעון
-                {
-                    int p = playing2.remove(0);
-                    playing2.add(p);
-                    for (int i = 0; i < players2.length; i++)
-                        players2[i].setText("" + playing2.get(i));
-                }
-                prev2 = true;
-                prev1 = false;
+            actions.push(TAKEOUT_POINT2);//when point is taken
+
+            if (pt2 - 1 >= limit - 1) {
+                s2++;
+                points1.setEnabled(false);
+                points2.setEnabled(false);
+                to1.setEnabled(false);
+                to2.setEnabled(false);
+                sanctions1.setEnabled(false);
+                sanctions2.setEnabled(false);
+
+                LayoutInflater layoutInflater = LayoutInflater.from(this);
+                View dialogView = layoutInflater.inflate(R.layout.dialog_end_set, null);
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setView(dialogView);
+                builder.setMessage("Are you sure you want to end the set?");
+                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // User clicked OK button
+                        upload();
+                    }
+                });
+                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // User cancelled the dialog
+                        dialog.dismiss();
+                    }
+                });
+
+                AlertDialog dialog = builder.create();
+                dialog.show();
             }
+
+            if (pt1 == pt2 && pt2 >= LIMIT - 1)
+                limit++;
+
+            serve1.setChecked(false);
+            serve2.setChecked(true);
+
+            if (prev2 != serve2.isChecked() && serve2.isChecked())//מחליפה את סדר השחקנים לפי כיוון השעון
+            {
+                int p = playing2.remove(0);
+                playing2.add(p);
+                for (int i = 0; i < players2.length; i++)
+                    players2[i].setText("" + playing2.get(i));
+            }
+            prev2 = true;
+            prev1 = false;
         });
     }
 
     private void upload() {//הפעולה נקראת בסיום מערכה
+        String endTime = saveTime();
+        time.append(endTime);
+        saveTimeSets.add(time.getText().toString());
 
+        String[] sPointsDiv = new String[pointsDiv.size()];
+        String[] p;
+
+        for(int j=0; j< pointsDiv.size() ; j++) {
+            sPointsDiv[j] = pointsDiv.get(j);
+            p = sPointsDiv[j].split(",");
+            p1.append(p[0]);
+            p2.append(p[1]);
+        }
+        savePointsDiv.add(p1.toString());
+        savePointsDiv.add(p2.toString());
+        p1.setLength(0);
+        p2.setLength(0);
+        pointsDiv.clear();
+
+        time.setText("");
         startSet.setEnabled(true);
         hasStarted = false;
 
@@ -266,16 +339,16 @@ public class Set extends AppCompatActivity {
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Games/" + id).child("Results");
         resultsA.add(new TeamResults(
-            first1,
-            swaps1,
-            (ArrayList<String>)times1,
-            (ArrayList<String>) sanctionsList1
+                first1,
+                swaps1,
+                (ArrayList<String>) times1,
+                (ArrayList<String>) sanctionsList1
         ));
         resultsB.add(new TeamResults(
-            first2,
-            swaps2,
-            (ArrayList<String>)times2,
-            (ArrayList<String>) sanctionsList2
+                first2,
+                swaps2,
+                (ArrayList<String>) times2,
+                (ArrayList<String>) sanctionsList2
         ));
         SetInfo setInfo = new SetInfo(
                 new ArrayList<Boolean>(),
@@ -285,7 +358,6 @@ public class Set extends AppCompatActivity {
         );
         ref.setValue(setInfo);
     }
-
 
     private void setButtons() {
         for (int i = 0; i < playersl.length; i++) {
@@ -316,8 +388,7 @@ public class Set extends AppCompatActivity {
                         AlertDialog ad = adb.create();
                         ad.show();
                     } else {
-                        if (hasStarted)
-                        {
+                        if (hasStarted) {
                             AlertDialog.Builder adb = new AlertDialog.Builder(Set.this);
                             ArrayAdapter adp = new ArrayAdapter(Set.this, R.layout.support_simple_spinner_dropdown_item, playersList1);
                             adb.setAdapter(adp, new DialogInterface.OnClickListener() {
@@ -338,8 +409,7 @@ public class Set extends AppCompatActivity {
                             });
                             AlertDialog ad = adb.create();
                             ad.show();
-                        }
-                        else {
+                        } else {
                             insert(playersList1, Integer.parseInt(text));
                             player.setText(pos);
                         }
@@ -374,36 +444,33 @@ public class Set extends AppCompatActivity {
                         });
                         AlertDialog ad = adb.create();
                         ad.show();
-                    }
-                    else {
-                    if (hasStarted)
-                    {
-                        AlertDialog.Builder adb = new AlertDialog.Builder(Set.this);
-                        ArrayAdapter adp = new ArrayAdapter(Set.this, R.layout.support_simple_spinner_dropdown_item, playersList2);
-                        adb.setAdapter(adp, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                // String text = player.getText().toString();
-                                int num = playersList2.remove(i);
+                    } else {
+                        if (hasStarted) {
+                            AlertDialog.Builder adb = new AlertDialog.Builder(Set.this);
+                            ArrayAdapter adp = new ArrayAdapter(Set.this, R.layout.support_simple_spinner_dropdown_item, playersList2);
+                            adb.setAdapter(adp, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    // String text = player.getText().toString();
+                                    int num = playersList2.remove(i);
 
-                                //if (!text.startsWith("I") && !text.startsWith("V"))//בודק אם בכפתור הוכנס שחקן
+                                    //if (!text.startsWith("I") && !text.startsWith("V"))//בודק אם בכפתור הוכנס שחקן
 
-                                int out = Integer.valueOf(text);
-                                playing2.remove(playing2.indexOf(out));
-                                insert(playersList2, Integer.valueOf(out));
-                                insert(playing2, num);
+                                    int out = Integer.valueOf(text);
+                                    playing2.remove(playing2.indexOf(out));
+                                    insert(playersList2, Integer.valueOf(out));
+                                    insert(playing2, num);
 
-                                player.setText("" + num);
-                            }
-                        });
-                        AlertDialog ad = adb.create();
-                        ad.show();
+                                    player.setText("" + num);
+                                }
+                            });
+                            AlertDialog ad = adb.create();
+                            ad.show();
+                        } else {
+                            insert(playersList2, Integer.parseInt(text));
+                            player.setText(pos);
+                        }
                     }
-                    else {
-                        insert(playersList2, Integer.parseInt(text));
-                        player.setText(pos);
-                    }
-                }
                 }
             });
         }
@@ -413,7 +480,7 @@ public class Set extends AppCompatActivity {
         first1 = new ArrayList<>();
         first2 = new ArrayList<>();
         startSet.setEnabled(true);
-        for (int i = 0 ; i < TEAM_SIZE; i++) {
+        for (int i = 0; i < TEAM_SIZE; i++) {
             first1.add(Integer.parseInt(playersl[i].getText().toString()));
             first2.add(Integer.parseInt(players2[i].getText().toString()));
             playing1.add(Integer.parseInt(playersl[i].getText().toString()));
@@ -423,22 +490,18 @@ public class Set extends AppCompatActivity {
         }
     }
 
-    public void saveTime() {//שומרת את הזמן
-        /*Calendar c = Calendar.getInstance();
-        times.add(c.get(Calendar.HOUR_OF_DAY) + ":" + c.get(Calendar.MINUTE));
-        time.setText(times.get(times.size() - 1));*/
-        SimpleDateFormat format=new SimpleDateFormat("HH:mm", Locale.getDefault());
-        time.setText(format.format(new Date().getTime()));
+    public String saveTime() {//שומרת את הזמן
+        SimpleDateFormat format = new SimpleDateFormat("HH:mm", Locale.getDefault());
+        return format.format(new Date().getTime());
     }
 
-    public void checkWin()
-    {
-        Intent t = new Intent(this, Results.class);
+    public void checkWin() {
+        Intent t = new Intent(this, Summary.class);
+        t.putExtra("sheet", updateScoreSheet());
         if (s1 == SETLIMIT) {
             t.putExtra("winner", name1.getText().toString());
             startActivity(t);
-        }
-        else if (s2 == SETLIMIT) {
+        } else if (s2 == SETLIMIT) {
             t.putExtra("winner", name2.getText().toString());
             startActivity(t);
         }
@@ -448,8 +511,7 @@ public class Set extends AppCompatActivity {
     {
         int i = 0;
         int s = l.size();
-        while (i < s)
-        {
+        while (i < s) {
             if (num < l.get(i))
                 break;
             i++;
@@ -458,10 +520,12 @@ public class Set extends AppCompatActivity {
     }
 
     public void startSet(View view) {
+        String startTime = saveTime();
+        time.append(startTime + "-");
+        setNumber++;
+        setNum.setText("SET " + setNumber);
         hasStarted = true;
         startSet.setEnabled(false);
-
-        saveTime();
         //לשמור את פסקי הזמן של המערכה
         times1.clear();
         times2.clear();
@@ -487,14 +551,17 @@ public class Set extends AppCompatActivity {
     public void timeout1(View view) {
         if (times1.size() < 2) {
             times1.add(points1.getText().toString() + ":" + points2.getText().toString());
+            actions.push(TAKEOUT_TIME1);//when timeout is taken
             if (times1.size() == 2)
                 to1.setEnabled(false);
-        }Log.e("times1", times1.toString());
+        }
+        Log.e("times1", times1.toString());
     }
 
     public void timeout2(View view) {
         if (times2.size() < 2) {
             times2.add(points2.getText().toString() + ":" + points1.getText().toString());
+            actions.push(TAKEOUT_TIME2);//when timeout is taken
             if (times2.size() == 2)
                 to2.setEnabled(false);
         }
@@ -507,9 +574,10 @@ public class Set extends AppCompatActivity {
         adb.setAdapter(adp, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, final int i) {
-                if (i == 0)
-        sanctionsList1.add(letters[i] + ", " + pt1 + ":" + pt2);
-                else {
+                if (i == 0) {
+                    sanctionsList1.add(letters[i] + ", " + pt1 + ":" + pt2);
+                    actions.push(TAKEOUT_SANCTION1);//when delay sanction is taken
+                } else {
                     final List<Integer> players = new ArrayList<>();
                     players.addAll(playersList1);
                     players.addAll(playing1);
@@ -521,6 +589,7 @@ public class Set extends AppCompatActivity {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int j) {
                             sanctionsList1.add(letters[i] + " - " + players.get(j) + ", " + pt1 + ":" + pt2);
+                            actions.push(TAKEOUT_SANCTION1);//when sanction is taken
                             Log.e("sanctionsList1", sanctionsList1.toString());
                         }
                     });
@@ -536,6 +605,7 @@ public class Set extends AppCompatActivity {
 
         // sanctionsList1.add(points1.getText().toString() + ":" + points2.getText().toString());
     }
+
     public void addSanction2(View view) {
         // sanctionsList2.add(points1.getText().toString() + ":" + points2.getText().toString());
         ArrayAdapter adp = new ArrayAdapter(Set.this, R.layout.support_simple_spinner_dropdown_item, letters);
@@ -543,9 +613,10 @@ public class Set extends AppCompatActivity {
         adb.setAdapter(adp, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, final int i) {
-                if (i == 0)
+                if (i == 0) {
                     sanctionsList2.add(letters[i] + ", " + pt2 + ":" + pt1);
-                else {
+                    actions.push(TAKEOUT_SANCTION2);//when sanction is taken
+                } else {
                     final List<Integer> players = new ArrayList<>();
                     players.addAll(playersList2);
                     players.addAll(playing2);
@@ -557,6 +628,7 @@ public class Set extends AppCompatActivity {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int j) {
                             sanctionsList2.add(letters[i] + " - " + players.get(j) + ", " + pt2 + ":" + pt1);
+                            actions.push(TAKEOUT_SANCTION2);//when sanction is taken
                             Log.e("sanctionsList2", sanctionsList2.toString());
                         }
                     });
@@ -569,5 +641,107 @@ public class Set extends AppCompatActivity {
 
         AlertDialog ad = adb.create();
         ad.show();
+    }
+
+    Stack<Character> actions = new Stack<>();
+    public static final char TAKEOUT_TIME1 = '*';
+    public static final char TAKEOUT_TIME2 = '%';
+    public static final char TAKEOUT_SANCTION1 = '(';
+    public static final char TAKEOUT_SANCTION2 = ')';
+    public static final char TAKEOUT_POINT1 = '#';
+    public static final char TAKEOUT_POINT2 = '^';
+
+    public void undoActions(View view) {
+        if (actions.isEmpty())
+            Toast.makeText(this, "No actions have been taken yet", Toast.LENGTH_SHORT).show();
+        else {
+            char action = actions.pop();
+
+            switch (action) {
+                case TAKEOUT_TIME1:
+                    takeOutTime1();
+                    break;
+                case TAKEOUT_TIME2:
+                    takeOutTime2();
+                    break;
+                case TAKEOUT_SANCTION1:
+                    takeOutSanction1();
+                    break;
+                case TAKEOUT_SANCTION2:
+                    takeOutSanction2();
+                    break;
+                case TAKEOUT_POINT1:
+                    takeOutPoint1();
+                    break;
+                case TAKEOUT_POINT2:
+                    takeOutPoint2();
+                    break;
+            }
+        }
+    }
+
+    public void takeOutTime1() {
+        // remove from 1
+        if (times1.size() < 2) {
+            times1.remove(times1.size() - 1);
+        }
+        if (times1.size() == 2) {
+            times1.remove(times1.size() - 1);
+            to1.setEnabled(true);
+        }
+    }
+
+    public void takeOutTime2() {
+        // remove from 2
+        if (times2.size() < 2) {
+            times2.remove(times2.size() - 1);
+        }
+        if (times2.size() == 2) {
+            times2.remove(times2.size() - 1);
+            to2.setEnabled(true);
+        }
+    }
+
+    public void takeOutSanction1() {
+        // remove from 1
+        sanctionsList1.remove(sanctionsList1.size() - 1);
+    }
+
+    public void takeOutSanction2() {
+        // remove from 2
+        sanctionsList2.remove(sanctionsList2.size() - 1);
+    }
+
+    public void takeOutPoint1() {
+        // remove from 1
+        pt1--;
+        points1.setEnabled(true);
+        points2.setEnabled(true);
+        points1.setText("" + pt1);
+    }
+
+    public void takeOutPoint2() {
+        // remove from 2
+        pt2--;
+        points1.setEnabled(true);
+        points2.setEnabled(true);
+        points2.setText("" + pt2);
+    }
+
+
+    public String updateScoreSheet() {
+        //get html content
+        Intent a = getIntent();
+        String htmlAsString = a.getStringExtra("sheet");
+        StringBuilder htmlManipulation = new StringBuilder(htmlAsString);
+        int countP = 0;
+        for(int i=1; i<setNumber; i++) {
+            htmlManipulation = htmlManipulation.replace(htmlManipulation.indexOf("pointsDiv" + i + "1"), htmlManipulation.indexOf("pointsDiv" + i + "1") + "pointsDiv1".length() + 1, savePointsDiv.get(countP));
+            htmlManipulation = htmlManipulation.replace(htmlManipulation.indexOf("pointsDiv" + i + "2"), htmlManipulation.indexOf("pointsDiv" + i + "2") + "pointsDiv2".length() + 1, savePointsDiv.get(countP+1));
+            htmlManipulation = htmlManipulation.replace(htmlManipulation.indexOf("timeSet" + i), htmlManipulation.indexOf("timeSet" + i) + "timeSet1".length(), saveTimeSets.get(i-1));
+            countP+=2;
+        }
+
+        return htmlManipulation.toString();
     }
 }

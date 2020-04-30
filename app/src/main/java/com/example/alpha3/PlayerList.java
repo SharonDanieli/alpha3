@@ -30,14 +30,14 @@ public class PlayerList extends ArrayAdapter {
         View v = inflater.inflate(R.layout.list_layout, null, true);
         TextView fname = v.findViewById(R.id.fname);
         TextView lname = v.findViewById(R.id.lname);
-        TextView birth = v.findViewById(R.id.birth);
-        TextView id = v.findViewById(R.id.id);
+        //TextView birth = v.findViewById(R.id.birth);
+        //TextView id = v.findViewById(R.id.id);
         TextView num = v.findViewById(R.id.num);
         Player p = this.data.get(position);
         fname.setText(p.fname);
         lname.setText(p.lname);
-        birth.setText(p.birth);
-        id.setText(p.id);
+        //birth.setText(p.birth);
+        //id.setText(p.id);
         num.setText("" + p.num);
 
         return v;

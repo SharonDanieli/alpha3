@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -21,6 +22,7 @@ import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -47,6 +49,7 @@ public class GameInfo extends AppCompatActivity {
     TextInputLayout nameText1, cityText1, codeText1, hallText1, numberText1, firstT, secondT;
     SwitchMaterial menOrWomen;
     AutoCompleteTextView select1, select2, phase, category;
+    MaterialToolbar top;
     FirebaseAuth mAuth;
     FirebaseUser currentUser;
 
@@ -54,6 +57,9 @@ public class GameInfo extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_info);
+
+        top = findViewById(R.id.topAppBar);
+        setSupportActionBar(top);
 
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
@@ -121,8 +127,9 @@ public class GameInfo extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        menu.add("Sign out");
-        return super.onCreateOptionsMenu(menu);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.sign_out_game_info, menu);
+        return true;
     }
 
     @Override
@@ -230,17 +237,17 @@ public class GameInfo extends AppCompatActivity {
         htmlAsString = htmlAsString.replace("codeText", codeText.getText().toString());
         htmlAsString = htmlAsString.replace("hallText", hallText.getText().toString());
         if (phase.toString().equals("Pool/Phase")) htmlAsString = htmlAsString.replace("poph","");
-        else htmlAsString = htmlAsString.replace("poph", phase.toString());
+        else htmlAsString = htmlAsString.replace("poph", phase.getText().toString());
         htmlAsString = htmlAsString.replace("matchNum", numberText.getText().toString());
         if (menOrWomen.isChecked()) htmlAsString = htmlAsString.replace("menWo", "Women");
         else htmlAsString = htmlAsString.replace("menWo", "Men");
         if (category.toString().equals("Category")) htmlAsString = htmlAsString.replace("cateText","");
-        else htmlAsString = htmlAsString.replace("cateText", category.toString());
+        else htmlAsString = htmlAsString.replace("cateText", category.getText().toString());
         htmlAsString = htmlAsString.replace("dateText", date.toString());
         htmlAsString = htmlAsString.replace("timeText", time.getText().toString());
 
-        htmlAsString = htmlAsString.replaceAll("team1", select1.toString());
-        htmlAsString = htmlAsString.replaceAll("team2", select2.toString());
+        htmlAsString = htmlAsString.replaceAll("team1", select1.getText().toString());
+        htmlAsString = htmlAsString.replaceAll("team2", select2.getText().toString());
 
         return htmlAsString;
     }

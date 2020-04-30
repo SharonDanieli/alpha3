@@ -15,15 +15,23 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName"
-        android:hint="Team name" />
+        android:hint="Team's name" />
 
     <EditText
         android:id="@+id/numText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="Team number"
+        android:hint="Team's number"
         android:inputType="number" />
+
+    <EditText
+        android:id="@+id/emailTeam"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textEmailAddress"
+        android:hint="Team's Email adress"/>
 
     <Button
         android:onClick="submit"

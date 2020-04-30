@@ -1,14 +1,14 @@
 package com.example.alpha3;
 
-import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -37,8 +37,8 @@ public class AddPlayer extends AppCompatActivity {
         officials.setVisibility(View.GONE);
         country.setVisibility(View.GONE);
 
-        ArrayAdapter<String> rolesAdp = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, getResources().getStringArray(R.array.roles));
-        ArrayAdapter<String> officialsAdp = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, getResources().getStringArray(R.array.officials));
+        ArrayAdapter<String> rolesAdp = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item, getResources().getStringArray(R.array.roles));
+        ArrayAdapter<String> officialsAdp = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item, getResources().getStringArray(R.array.officials));
 
         roles.setAdapter(rolesAdp);
         officials.setAdapter(officialsAdp);

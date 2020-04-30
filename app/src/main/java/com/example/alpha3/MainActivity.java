@@ -1,33 +1,24 @@
 package com.example.alpha3;
 
 import android.content.Intent;
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.ContextMenu;
-import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.firebase.ui.auth.AuthUI;
-import com.firebase.ui.auth.IdpResponse;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.FirebaseException;
-import com.google.firebase.auth.AuthResult;
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.PhoneAuthCredential;
-import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -36,14 +27,10 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
-
-    private static final int RC_SIGN_IN = 4;
     FirebaseAuth mAuth;
     DatabaseReference ref;
     Query query;
@@ -53,13 +40,16 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     ListView list;
     List<Team> teamsList;
     List<Player> playersList;
-    private FirebaseUser currentUser;
+
+    MaterialToolbar top;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        top = findViewById(R.id.topAppBar);
+        setSupportActionBar(top);
 
         list = findViewById(R.id.list);
         list.setOnItemClickListener(this);
@@ -70,32 +60,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         mAuth = FirebaseAuth.getInstance();
 
         inPList = false;
-        currentUser = mAuth.getCurrentUser();
-        if (currentUser == null)
-            signIn();
-        else {
-            // Hide buttons if the user isn't an authorized person
-            FirebaseDatabase.getInstance().getReference("Authorized").addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    String userId = FirebaseAuth.getInstance().getUid();
-                    Log.println(Log.ERROR, "User ID", userId);
-                    if (!dataSnapshot.hasChild(userId))
-                    {
-                        Intent t = new Intent(MainActivity.this, GameInfo.class);
-                        finish();
-                        startActivity(t);
-                    }
+        initiate();
 
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                }
-            });
-            initiate();
-        }
     }
 
     void initiate()
@@ -126,48 +92,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         });
     }
 
-    private void signIn() {
-        // Choose authentication providers
-        List<AuthUI.IdpConfig> providers = Arrays.asList(
-                new AuthUI.IdpConfig.EmailBuilder().build(),
-                new AuthUI.IdpConfig.PhoneBuilder().build());
-
-        // Create and launch sign-in intent
-        startActivityForResult(
-                AuthUI.getInstance()
-                        .createSignInIntentBuilder()
-                        .setAvailableProviders(providers)
-                        .build(),
-                RC_SIGN_IN);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == RC_SIGN_IN) {
-            IdpResponse response = IdpResponse.fromResultIntent(data);
-
-            if (resultCode == RESULT_OK) {
-                // Successfully signed in
-                currentUser = FirebaseAuth.getInstance().getCurrentUser();
-                initiate();
-                // ...
-            } else {
-                // Sign in failed. If response is null the user canceled the
-                // sign-in flow using the back button. Otherwise check
-                // response.getError().getErrorCode() and handle the error.
-                // ...
-                onBackPressed();
-            }
-        }
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        menu.add("Sign out");
-
-        return super.onCreateOptionsMenu(menu);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.sign_out_game_info, menu);
+        return true;
     }
 
     @Override
@@ -181,11 +110,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                         public void onComplete(@NonNull Task<Void> task) {
                             // ...
                             Toast.makeText(MainActivity.this, "You have signed out", Toast.LENGTH_LONG).show();
-                            signIn();
+                            Intent to = new Intent(MainActivity.this, SignUp.class);
+                            startActivity(to);
                         }
                     });
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -219,18 +148,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     public void addPlayer(View view) {
-        if (currentUser != null)
-        {
-            Intent t = new Intent(this, AddPlayer.class);
-            startActivity(t);
-        }
+        Intent t = new Intent(this, AddPlayer.class);
+        startActivity(t);
     }
 
     public void addTeam(View view) {
-        if (currentUser != null) {
-            Intent t = new Intent(this, AddTeam.class);
-            startActivity(t);
-        }
+        Intent t = new Intent(this, AddTeam.class);
+        startActivity(t);
     }
 
     @Override
@@ -264,10 +188,5 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             refreshList();
         else
             super.onBackPressed();
-    }
-
-    public void test(View view) {
-        Intent t = new Intent(this, GameInfo.class);
-        startActivity(t);
     }
 }

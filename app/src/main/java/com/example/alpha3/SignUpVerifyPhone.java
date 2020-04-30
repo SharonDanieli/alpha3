@@ -63,14 +63,18 @@ public class SignUpVerifyPhone extends AppCompatActivity {
         }
     }
     public void createUser () {
-        Intent t4 = new Intent(this, GameInfo.class);
+        Intent t4;
         Intent intent = getIntent();
-        //String Uid = t4.getStringExtra("uID");
+        String uID = user.getUid();
         String name = intent.getStringExtra("name");
         String email = intent.getStringExtra("email");
         String phoneNumber = user.getPhoneNumber();
-        User userDatabase = new User(name, phoneNumber, email);
+        boolean ifAuthorized = intent.getExtras().getBoolean("ifAuthorized");
+        User userDatabase = new User(uID, name, phoneNumber, email, ifAuthorized);
         ref.child(user.getUid()).setValue(userDatabase);
-        startActivity(t4);
+        if (ifAuthorized) { t4 = new Intent(this, MainActivity.class);
+            startActivity(t4);}
+        else { t4 = new Intent(this, GameInfo.class);
+            startActivity(t4);}
     }
 }

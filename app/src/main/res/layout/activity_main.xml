@@ -8,6 +8,22 @@
     android:gravity="center"
     tools:context=".MainActivity">
 
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/topAppBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:title="@string/app_name"
+            app:menu="@menu/sign_out_game_info"
+            style="@style/Widget.Toolbar"
+            />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -35,10 +51,4 @@
         android:layout_height="0dp"
         android:layout_weight="9"/>
 
-    <Button
-        android:onClick="test"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.1"
-        android:text="test" />
 </LinearLayout>

@@ -5,11 +5,12 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.example.alpha3"
-        minSdkVersion 16
+        minSdkVersion 19
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -17,23 +18,46 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    packagingOptions {
+        exclude 'META-INF/LICENSE-LGPL-3.txt'
+        exclude 'META-INF/LICENSE-GPL-2.txt'
+        exclude 'META-INF/LICENSE-GPL-3.txt'
+        exclude 'META-INF/LICENSE-W3C-TEST'
+        exclude 'META-INF/LICENSE-LGPL-2.1.txt'
+
+    }
+    compileOptions {
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+    }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'androidx.appcompat:appcompat:1.0.0'
+    implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
 
     implementation 'com.github.gcacace:signature-pad:1.2.1'
-    implementation 'com.github.HITGIF:TextFieldBoxes:1.4.4'
 
-    //בשביל ההתחברות דרך מייל+טלפון
     implementation 'com.firebaseui:firebase-ui-auth:4.3.1'
-    implementation 'com.google.firebase:firebase-auth:19.3.0'
-    implementation 'com.google.firebase:firebase-database:19.2.1'
+    implementation 'com.google.firebase:firebase-auth:19.3.1'
+    implementation 'com.google.firebase:firebase-database:19.3.0'
     implementation 'com.google.firebase:firebase-storage:19.1.1'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    implementation 'com.google.android.gms:play-services-auth:18.0.0'
+    implementation 'com.google.android.gms:play-services-auth-api-phone:17.4.0'
 
+    api 'com.google.android.material:material:1.2.0-alpha06'
+
+    //html to pdf rendering
+    implementation 'net.sourceforge.htmlcleaner:htmlcleaner:2.23'
+
+    implementation group: 'org.thymeleaf', name: 'thymeleaf', version: '3.0.6.RELEASE'
+    implementation group: 'org.xhtmlrenderer', name: 'flying-saucer-core', version: '9.1.6'
+    implementation group: 'org.xhtmlrenderer', name: 'flying-saucer-pdf-itext5', version: '9.1.6'
+
+    implementation 'com.android.support:multidex:1.0.3'
 }

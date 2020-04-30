@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    tools:context=".VerifyEmail">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/TextAppearance.AppCompat.Large"
+        android:gravity="center"
+        android:text="A verification was sent to your email address, please click the link and then click 'next'" />
+
+    <Button
+        android:onClick="next"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Next"
+        style="@style/Widget.Shrine.Button" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/TextAppearance.AppCompat.Large"
+        android:gravity="center"
+        android:text="Didn't get any verification? Click 'Send again'" />
+
+    <Button
+        android:onClick="sendAgain"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Send again"
+        style="@style/Widget.Shrine.Button" />
+</LinearLayout>

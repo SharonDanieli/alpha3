@@ -18,4 +18,8 @@ public class Player extends Person {
         this.num = num;
         this.imgURL = imgURL;
     }
+
+    public String toString() {
+        return this.fname +" "+ this.lname +" " + this.num;
+    }
 }

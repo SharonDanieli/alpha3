@@ -14,39 +14,58 @@ import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthMultiFactorException;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.MultiFactorAssertion;
 import com.google.firebase.auth.MultiFactorResolver;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.auth.PhoneMultiFactorGenerator;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class SignInTwoFactors extends AppCompatActivity {
 
-    EditText emailText, passwordText;
+    TextInputEditText emailText, passwordText;
+    TextInputLayout emailText1, passwordText1;
     private static final int RC_SIGN_IN = 4;
+    FirebaseAuth auth;
+    FirebaseUser currentUser;
+    DatabaseReference ref;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in_two_factors);
+        emailText1 = findViewById(R.id.emailText1);
+        passwordText1 = findViewById(R.id.passwordText1);
         emailText = findViewById(R.id.emailText);
         passwordText = findViewById(R.id.passwordText);
+
+        auth = FirebaseAuth.getInstance();
+        ref = FirebaseDatabase.getInstance().getReference("Users");
     }
 
     public void Twofactor(View view) {
         if (emailText.getText().toString().isEmpty() || passwordText.getText().toString().isEmpty()) {
             if (emailText.getText().toString().isEmpty()) {
-                emailText.setError("Please enter your Email adress");
+                emailText1.setError("Please enter your Email adress");
             }
             if (passwordText.getText().toString().isEmpty()) {
-                passwordText.setError("Please enter your password");
+                passwordText1.setError("Please enter your password");
             }
         }
         else {
@@ -56,8 +75,9 @@ public class SignInTwoFactors extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
+                        currentUser = auth.getCurrentUser();
                         // Choose authentication providers
-                        List<AuthUI.IdpConfig> providers = Arrays.asList(
+                        List<AuthUI.IdpConfig> providers = Collections.singletonList(
                                 new AuthUI.IdpConfig.PhoneBuilder().build());
                         // Create and launch sign-in intent
                         startActivityForResult(
@@ -83,8 +103,7 @@ public class SignInTwoFactors extends AppCompatActivity {
 
             if (resultCode == RESULT_OK) {
                 // Successfully signed in
-                Intent t6 = new Intent(SignInTwoFactors.this, GameInfo.class);
-                startActivity(t6);
+                whichUser();
                 // ...
             } else {
                 // Sign in failed. If response is null the user canceled the
@@ -95,22 +114,33 @@ public class SignInTwoFactors extends AppCompatActivity {
             }
         }
     }
-    public boolean allDetailsProvided() {
-        boolean valid = true;
-        if (TextUtils.isEmpty(emailText.getText().toString())) {
-            emailText.setError("Please enter your Email adress");
-            valid = false;
+
+    private void whichUser() {
+        Query query = ref.orderByChild("uID").equalTo(currentUser.getUid());
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                    User tmpUser = ds.getValue(User.class);
+                    Boolean isAuthorized = tmpUser.getAuthorized();
+                    whichActivity(isAuthorized);
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+    }
+
+    public void whichActivity(Boolean isAuthorized) {
+        Intent t6;
+        if (isAuthorized) {
+            t6 = new Intent(SignInTwoFactors.this, MainActivity.class);
+            startActivity(t6);
         }
         else {
-            emailText.setError(null);
+            t6 = new Intent(SignInTwoFactors.this, GameInfo.class);
+            startActivity(t6);
         }
-        if (TextUtils.isEmpty(passwordText.getText().toString())) {
-            passwordText.setError("Please enter your password");
-            valid = false;
-        }
-        else {
-            passwordText.setError(null);
-        }
-        return valid;
     }
 }
