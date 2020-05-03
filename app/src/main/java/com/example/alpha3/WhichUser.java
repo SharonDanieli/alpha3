@@ -17,6 +17,9 @@ public class WhichUser extends AppCompatActivity {
         setContentView(R.layout.activity_which_user);
     }
 
+    /**
+     * Moves to the appropriate Activity depending on the type of user (scorer).
+     */
     public void toScorer(View view) {
         Intent t2 = new Intent(WhichUser.this, SignUpVerifyEmail.class);
         Intent intent = getIntent();
@@ -24,8 +27,12 @@ public class WhichUser extends AppCompatActivity {
         t2.putExtra("name", name);
         t2.putExtra("ifAuthorized", false);
         startActivity(t2);
+        finish();
     }
 
+    /**
+     * Moves to the appropriate screen depending on the type of user (authorized).
+     */
     public void toAuthorized(View view) {
         Intent t2 = new Intent(WhichUser.this, SignUpVerifyEmail.class);
         Intent intent = getIntent();
@@ -33,5 +40,6 @@ public class WhichUser extends AppCompatActivity {
         t2.putExtra("name", name);
         t2.putExtra("ifAuthorized", true);
         startActivity(t2);
+        finish();
     }
 }

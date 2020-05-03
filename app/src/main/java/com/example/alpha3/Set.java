@@ -1,7 +1,10 @@
 package com.example.alpha3;
 
+import android.content.BroadcastReceiver;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -31,6 +34,8 @@ import java.util.Locale;
 import java.util.Stack;
 
 public class Set extends AppCompatActivity {
+    BroadcastReceiver br = new BatteryLevelReceiver();
+    IntentFilter filter;
 
     TextView name1, name2, set1, set2, time, setNum;
     int setNumber = 0;
@@ -56,8 +61,8 @@ public class Set extends AppCompatActivity {
     private List<Integer> first1;
     private List<Integer> first2;
     ArrayList<String> points = new ArrayList<>();
-    ArrayList<String> swaps1 = new ArrayList<String>();
-    ArrayList<String> swaps2 = new ArrayList<String>();
+    ArrayList<String> swaps1 = new ArrayList<>();
+    ArrayList<String> swaps2 = new ArrayList<>();
 
     ArrayList<String> pointsDiv = new ArrayList<>();
     StringBuilder p1 = new StringBuilder("");
@@ -65,10 +70,17 @@ public class Set extends AppCompatActivity {
     ArrayList<String> savePointsDiv = new ArrayList<>(); //שומר את התפלגות הנקודות של כל קבוצה בכל מערכה
     ArrayList<String> saveTimeSets = new ArrayList<>(); //שומר את זמן תחילת וסיום כל מערכה
 
+    /**
+     * Links the java variables to their overlapping components in xml, initializes the attributes, scans which team makes an opening stroke with the help of the Random class, locks the appropriate buttons, updates the player lists according to the existing players in the repository, and calls the {@link #setButtons()} method.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_set);
+
+        filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        filter.addAction(Intent.ACTION_AIRPLANE_MODE_CHANGED);
+        this.registerReceiver(br, filter);
 
         hasStarted = false;
 
@@ -164,7 +176,6 @@ public class Set extends AppCompatActivity {
                         insert(playersList1, player.num);
                         size1++;
                     }
-
                     setButtons();
                 }
 
@@ -191,6 +202,9 @@ public class Set extends AppCompatActivity {
             });
         }
 
+        /**
+         * Updates the score with each click, creates an array of points breakdown in the set, and changes the order of the players in the order of volleyball positions each time the team switches to a starting stroke. After a winning team locks the appropriate buttons and pops up the Alert Dialog that verifies with the user that he has actually finished scoring the set. If the user chooses "yes" - the method calls for method:
+         */
         points1.setOnClickListener(view -> {
             pt1++;
             points1.setText("" + pt1);
@@ -225,6 +239,13 @@ public class Set extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int id) {
                         // User cancelled the dialog
                         dialog.dismiss();
+                        points1.setEnabled(true);
+                        points2.setEnabled(true);
+                        to1.setEnabled(true);
+                        to2.setEnabled(true);
+                        sanctions1.setEnabled(true);
+                        sanctions2.setEnabled(true);
+                        undoActions(view);
                     }
                 });
 
@@ -249,7 +270,9 @@ public class Set extends AppCompatActivity {
             prev2 = false;
         });
 
-
+        /**
+         * Updates the score with each click, creates an array of points breakdown in the set, and changes the order of the players in the order of volleyball positions each time the team switches to a starting stroke. After a winning team locks the appropriate buttons and pops up the Alert Dialog that verifies with the user that he has actually finished scoring the set. If the user chooses "yes" - the method calls for method:
+         */
         points2.setOnClickListener(view -> {
             pt2++;
             points2.setText("" + pt2);
@@ -285,6 +308,13 @@ public class Set extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int id) {
                         // User cancelled the dialog
                         dialog.dismiss();
+                        points1.setEnabled(true);
+                        points2.setEnabled(true);
+                        to1.setEnabled(true);
+                        to2.setEnabled(true);
+                        sanctions1.setEnabled(true);
+                        sanctions2.setEnabled(true);
+                        undoActions(view);
                     }
                 });
 
@@ -310,6 +340,209 @@ public class Set extends AppCompatActivity {
         });
     }
 
+    /**
+     * The method is in charge of placing the participating players: the players who open the game and the players who replace the players on the court.
+     */
+    private void setButtons() {
+        for (int i = 0; i < playersl.length; i++) {
+            final Button player = playersl[i];
+            final String pos = positions[i];
+
+            player.setOnClickListener(new View.OnClickListener() {
+                /**
+                 * Places the opening six players
+                 */
+                @Override
+                public void onClick(View view) {
+                    final String text = player.getText().toString();
+                    if (text.startsWith("I") || text.startsWith("V"))//בודק אם בכפתור הוכנס שחקן
+                    {
+                        AlertDialog.Builder adb = new AlertDialog.Builder(Set.this);
+                        ArrayAdapter adp = new ArrayAdapter(Set.this, R.layout.support_simple_spinner_dropdown_item, playersList1);
+                        adb.setAdapter(adp, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                int num = playersList1.remove(i);
+                                player.setText("" + num);
+                                if (playersList1.size() == size1 - TEAM_SIZE && playersList2.size() == size2 - TEAM_SIZE)
+                                    addPlayers();
+                            }
+                        });
+                        AlertDialog ad = adb.create();
+                        ad.show();
+                    } else {
+                        if (hasStarted) {
+                            AlertDialog.Builder adb = new AlertDialog.Builder(Set.this);
+                            ArrayAdapter adp = new ArrayAdapter(Set.this, R.layout.support_simple_spinner_dropdown_item, playersList1);
+                            adb.setAdapter(adp, new DialogInterface.OnClickListener() {
+                                /**
+                                 * The method is in charge of player replacements
+                                 * @param i The index of the replaced player
+                                 */
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    int num = playersList1.remove(i);
+                                    int out = Integer.valueOf(text);
+                                    playing1.remove(playing1.indexOf(out));
+                                    insert(playersList1, Integer.valueOf(out));
+                                    insert(playing1, num);
+
+                                    player.setText("" + num);
+                                }
+                            });
+                            AlertDialog ad = adb.create();
+                            ad.show();
+                        } else {
+                            insert(playersList1, Integer.parseInt(text));
+                            player.setText(pos);
+                        }
+                    }
+                }
+            });
+        }
+        for (int i = 0; i < players2.length; i++) {
+            final Button player = players2[i];
+            final String pos = positions[i];
+            player.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    final String text = player.getText().toString();
+                    if (text.startsWith("I") || text.startsWith("V"))//בודק אם בכפתור הוכנס שחקן
+                    {
+                        AlertDialog.Builder adb = new AlertDialog.Builder(Set.this);
+                        ArrayAdapter adp = new ArrayAdapter(Set.this, R.layout.support_simple_spinner_dropdown_item, playersList2);
+                        adb.setAdapter(adp, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                int num = playersList2.remove(i);
+                                player.setText("" + num);
+                                if (playersList1.size() == size1 - TEAM_SIZE && playersList2.size() == size2 - TEAM_SIZE)
+                                    addPlayers();
+                            }
+                        });
+                        AlertDialog ad = adb.create();
+                        ad.show();
+                    } else {
+                        if (hasStarted) {
+                            AlertDialog.Builder adb = new AlertDialog.Builder(Set.this);
+                            ArrayAdapter adp = new ArrayAdapter(Set.this, R.layout.support_simple_spinner_dropdown_item, playersList2);
+                            adb.setAdapter(adp, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    int num = playersList2.remove(i);
+                                    int out = Integer.valueOf(text);
+                                    playing2.remove(playing2.indexOf(out));
+                                    insert(playersList2, Integer.valueOf(out));
+                                    insert(playing2, num);
+
+                                    player.setText("" + num);
+                                }
+                            });
+                            AlertDialog ad = adb.create();
+                            ad.show();
+                        } else {
+                            insert(playersList2, Integer.parseInt(text));
+                            player.setText(pos);
+                        }
+                    }
+                }
+            });
+        }
+    }
+
+    /**
+     * The method is called after 6 players have been placed and it keeps their numbers in lists.
+     */
+    private void addPlayers() {//הפעולה נקראת מיד אחרי ששמים 6 שחקנים
+        first1 = new ArrayList<>();
+        first2 = new ArrayList<>();
+        startSet.setEnabled(true);
+        for (int i = 0; i < TEAM_SIZE; i++) {
+            first1.add(Integer.parseInt(playersl[i].getText().toString()));
+            first2.add(Integer.parseInt(players2[i].getText().toString()));
+            playing1.add(Integer.parseInt(playersl[i].getText().toString()));
+            playing2.add(Integer.parseInt(players2[i].getText().toString()));
+        }
+    }
+
+    /**
+     * The method puts the player in a sorted array of players.
+     * @param l A list of players
+     * @param num Players shirt number
+     */
+    public void insert(List<Integer> l, int num) //מכניסה את השחקן במקום הנכון (מערך ממוין)
+    {
+        int i = 0;
+        int s = l.size();
+        while (i < s) {
+            if (num < l.get(i))
+                break;
+            i++;
+        }
+        l.add(i, num);
+    }
+
+    /**
+     * The method is called at the beginning of a set. It saves the set start time, updates the current set number, initializes the variables, enables / disables the appropriate buttons, and calls the {@link #checkWin()} method that checks which team won the set.
+     */
+    public void startSet(View view) {
+        String startTime = saveTime();
+        time.append(startTime + "-");
+        setNumber++;
+        setNum.setText("SET " + setNumber);
+        hasStarted = true;
+        startSet.setEnabled(false);
+        //לשמור את פסקי הזמן של המערכה
+        times1.clear();
+        times2.clear();
+        sanctionsList1.clear();
+        sanctionsList2.clear();
+        pt1 = 0;
+        pt2 = 0;
+        set1.setText("" + s1);
+        set2.setText("" + s2);
+        points1.setText("" + pt1);
+        points2.setText("" + pt2);
+        limit = LIMIT;
+        to1.setEnabled(true);
+        to2.setEnabled(true);
+        sanctions1.setEnabled(true);
+        sanctions2.setEnabled(true);
+        to2.setEnabled(true);
+        checkWin();
+        points1.setEnabled(true);
+        points2.setEnabled(true);
+    }
+
+    /**
+     * The method finds out what the current time is.
+     * @return The current time.
+     */
+    public String saveTime() {//שומרת את הזמן
+        SimpleDateFormat format = new SimpleDateFormat("HH:mm", Locale.getDefault());
+        return format.format(new Date().getTime());
+    }
+
+    /**
+     * The method checks which team won the game.
+     */
+    public void checkWin() {
+        Intent t = new Intent(this, Summary.class);
+        t.putExtra("sheet", updateScoreSheet());
+        if (s1 == SETLIMIT) {
+            t.putExtra("winner", name1.getText().toString());
+            startActivity(t);
+        } else if (s2 == SETLIMIT) {
+            t.putExtra("winner", name2.getText().toString());
+            startActivity(t);
+        }
+    }
+
+    /**
+     * The method is called at the end of a set. It saves the set end time, saves the point distribution and initializes the variables. The operation uploads the set results to the database and information about the results of each team, through the classes
+     * @see SetInfo
+     * @see TeamResults
+     */
     private void upload() {//הפעולה נקראת בסיום מערכה
         String endTime = saveTime();
         time.append(endTime);
@@ -359,195 +592,9 @@ public class Set extends AppCompatActivity {
         ref.setValue(setInfo);
     }
 
-    private void setButtons() {
-        for (int i = 0; i < playersl.length; i++) {
-            final Button player = playersl[i];
-            final String pos = positions[i];
-            player.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    final String text = player.getText().toString();
-                    if (text.startsWith("I") || text.startsWith("V"))//בודק אם בכפתור הוכנס שחקן
-                    {
-                        AlertDialog.Builder adb = new AlertDialog.Builder(Set.this);
-                        ArrayAdapter adp = new ArrayAdapter(Set.this, R.layout.support_simple_spinner_dropdown_item, playersList1);
-                        adb.setAdapter(adp, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                // String text = player.getText().toString();
-                                int num = playersList1.remove(i);
-
-                                //if (!text.startsWith("I") && !text.startsWith("V"))//בודק אם בכפתור הוכנס שחקן
-
-
-                                player.setText("" + num);
-                                if (playersList1.size() == size1 - TEAM_SIZE && playersList2.size() == size2 - TEAM_SIZE)
-                                    addPlayers();
-                            }
-                        });
-                        AlertDialog ad = adb.create();
-                        ad.show();
-                    } else {
-                        if (hasStarted) {
-                            AlertDialog.Builder adb = new AlertDialog.Builder(Set.this);
-                            ArrayAdapter adp = new ArrayAdapter(Set.this, R.layout.support_simple_spinner_dropdown_item, playersList1);
-                            adb.setAdapter(adp, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    // String text = player.getText().toString();
-                                    int num = playersList1.remove(i);
-
-                                    //if (!text.startsWith("I") && !text.startsWith("V"))//בודק אם בכפתור הוכנס שחקן
-
-                                    int out = Integer.valueOf(text);
-                                    playing1.remove(playing1.indexOf(out));
-                                    insert(playersList1, Integer.valueOf(out));
-                                    insert(playing1, num);
-
-                                    player.setText("" + num);
-                                }
-                            });
-                            AlertDialog ad = adb.create();
-                            ad.show();
-                        } else {
-                            insert(playersList1, Integer.parseInt(text));
-                            player.setText(pos);
-                        }
-                    }
-                }
-            });
-        }
-        for (int i = 0; i < players2.length; i++) {
-            final Button player = players2[i];
-            final String pos = positions[i];
-            player.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    final String text = player.getText().toString();
-                    if (text.startsWith("I") || text.startsWith("V"))//בודק אם בכפתור הוכנס שחקן
-                    {
-                        AlertDialog.Builder adb = new AlertDialog.Builder(Set.this);
-                        ArrayAdapter adp = new ArrayAdapter(Set.this, R.layout.support_simple_spinner_dropdown_item, playersList2);
-                        adb.setAdapter(adp, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                // String text = player.getText().toString();
-                                int num = playersList2.remove(i);
-
-                                //if (!text.startsWith("I") && !text.startsWith("V"))//בודק אם בכפתור הוכנס שחקן
-
-
-                                player.setText("" + num);
-                                if (playersList1.size() == size1 - TEAM_SIZE && playersList2.size() == size2 - TEAM_SIZE)
-                                    addPlayers();
-                            }
-                        });
-                        AlertDialog ad = adb.create();
-                        ad.show();
-                    } else {
-                        if (hasStarted) {
-                            AlertDialog.Builder adb = new AlertDialog.Builder(Set.this);
-                            ArrayAdapter adp = new ArrayAdapter(Set.this, R.layout.support_simple_spinner_dropdown_item, playersList2);
-                            adb.setAdapter(adp, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    // String text = player.getText().toString();
-                                    int num = playersList2.remove(i);
-
-                                    //if (!text.startsWith("I") && !text.startsWith("V"))//בודק אם בכפתור הוכנס שחקן
-
-                                    int out = Integer.valueOf(text);
-                                    playing2.remove(playing2.indexOf(out));
-                                    insert(playersList2, Integer.valueOf(out));
-                                    insert(playing2, num);
-
-                                    player.setText("" + num);
-                                }
-                            });
-                            AlertDialog ad = adb.create();
-                            ad.show();
-                        } else {
-                            insert(playersList2, Integer.parseInt(text));
-                            player.setText(pos);
-                        }
-                    }
-                }
-            });
-        }
-    }
-
-    private void addPlayers() {//הפעולה נקראת מיד אחרי ששמים 6 שחקנים
-        first1 = new ArrayList<>();
-        first2 = new ArrayList<>();
-        startSet.setEnabled(true);
-        for (int i = 0; i < TEAM_SIZE; i++) {
-            first1.add(Integer.parseInt(playersl[i].getText().toString()));
-            first2.add(Integer.parseInt(players2[i].getText().toString()));
-            playing1.add(Integer.parseInt(playersl[i].getText().toString()));
-            playing2.add(Integer.parseInt(players2[i].getText().toString()));
-            // playersl[i].setEnabled(false);
-            // players2[i].setEnabled(false);
-        }
-    }
-
-    public String saveTime() {//שומרת את הזמן
-        SimpleDateFormat format = new SimpleDateFormat("HH:mm", Locale.getDefault());
-        return format.format(new Date().getTime());
-    }
-
-    public void checkWin() {
-        Intent t = new Intent(this, Summary.class);
-        t.putExtra("sheet", updateScoreSheet());
-        if (s1 == SETLIMIT) {
-            t.putExtra("winner", name1.getText().toString());
-            startActivity(t);
-        } else if (s2 == SETLIMIT) {
-            t.putExtra("winner", name2.getText().toString());
-            startActivity(t);
-        }
-    }
-
-    public void insert(List<Integer> l, int num) //מכניסה את השחקן במקום הנכון (מערך ממוין)
-    {
-        int i = 0;
-        int s = l.size();
-        while (i < s) {
-            if (num < l.get(i))
-                break;
-            i++;
-        }
-        l.add(i, num);
-    }
-
-    public void startSet(View view) {
-        String startTime = saveTime();
-        time.append(startTime + "-");
-        setNumber++;
-        setNum.setText("SET " + setNumber);
-        hasStarted = true;
-        startSet.setEnabled(false);
-        //לשמור את פסקי הזמן של המערכה
-        times1.clear();
-        times2.clear();
-        sanctionsList1.clear();
-        sanctionsList2.clear();
-        pt1 = 0;
-        pt2 = 0;
-        set1.setText("" + s1);
-        set2.setText("" + s2);
-        points1.setText("" + pt1);
-        points2.setText("" + pt2);
-        limit = LIMIT;
-        to1.setEnabled(true);
-        to2.setEnabled(true);
-        sanctions1.setEnabled(true);
-        sanctions2.setEnabled(true);
-        to2.setEnabled(true);
-        checkWin();
-        points1.setEnabled(true);
-        points2.setEnabled(true);
-    }
-
+    /**
+     * The method is called when the team takes time out
+     */
     public void timeout1(View view) {
         if (times1.size() < 2) {
             times1.add(points1.getText().toString() + ":" + points2.getText().toString());
@@ -558,6 +605,9 @@ public class Set extends AppCompatActivity {
         Log.e("times1", times1.toString());
     }
 
+    /**
+     * The method is called when the team takes time out
+     */
     public void timeout2(View view) {
         if (times2.size() < 2) {
             times2.add(points2.getText().toString() + ":" + points1.getText().toString());
@@ -568,6 +618,9 @@ public class Set extends AppCompatActivity {
         Log.e("times2", times2.toString());
     }
 
+    /**
+     * The method is called when the team receives a sanction
+     */
     public void addSanction1(View view) {
         ArrayAdapter adp = new ArrayAdapter(Set.this, R.layout.support_simple_spinner_dropdown_item, letters);
         AlertDialog.Builder adb = new AlertDialog.Builder(this);
@@ -601,13 +654,12 @@ public class Set extends AppCompatActivity {
         });
         AlertDialog ad = adb.create();
         ad.show();
-
-
-        // sanctionsList1.add(points1.getText().toString() + ":" + points2.getText().toString());
     }
 
+    /**
+     * The method is called when the team receives a sanction
+     */
     public void addSanction2(View view) {
-        // sanctionsList2.add(points1.getText().toString() + ":" + points2.getText().toString());
         ArrayAdapter adp = new ArrayAdapter(Set.this, R.layout.support_simple_spinner_dropdown_item, letters);
         AlertDialog.Builder adb = new AlertDialog.Builder(this);
         adb.setAdapter(adp, new DialogInterface.OnClickListener() {
@@ -638,12 +690,11 @@ public class Set extends AppCompatActivity {
                 }
             }
         });
-
         AlertDialog ad = adb.create();
         ad.show();
     }
 
-    Stack<Character> actions = new Stack<>();
+    Stack<Character> actions = new Stack<>(); //The stack contains the actions history
     public static final char TAKEOUT_TIME1 = '*';
     public static final char TAKEOUT_TIME2 = '%';
     public static final char TAKEOUT_SANCTION1 = '(';
@@ -651,6 +702,9 @@ public class Set extends AppCompatActivity {
     public static final char TAKEOUT_POINT1 = '#';
     public static final char TAKEOUT_POINT2 = '^';
 
+    /**
+     * The method cancels the last action that was taken
+     */
     public void undoActions(View view) {
         if (actions.isEmpty())
             Toast.makeText(this, "No actions have been taken yet", Toast.LENGTH_SHORT).show();
@@ -680,6 +734,10 @@ public class Set extends AppCompatActivity {
         }
     }
 
+    /**
+     * Cancels the timeout the team has taken
+     */
+
     public void takeOutTime1() {
         // remove from 1
         if (times1.size() < 2) {
@@ -690,6 +748,10 @@ public class Set extends AppCompatActivity {
             to1.setEnabled(true);
         }
     }
+
+    /**
+     * Cancels the timeout the team has taken
+     */
 
     public void takeOutTime2() {
         // remove from 2
@@ -702,33 +764,45 @@ public class Set extends AppCompatActivity {
         }
     }
 
+    /**
+     * Cancels the sanction the team received
+     */
+
     public void takeOutSanction1() {
         // remove from 1
         sanctionsList1.remove(sanctionsList1.size() - 1);
     }
 
+    /**
+     * Cancels the sanction the team received
+     */
     public void takeOutSanction2() {
         // remove from 2
         sanctionsList2.remove(sanctionsList2.size() - 1);
     }
 
+    /**
+     * Cancels the point reached
+     */
     public void takeOutPoint1() {
         // remove from 1
         pt1--;
-        points1.setEnabled(true);
-        points2.setEnabled(true);
         points1.setText("" + pt1);
     }
 
+    /**
+     * Cancels the point reached
+     */
     public void takeOutPoint2() {
         // remove from 2
         pt2--;
-        points1.setEnabled(true);
-        points2.setEnabled(true);
         points2.setText("" + pt2);
     }
 
-
+    /**
+     * Updates the HTML file.
+     * @return The updated HTML file.
+     */
     public String updateScoreSheet() {
         //get html content
         Intent a = getIntent();

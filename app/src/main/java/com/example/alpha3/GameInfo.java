@@ -53,6 +53,9 @@ public class GameInfo extends AppCompatActivity {
     FirebaseAuth mAuth;
     FirebaseUser currentUser;
 
+    /**
+     * Links the variables in Java to the components in xml and initializes the lists. Updates team lists according to the database. Puts an automatic country code. Checks whether the current user exists, if not - calls method {@link #signIn()}
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -150,12 +153,17 @@ public class GameInfo extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
+    /**
+     * Moves to the sign up activity so the user can sign in or sign up.
+     */
     private void signIn() {
         Intent t = new Intent(this, SignUp.class);
         startActivity(t);
     }
 
+    /**
+     * Displays a time selection dialog.
+     */
     public void chooseTime(View view) {
         TimePickerDialog picker = new TimePickerDialog(GameInfo.this,android.R.style.Theme_Holo_Light_Dialog_NoActionBar,
                 new TimePickerDialog.OnTimeSetListener() {
@@ -170,8 +178,11 @@ public class GameInfo extends AppCompatActivity {
         picker.show();
     }
 
+    /**
+     * Creates an Info object and uploads it to the database. Passes some details to the next activity and calls the method {@link #updateScoreSheet()}.
+     * @see Info
+     */
     public void next(View view) {
-
         if (TextUtils.isEmpty(cityText.getText().toString()) || TextUtils.isEmpty(codeText.getText().toString()) || TextUtils.isEmpty(hallText.getText().toString()) || TextUtils.isEmpty(time.getText().toString()) || TextUtils.isEmpty(select1.getText().toString()) || TextUtils.isEmpty(select2.getText().toString())) {
             if (TextUtils.isEmpty(cityText.getText().toString())) {
                 cityText1.setError("Please enter city");
@@ -226,6 +237,10 @@ public class GameInfo extends AppCompatActivity {
         }
     }
 
+    /**
+     * Updates the HTML file.
+     * @return The updated HTML file.
+     */
     public String updateScoreSheet() {
         //get html content
         String htmlAsString = getString(R.string.html);

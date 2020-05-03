@@ -43,6 +43,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     MaterialToolbar top;
 
+    /**
+     * Joins the Java components to their overlapping components in xml and initializes the attributes and teams list.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,24 +56,22 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         list = findViewById(R.id.list);
         list.setOnItemClickListener(this);
+        list.setOnCreateContextMenuListener(this);
 
         teamsList = new ArrayList<>();
         playersList = new ArrayList<>();
 
         mAuth = FirebaseAuth.getInstance();
+        ref = FirebaseDatabase.getInstance().getReference("Game");
 
         inPList = false;
-        initiate();
-
-    }
-
-    void initiate()
-    {
-        ref = FirebaseDatabase.getInstance().getReference("Game");
         refreshList();
 
-        list.setOnCreateContextMenuListener(this);
     }
+
+    /**
+     * Displays the teams list.
+     */
 
     private void refreshList() {
         inPList = false;
@@ -125,6 +126,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         menu.add("Delete");
     }
 
+    /**
+     * With a long press, deletes the item (player or team)
+     */
+
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         String title = item.getTitle().toString();
@@ -147,15 +152,27 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         return super.onContextItemSelected(item);
     }
 
+    /**
+     * Passes to AddPlayer activity
+     */
+
     public void addPlayer(View view) {
         Intent t = new Intent(this, AddPlayer.class);
         startActivity(t);
     }
 
+    /**
+     * Passes to AddTeam activity
+     */
+
     public void addTeam(View view) {
         Intent t = new Intent(this, AddTeam.class);
         startActivity(t);
     }
+
+    /**
+     * Displays the list of players for the team that was clicked
+     */
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -181,6 +198,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             });
         }
     }
+
+    /**
+     * If a player list is displayed, the method moves to the group list, otherwise - the method moves to the previous activity
+     */
 
     @Override
     public void onBackPressed() {

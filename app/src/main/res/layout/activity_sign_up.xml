@@ -49,38 +49,7 @@
         android:text="Already have an account?"
         android:onClick="toSignInTwoFactors"
         style="@style/Widget.Shrine.Button.TextButton"/>
-</LinearLayout>
 
-    <!--
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="What's your name?" />
+    </LinearLayout>
 
-    <EditText
-        android:id="@+id/scorerName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:hint="First name and last name" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Next"
-        android:onClick="toVerifyEmail"/>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Already have an account?"
-        android:onClick="toSignInTwoFactors"/>
-        -->
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Summary"
-        android:onClick="toSummary"/>
 </LinearLayout>

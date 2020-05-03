@@ -24,6 +24,9 @@ public class SignUp extends AppCompatActivity {
     DatabaseReference ref;
     FirebaseAuth auth;
 
+    /**
+     * Links the variables in Java to the components in xml and initializes the attributes.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +39,9 @@ public class SignUp extends AppCompatActivity {
         ref = FirebaseDatabase.getInstance().getReference("Users");
     }
 
+    /**
+     * Passes the user's details to the next Activity
+     */
     public void toVerifyEmail(View view) {
         if (TextUtils.isEmpty(scorerName.getText().toString())) {
             scorerName1.setError("Please enter your name");
@@ -48,13 +54,11 @@ public class SignUp extends AppCompatActivity {
         }
     }
 
+    /**
+     * Moves to the authentication module.
+     */
     public void toSignInTwoFactors(View view) {
         Intent t = new Intent(this, SignInTwoFactors.class);
-        startActivity(t);
-    }
-
-    public void toSummary(View view) {
-        Intent t = new Intent(this, GameInfo.class);
         startActivity(t);
     }
 }

@@ -40,6 +40,9 @@ public class TeamsInfo extends AppCompatActivity {
     List<Player> players1;
     List<Player> players2;
 
+    /**
+     * Links the variables in Java to the components in xml and initializes the attributes. Updates player lists according to the database.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,21 +106,20 @@ public class TeamsInfo extends AppCompatActivity {
         });
     }
 
+    /**
+     * Moves to the next activity and calls the method {@link #updateScoreSheet()}.
+     */
     public void sign(View view) {
-
         Intent t = new Intent(this, Approval.class);
         t.replaceExtras(getIntent());
         t.putExtra("sheet", updateScoreSheet());
         startActivity(t);
-
-
-        /*Intent in = new Intent(this, Summary.class);
-        in.putExtra("sheet", updateScoreSheet());
-        startActivity(in);
-
-         */
     }
 
+    /**
+     * Updates the HTML file.
+     * @return The updated HTML file.
+     */
     public String updateScoreSheet() {
         //get html content
         Intent a = getIntent();

@@ -31,8 +31,10 @@ public class SignUpVerifyEmail extends AppCompatActivity {
     TextInputLayout emailText1, passwordText1;
     private static final String TAG = "Email verification";
     FirebaseAuth auth;
-    //FirebaseUser user;
 
+    /**
+     * Links the variables in Java to the components in xml and initializes the attributes.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,9 +45,11 @@ public class SignUpVerifyEmail extends AppCompatActivity {
         emailText = findViewById(R.id.emailText);
         passwordText = findViewById(R.id.passwordText);
         auth = FirebaseAuth.getInstance();
-        //user = auth.getCurrentUser();
     }
 
+    /**
+     * Creates a user with email and password in the database.
+     */
     public void verifyEmail(View view) {
         if (emailText.getText().toString().isEmpty() || passwordText.getText().toString().isEmpty()) {
             if (emailText.getText().toString().isEmpty()) {
@@ -58,6 +62,9 @@ public class SignUpVerifyEmail extends AppCompatActivity {
             final String email = emailText.getText().toString();
             final String password = passwordText.getText().toString();
             auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                /**
+                 * Sends verification email to the email address the user entered.
+                 */
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
@@ -75,6 +82,7 @@ public class SignUpVerifyEmail extends AppCompatActivity {
                                     t2.putExtra("email", email);
                                     t2.putExtra("ifAuthorized", ifAuthrized);
                                     startActivity(t2);
+                                    finish();
                                 } else {
                                     Log.e(TAG, "sendEmailVerification", task.getException());
                                     Toast.makeText(SignUpVerifyEmail.this, "Failed to send Email verification", Toast.LENGTH_SHORT).show();

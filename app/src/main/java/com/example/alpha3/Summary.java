@@ -30,6 +30,9 @@ public class Summary extends AppCompatActivity {
     Button send;
     String htmlAsString;
 
+    /**
+     * Links the components and displays the HTML file.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,15 +84,16 @@ public class Summary extends AppCompatActivity {
 
      */
 
-
-
+    /**
+     * Creates a message to it attaches the HTML file, allowing it to be emailed.
+     */
     public void send(View view) {
         Intent t = new Intent(Intent.ACTION_SEND);
         t.setType("message/rfc822");
         t.putExtra(Intent.EXTRA_EMAIL  , new String[]{"al5493@bs.amalnet.k12.il"});
         t.putExtra(Intent.EXTRA_SUBJECT, "game result");
         t.putExtra(Intent.EXTRA_TEXT   , htmlAsString);
-/*        String pathToMyAttachedFile = "temp/sample-file.pdf";
+        /*String pathToMyAttachedFile = "temp/sample-file.pdf";
         File file = new File(root, pathToMyAttachedFile);
         if (!file.exists() || !file.canRead()) {
             return;

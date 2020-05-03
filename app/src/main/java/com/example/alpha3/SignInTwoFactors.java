@@ -46,6 +46,10 @@ public class SignInTwoFactors extends AppCompatActivity {
     FirebaseAuth auth;
     FirebaseUser currentUser;
     DatabaseReference ref;
+
+    /**
+     * Links the variables in Java to the components in xml and initializes the attributes.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +63,9 @@ public class SignInTwoFactors extends AppCompatActivity {
         ref = FirebaseDatabase.getInstance().getReference("Users");
     }
 
+    /**
+     * Authenticates the user with his email and password.
+     */
     public void Twofactor(View view) {
         if (emailText.getText().toString().isEmpty() || passwordText.getText().toString().isEmpty()) {
             if (emailText.getText().toString().isEmpty()) {
@@ -72,6 +79,9 @@ public class SignInTwoFactors extends AppCompatActivity {
             final String email = emailText.getText().toString();
             final String password = passwordText.getText().toString();
             FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                /**
+                 * If the user's details have been verified - and displays a screen for entering a phone number, and activates Activity for result to enter a verification code sent in a text message to the phone entered by the user.
+                 */
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
@@ -94,6 +104,12 @@ public class SignInTwoFactors extends AppCompatActivity {
         }
     }
 
+    /**
+     * If the phone number is verified, the method calls for the method {@link #whichUser()} that checks the user type.
+     * @param requestCode The code the user receives
+     * @param resultCode The code the user enters
+     * @param data Not used.
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -115,6 +131,9 @@ public class SignInTwoFactors extends AppCompatActivity {
         }
     }
 
+    /**
+     * The method checks in the database what the user type is and calls the method {@link #whichActivity(Boolean isAuthorized)} that directs the user to the appropriate activity.
+     */
     private void whichUser() {
         Query query = ref.orderByChild("uID").equalTo(currentUser.getUid());
         query.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -132,15 +151,21 @@ public class SignInTwoFactors extends AppCompatActivity {
         });
     }
 
+    /**
+     * Directs the user to the appropriate screen
+     * @param isAuthorized The user type (scorer or authorized).
+     */
     public void whichActivity(Boolean isAuthorized) {
         Intent t6;
         if (isAuthorized) {
             t6 = new Intent(SignInTwoFactors.this, MainActivity.class);
             startActivity(t6);
+            finish();
         }
         else {
             t6 = new Intent(SignInTwoFactors.this, GameInfo.class);
             startActivity(t6);
+            finish();
         }
     }
 }

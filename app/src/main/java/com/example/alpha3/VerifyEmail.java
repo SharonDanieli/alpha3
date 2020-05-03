@@ -26,6 +26,9 @@ public class VerifyEmail extends AppCompatActivity {
     FirebaseUser user;
     final String TAG = "LOGIN";
 
+    /**
+     * Initializes the attributes.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +38,9 @@ public class VerifyEmail extends AppCompatActivity {
         user = auth.getCurrentUser();
     }
 
+    /**
+     * Sends verification email to the email address the user entered.
+     */
     public void sendAgain(View view) {
         user.sendEmailVerification()
                 .addOnCompleteListener(this, new OnCompleteListener<Void>() {
@@ -51,6 +57,9 @@ public class VerifyEmail extends AppCompatActivity {
                 });
     }
 
+    /**
+     * Passes the user's details to the next Activity
+     */
     public void next(View view) {
         user.reload();
         if (user.isEmailVerified())
@@ -64,6 +73,7 @@ public class VerifyEmail extends AppCompatActivity {
             t3.putExtra("email", email);
             t3.putExtra("ifAuthorized", ifAuthorized);
             startActivity(t3);
+            finish();
         }
         else
         {

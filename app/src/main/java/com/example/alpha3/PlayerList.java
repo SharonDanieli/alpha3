@@ -12,9 +12,19 @@ import android.widget.TextView;
 
 import java.util.List;
 
+/**
+ * Determines how groups are displayed in the list
+ */
+
 public class PlayerList extends ArrayAdapter {
     public Activity context;
     public List<Player> data;
+
+    /**
+     *
+     * @param context The screen where the Array adapter is implemented
+     * @param data A list containing the player details
+     */
 
     public PlayerList(Activity context, List<Player> data)
     {
@@ -23,6 +33,11 @@ public class PlayerList extends ArrayAdapter {
         this.data = data;
     }
 
+    /**
+     *
+     * @return the list view
+     */
+
     @NonNull
     @Override
     public View getView(int position, @NonNull View convertView, @NonNull ViewGroup parent) {
@@ -30,14 +45,10 @@ public class PlayerList extends ArrayAdapter {
         View v = inflater.inflate(R.layout.list_layout, null, true);
         TextView fname = v.findViewById(R.id.fname);
         TextView lname = v.findViewById(R.id.lname);
-        //TextView birth = v.findViewById(R.id.birth);
-        //TextView id = v.findViewById(R.id.id);
         TextView num = v.findViewById(R.id.num);
         Player p = this.data.get(position);
         fname.setText(p.fname);
         lname.setText(p.lname);
-        //birth.setText(p.birth);
-        //id.setText(p.id);
         num.setText("" + p.num);
 
         return v;

@@ -11,15 +11,30 @@ import android.widget.TextView;
 
 import java.util.List;
 
+/**
+ * Determines how groups are displayed in the list
+ */
+
     public class TeamList extends ArrayAdapter<Team> {
     private Activity context;
     private List<Team> teamsList;
+
+    /**
+     *
+     * @param context The screen where the Array adapter is implemented
+     * @param teamsList A list containing the team details
+     */
     public TeamList(Activity context, List<Team> teamsList)
     {
         super(context, R.layout.team_list, teamsList); //מאתחל את התכונות ואת הפעולות של המחלקה היורשת
         this.context = context;
         this.teamsList = teamsList;
     }
+
+    /**
+     *
+     * @return the list view
+     */
 
     @NonNull
     @Override

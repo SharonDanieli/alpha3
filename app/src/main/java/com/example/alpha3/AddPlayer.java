@@ -13,6 +13,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+/**
+ * Adds a person to the Firebase real-time database
+ */
+
 public class AddPlayer extends AppCompatActivity {
 
     EditText fname, lname, birth, idText, team, num, country;
@@ -73,6 +77,10 @@ public class AddPlayer extends AppCompatActivity {
         });
     }
 
+    /**
+     * Uploads the person's information to the database under the appropriate branch associated with his role
+     */
+
     public void submit(View view) {
         String fn = fname.getText().toString();
         String ln = lname.getText().toString();
@@ -90,7 +98,7 @@ public class AddPlayer extends AppCompatActivity {
         {
             case 0:t = Integer.parseInt(team.getText().toString());
                 n = Integer.parseInt(num.getText().toString());
-                p = new Player(fn, ln, b, id, t, n, "");
+                p = new Player(fn, ln, b, id, t, n);
                 Toast.makeText(this, "Player has been added", Toast.LENGTH_LONG).show();
                 ref = ref.child("Players");
                 break;

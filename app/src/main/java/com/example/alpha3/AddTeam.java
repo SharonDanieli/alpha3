@@ -13,9 +13,17 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+/**
+ * Adds a team to the Firebase real-time database
+ */
+
 public class AddTeam extends AppCompatActivity {
 
     EditText nameText, numText, emailText;
+
+    /**
+     *
+     */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +34,10 @@ public class AddTeam extends AppCompatActivity {
         numText = findViewById(R.id.numText);
         emailText = findViewById(R.id.emailTeam);
     }
+
+    /**
+     * Uploads the team's information to the database under the teams branch
+     */
 
     public void submit(View view) {
         final String name = nameText.getText().toString();

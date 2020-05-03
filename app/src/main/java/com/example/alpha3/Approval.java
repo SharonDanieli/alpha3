@@ -15,6 +15,9 @@ public class Approval extends AppCompatActivity {
     TextInputLayout ref11, scorer1;
     TextInputEditText ref1, ref2, scorer, assistantScorer, lineJudge1, lineJudge2, lineJudge3, lineJudge4, countryRef1, countryRef2, countryScorer, countryAssistant;;
 
+    /**
+     * Links the variables in Java to the components in xml.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +39,9 @@ public class Approval extends AppCompatActivity {
         countryAssistant = findViewById(R.id.countryAssistant);
     }
 
+    /**
+     * Passes the details to the next activity.
+     */
     public void next(View view) {
         if (TextUtils.isEmpty(ref1.getText().toString()) || TextUtils.isEmpty(scorer.getText().toString())) {
             if (TextUtils.isEmpty(ref1.getText().toString())) {
@@ -65,6 +71,10 @@ public class Approval extends AppCompatActivity {
         }
     }
 
+    /**
+     * Updates the HTML file.
+     * @return The updated HTML file.
+     */
     public String updateScoreSheet() {
         //get html content
         Intent a = getIntent();

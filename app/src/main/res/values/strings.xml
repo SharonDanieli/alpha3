@@ -59,80 +59,56 @@
 </caption>
 <tbody>
 <tr>
-<td style="width: 50px; height: 25px;" colspan="2">&nbsp;<strong>team1</strong></td>
-<td style="height: 25px; width: 50px;" colspan="2">&nbsp;<strong>team2</strong></td>
+<td style="width: 50px; height: 25px;">&nbsp;<strong>team1</strong></td>
+<td style="height: 25px; width: 50px;">&nbsp;<strong>team2</strong></td>
 </tr>
 <tr>
 <td style="width: 25px; height: 25px; text-align: center;">num1-1&nbsp;</td>
-<td style="height: 25px;">&nbsp;player1-1</td>
 <td style="height: 25px; width: 25px; text-align: center;">num2-1&nbsp;&nbsp;</td>
-<td style="height: 25px;">player2-1</td>
 </tr>
 <tr>
 <td style="width: 25px; height: 25px; text-align: center;">num1-1&nbsp;&nbsp;</td>
-<td style="height: 25px;">&nbsp;player1-2</td>
 <td style="height: 25px; width: 25px; text-align: center;">&nbsp;num2-1</td>
-<td style="height: 25px;">&nbsp;player2-2</td>
 </tr>
 <tr>
 <td style="width: 25px; height: 25px; text-align: center;">num1-1&nbsp;</td>
-<td style="height: 25px;">player1-3</td>
 <td style="height: 25px; width: 25px; text-align: center;">num2-1&nbsp;</td>
-<td style="height: 25px;">player2-3&nbsp;</td>
 </tr>
 <tr>
 <td style="width: 25px; height: 25px; text-align: center;">num1-1&nbsp;&nbsp;</td>
-<td style="height: 25px;">player1-4&nbsp;</td>
 <td style="height: 25px; width: 25px; text-align: center;">num2-1&nbsp;</td>
-<td style="height: 25px;">player2-4</td>
 </tr>
 <tr>
 <td style="width: 25px; height: 25px; text-align: center;">num1-1&nbsp;&nbsp;</td>
-<td style="height: 25px;">player1-5&nbsp;</td>
 <td style="height: 25px; width: 25px; text-align: center;">num2-1&nbsp;</td>
-<td style="height: 25px;">player2-5&nbsp;</td>
 </tr>
 <tr>
 <td style="width: 25px; height: 25px; text-align: center;">num1-1&nbsp;&nbsp;</td>
-<td style="height: 25px;">player1-6&nbsp;</td>
 <td style="height: 25px; width: 25px; text-align: center;">num2-1&nbsp;</td>
-<td style="height: 25px;">player2-6</td>
 </tr>
 <tr>
 <td style="width: 25px; height: 25px; text-align: center;">num1-1&nbsp;&nbsp;</td>
-<td style="height: 25px;">player1-7&nbsp;</td>
 <td style="height: 25px; width: 25px; text-align: center;">num2-1&nbsp;</td>
-<td style="height: 25px;">player2-7</td>
 </tr>
 <tr>
 <td style="width: 25px; height: 25px; text-align: center;">num1-1&nbsp;&nbsp;</td>
-<td style="height: 25px;">player1-8&nbsp;</td>
 <td style="height: 25px; width: 25px; text-align: center;">num2-1&nbsp;</td>
-<td style="height: 25px;">player2-8&nbsp;</td>
 </tr>
 <tr>
 <td style="width: 25px; height: 25px; text-align: center;">num1-1&nbsp;&nbsp;</td>
-<td style="height: 25px;">player1-9&nbsp;</td>
 <td style="height: 25px; width: 25px; text-align: center;">num2-1&nbsp;</td>
-<td style="height: 25px;">player2-9&nbsp;</td>
 </tr>
 <tr>
 <td style="width: 25px; height: 25px; text-align: center;">num1-1&nbsp;&nbsp;</td>
-<td style="height: 25px;">player1-10&nbsp;</td>
 <td style="height: 25px; width: 25px; text-align: center;">num2-1&nbsp;</td>
-<td style="height: 25px;">player2-10&nbsp;</td>
 </tr>
 <tr>
 <td style="width: 25px; height: 25px; text-align: center;">num1-1&nbsp;&nbsp;</td>
-<td style="height: 25px;">player1-11</td>
 <td style="height: 25px; width: 25px; text-align: center;">num2-1&nbsp;</td>
-<td style="height: 25px;">player2-11&nbsp;</td>
 </tr>
 <tr>
 <td style="width: 25px; height: 25px; text-align: center;">num1-1&nbsp;&nbsp;</td>
-<td style="height: 25px;">player1-12</td>
 <td style="height: 25px; width: 25px; text-align: center;">num2-1&nbsp;</td>
-<td style="height: 25px;">player2-12&nbsp;</td>
 </tr>
 </tbody>
 </table>

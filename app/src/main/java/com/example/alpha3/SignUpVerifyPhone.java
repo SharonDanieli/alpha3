@@ -22,6 +22,9 @@ public class SignUpVerifyPhone extends AppCompatActivity {
     FirebaseAuth auth;
     FirebaseUser user;
 
+    /**
+     * Initializes the features and displays a screen for entering a phone number, and activates Activity for result to enter a verification code sent in a text message to the phone entered by the user.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +45,12 @@ public class SignUpVerifyPhone extends AppCompatActivity {
                 RC_SIGN_IN);
     }
 
+    /**
+     * If the phone number is verified, the method calls for the method {@link #createUser()} that creates user.
+     * @param requestCode The code the user receives
+     * @param resultCode The code the user enters
+     * @param data Not used.
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -62,7 +71,12 @@ public class SignUpVerifyPhone extends AppCompatActivity {
             }
         }
     }
-    public void createUser () {
+
+    /**
+     * The method creates a user and uploads it to the database.
+     * @see User
+     */
+    public void createUser() {
         Intent t4;
         Intent intent = getIntent();
         String uID = user.getUid();
@@ -73,8 +87,10 @@ public class SignUpVerifyPhone extends AppCompatActivity {
         User userDatabase = new User(uID, name, phoneNumber, email, ifAuthorized);
         ref.child(user.getUid()).setValue(userDatabase);
         if (ifAuthorized) { t4 = new Intent(this, MainActivity.class);
-            startActivity(t4);}
+            startActivity(t4);
+            finish();}
         else { t4 = new Intent(this, GameInfo.class);
-            startActivity(t4);}
+            startActivity(t4);
+            finish();}
     }
 }
