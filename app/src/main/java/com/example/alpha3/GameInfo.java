@@ -2,24 +2,20 @@ package com.example.alpha3;
 
 import android.app.TimePickerDialog;
 import android.content.Intent;
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Spinner;
-import android.widget.Switch;
 import android.widget.TimePicker;
 import android.widget.Toast;
+
 import com.firebase.ui.auth.AuthUI;
-import com.firebase.ui.auth.IdpResponse;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.appbar.MaterialToolbar;
@@ -35,12 +31,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class GameInfo extends AppCompatActivity {
 
@@ -105,7 +102,7 @@ public class GameInfo extends AppCompatActivity {
         final List<String> teamList = new ArrayList<>();
 
         DatabaseReference r = FirebaseDatabase.getInstance().getReference("Game");
-        r.child("Teams").addListenerForSingleValueEvent(new ValueEventListener() {
+        r.child("Teams").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 teamList.clear();
@@ -113,9 +110,6 @@ public class GameInfo extends AppCompatActivity {
                     Team t = ds.getValue(Team.class);
                     teamList.add(t.num + " - " + t.name);
                 }
-                ArrayAdapter<String> teamAdp = new ArrayAdapter<>(GameInfo.this, R.layout.support_simple_spinner_dropdown_item, teamList);
-                select1.setAdapter(teamAdp);
-                select2.setAdapter(teamAdp);
             }
 
             @Override
@@ -124,8 +118,45 @@ public class GameInfo extends AppCompatActivity {
             }
         });
 
+        select1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            // When one group is selected on the first spinner, remove group from the second spinner
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                removeSelectedFromOtherSpinner(new ArrayList<>(teamList), position, select2);
+            }
+            @Override
+            // When no group is selected, set all groups on the spinner
+            public void onNothingSelected(AdapterView<?> parent) {
+                ArrayAdapter<String> teamAdp = new ArrayAdapter<>(GameInfo.this, R.layout.support_simple_spinner_dropdown_item, teamList);
+                select2.setAdapter(teamAdp);
+            }
+        });
+
+        select2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            // When one group is selected on the second spinner, remove group from the first spinner
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                removeSelectedFromOtherSpinner(new ArrayList<>(teamList), position, select1);
+            }
+            @Override
+            // When no group is selected, set all groups on the spinner
+            public void onNothingSelected(AdapterView<?> parent) {
+                ArrayAdapter<String> teamAdp = new ArrayAdapter<>(GameInfo.this, R.layout.support_simple_spinner_dropdown_item, teamList);
+                select1.setAdapter(teamAdp);
+            }
+        });
+
         String locale = getResources().getConfiguration().locale.getISO3Country();
         codeText.setText(locale);
+    }
+
+    /*
+        Removes the item in the asked index from the asked groups spinner
+     */
+    public void removeSelectedFromOtherSpinner(List<String> newTeamList, int selectedPosition, AutoCompleteTextView spinner) {
+        newTeamList.remove(selectedPosition);
+        ArrayAdapter<String> teamAdp = new ArrayAdapter<>(GameInfo.this, R.layout.support_simple_spinner_dropdown_item, newTeamList);
+        spinner.setAdapter(teamAdp);
     }
 
     @Override
