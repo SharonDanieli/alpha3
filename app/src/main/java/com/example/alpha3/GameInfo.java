@@ -117,6 +117,8 @@ public class GameInfo extends AppCompatActivity {
 
             }
         });
+        putFullListOnSpinner(teamList, select1);
+        putFullListOnSpinner(teamList, select2);
 
         select1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -127,8 +129,7 @@ public class GameInfo extends AppCompatActivity {
             @Override
             // When no group is selected, set all groups on the spinner
             public void onNothingSelected(AdapterView<?> parent) {
-                ArrayAdapter<String> teamAdp = new ArrayAdapter<>(GameInfo.this, R.layout.support_simple_spinner_dropdown_item, teamList);
-                select2.setAdapter(teamAdp);
+                putFullListOnSpinner(teamList, select2);
             }
         });
 
@@ -141,8 +142,7 @@ public class GameInfo extends AppCompatActivity {
             @Override
             // When no group is selected, set all groups on the spinner
             public void onNothingSelected(AdapterView<?> parent) {
-                ArrayAdapter<String> teamAdp = new ArrayAdapter<>(GameInfo.this, R.layout.support_simple_spinner_dropdown_item, teamList);
-                select1.setAdapter(teamAdp);
+                putFullListOnSpinner(teamList, select1);
             }
         });
 
@@ -156,6 +156,14 @@ public class GameInfo extends AppCompatActivity {
     public void removeSelectedFromOtherSpinner(List<String> newTeamList, int selectedPosition, AutoCompleteTextView spinner) {
         newTeamList.remove(selectedPosition);
         ArrayAdapter<String> teamAdp = new ArrayAdapter<>(GameInfo.this, R.layout.support_simple_spinner_dropdown_item, newTeamList);
+        spinner.setAdapter(teamAdp);
+    }
+
+    /*
+        Puts the full list on the asked groups spinner
+    */
+    public void putFullListOnSpinner(List<String> teamList, AutoCompleteTextView spinner) {
+        ArrayAdapter<String> teamAdp = new ArrayAdapter<>(GameInfo.this, R.layout.support_simple_spinner_dropdown_item, teamList);
         spinner.setAdapter(teamAdp);
     }
 
