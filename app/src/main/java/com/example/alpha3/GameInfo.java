@@ -120,29 +120,19 @@ public class GameInfo extends AppCompatActivity {
         putFullListOnSpinner(teamList, select1);
         putFullListOnSpinner(teamList, select2);
 
-        select1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
+        select1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             // When one group is selected on the first spinner, remove group from the second spinner
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                removeSelectedFromOtherSpinner(new ArrayList<>(teamList), position, select2);
-            }
             @Override
-            // When no group is selected, set all groups on the spinner
-            public void onNothingSelected(AdapterView<?> parent) {
-                putFullListOnSpinner(teamList, select2);
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                removeSelectedFromOtherSpinner(new ArrayList<>(teamList), position, select2);
             }
         });
 
-        select2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
+        select2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             // When one group is selected on the second spinner, remove group from the first spinner
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                removeSelectedFromOtherSpinner(new ArrayList<>(teamList), position, select1);
-            }
             @Override
-            // When no group is selected, set all groups on the spinner
-            public void onNothingSelected(AdapterView<?> parent) {
-                putFullListOnSpinner(teamList, select1);
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                removeSelectedFromOtherSpinner(new ArrayList<>(teamList), position, select1);
             }
         });
 
@@ -154,7 +144,8 @@ public class GameInfo extends AppCompatActivity {
         Removes the item in the asked index from the asked groups spinner
      */
     public void removeSelectedFromOtherSpinner(List<String> newTeamList, int selectedPosition, AutoCompleteTextView spinner) {
-        newTeamList.remove(selectedPosition);
+        String selectedString = spinner.getAdapter().getItem(selectedPosition).toString();
+        newTeamList.remove(selectedString);
         ArrayAdapter<String> teamAdp = new ArrayAdapter<>(GameInfo.this, R.layout.support_simple_spinner_dropdown_item, newTeamList);
         spinner.setAdapter(teamAdp);
     }
