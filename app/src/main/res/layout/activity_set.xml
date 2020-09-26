@@ -29,7 +29,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <LinearLayout
+        ****<LinearLayout
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
@@ -75,74 +75,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="0" />
-
-            <RadioButton
-                android:clickable="false"
-                android:id="@+id/serve1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Serve" />
-
-            <TableLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <TableRow
-                    android:gravity="center"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" >
-
-                    <Button
-                        android:id="@+id/p15"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="V" />
-
-                    <Button
-                        android:id="@+id/p14"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="IV" />
-                </TableRow>
-
-                <TableRow
-                    android:gravity="center"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" >
-
-                    <Button
-                        android:id="@+id/p16"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="VI" />
-
-                    <Button
-                        android:id="@+id/p13"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="III" />
-                </TableRow>
-
-                <TableRow
-                    android:gravity="center"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" >
-
-                    <Button
-                        android:id="@+id/p11"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="I" />
-
-                    <Button
-                        android:id="@+id/p12"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="II" />
-                </TableRow>
-
-            </TableLayout>
         </LinearLayout>
+
+
+
 
         <LinearLayout
             android:layout_width="0dp"
@@ -191,74 +127,157 @@
                 android:layout_height="wrap_content"
                 android:text="0" />
 
-            <RadioButton
-                android:clickable="false"
-                android:id="@+id/serve2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Serve" />
 
-            <TableLayout
+        </LinearLayout>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+        <RadioButton
+            android:clickable="false"
+            android:id="@+id/serve1"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="bottom"/>
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="10">
+
+            <TableRow
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" >
+
+                <Button
+                    android:id="@+id/p15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="V" />
+
+                <Button
+                    android:id="@+id/p14"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="IV" />
+            </TableRow>
+
+            <TableRow
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" >
+
+                <Button
+                    android:id="@+id/p16"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="VI" />
+
+                <Button
+                    android:id="@+id/p13"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="III" />
+            </TableRow>
+
+            <TableRow
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" >
+
+                <Button
+                    android:id="@+id/p11"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="I" />
+
+                <Button
+                    android:id="@+id/p12"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="II" />
+            </TableRow>
+        </TableLayout>
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="10">
+
+            <TableRow
+                android:gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <TableRow
-                    android:gravity="center"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                <Button
+                    android:id="@+id/p22"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="II" />
 
-                    <Button
-                        android:id="@+id/p22"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="II" />
+                <Button
+                    android:id="@+id/p21"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="I" />
+            </TableRow>
 
-                    <Button
-                        android:id="@+id/p21"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="I" />
-                </TableRow>
 
-                <TableRow
-                    android:gravity="center"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
 
-                    <Button
-                        android:id="@+id/p23"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="III" />
+            <TableRow
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-                    <Button
-                        android:id="@+id/p26"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="VI" />
-                </TableRow>
+                <Button
+                    android:id="@+id/p23"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="III" />
 
-                <TableRow
-                    android:gravity="center"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                <Button
+                    android:id="@+id/p26"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="VI" />
+            </TableRow>
 
-                    <Button
-                        android:id="@+id/p24"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="IV" />
+            <TableRow
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-                    <Button
-                        android:id="@+id/p25"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="V" />
-                </TableRow>
+                <Button
+                    android:id="@+id/p24"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="IV" />
 
-            </TableLayout>
+                <Button
+                    android:id="@+id/p25"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="V" />
+            </TableRow>
+        </TableLayout>
 
-        </LinearLayout>
+        <RadioButton
+            android:clickable="false"
+            android:id="@+id/serve2"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="top"
+            android:text="Serve" />
     </LinearLayout>
 
     <Button
