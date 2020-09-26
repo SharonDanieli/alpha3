@@ -139,6 +139,7 @@
         <RadioButton
             android:clickable="false"
             android:id="@+id/serve1"
+            android:onClick="firstServeClicked"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -277,6 +278,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="top"
+            android:onClick="secondServeClicked"
             android:text="Serve" />
     </LinearLayout>
 
