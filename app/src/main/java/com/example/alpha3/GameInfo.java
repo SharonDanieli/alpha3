@@ -124,7 +124,7 @@ public class GameInfo extends AppCompatActivity {
             // When one group is selected on the first spinner, remove group from the second spinner
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                removeSelectedFromOtherSpinner(new ArrayList<>(teamList), position, select2);
+                removeSelectedFromOtherSpinner(new ArrayList<>(teamList), position, select2, select1);
             }
         });
 
@@ -132,7 +132,7 @@ public class GameInfo extends AppCompatActivity {
             // When one group is selected on the second spinner, remove group from the first spinner
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                removeSelectedFromOtherSpinner(new ArrayList<>(teamList), position, select1);
+                removeSelectedFromOtherSpinner(new ArrayList<>(teamList), position, select1, select2);
             }
         });
 
@@ -143,11 +143,12 @@ public class GameInfo extends AppCompatActivity {
     /*
         Removes the item in the asked index from the asked groups spinner
      */
-    public void removeSelectedFromOtherSpinner(List<String> newTeamList, int selectedPosition, AutoCompleteTextView spinner) {
-        String selectedString = spinner.getAdapter().getItem(selectedPosition).toString();
+    public void removeSelectedFromOtherSpinner(List<String> newTeamList, int selectedPosition,
+                                               AutoCompleteTextView currSpinner, AutoCompleteTextView otherSpinner) {
+        String selectedString = otherSpinner.getAdapter().getItem(selectedPosition).toString();
         newTeamList.remove(selectedString);
         ArrayAdapter<String> teamAdp = new ArrayAdapter<>(GameInfo.this, R.layout.support_simple_spinner_dropdown_item, newTeamList);
-        spinner.setAdapter(teamAdp);
+        currSpinner.setAdapter(teamAdp);
     }
 
     /*

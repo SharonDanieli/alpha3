@@ -15,10 +15,6 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -32,6 +28,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Stack;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class Set extends AppCompatActivity {
     BroadcastReceiver br = new BatteryLevelReceiver();
@@ -109,7 +109,8 @@ public class Set extends AppCompatActivity {
         times1 = new ArrayList<>();
         times2 = new ArrayList<>();
 
-
+        serve1.setClickable(true);
+        serve2.setClickable(true);
         startSet.setEnabled(false);
         playersl = new Button[6];
         players2 = new Button[6];
@@ -233,6 +234,11 @@ public class Set extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int id) {
                         // User clicked OK button
                         upload();
+                        // If this is the end of set 4, allow the user to pick the serving group again
+                        if (setNumber == 4) {
+                            serve1.setClickable(true);
+                            serve2.setClickable(true);
+                        }
                     }
                 });
                 builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -492,6 +498,9 @@ public class Set extends AppCompatActivity {
         setNum.setText("SET " + setNumber);
         hasStarted = true;
         startSet.setEnabled(false);
+        // Set the serve radio buttons to not be clickable
+        serve1.setClickable(false);
+        serve2.setClickable(false);
         //לשמור את פסקי הזמן של המערכה
         times1.clear();
         times2.clear();
@@ -512,6 +521,17 @@ public class Set extends AppCompatActivity {
         checkWin();
         points1.setEnabled(true);
         points2.setEnabled(true);
+    }
+
+    public void firstServeClicked(View view) {
+        serve1.setChecked(true);
+        serve2.setChecked(false);
+    }
+
+
+    public void secondServeClicked(View view) {
+        serve1.setChecked(false);
+        serve2.setChecked(true);
     }
 
     /**
