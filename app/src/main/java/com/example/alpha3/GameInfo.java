@@ -216,7 +216,7 @@ public class GameInfo extends AppCompatActivity {
      * @see Info
      */
     public void next(View view) {
-        if (TextUtils.isEmpty(cityText.getText().toString()) || TextUtils.isEmpty(codeText.getText().toString()) || TextUtils.isEmpty(hallText.getText().toString()) || TextUtils.isEmpty(time.getText().toString()) || TextUtils.isEmpty(select1.getText().toString()) || TextUtils.isEmpty(select2.getText().toString())) {
+        if (TextUtils.isEmpty(cityText.getText().toString()) || TextUtils.isEmpty(codeText.getText().toString()) || TextUtils.isEmpty(hallText.getText().toString()) || time.getText().toString().equals("Choose time") || TextUtils.isEmpty(select1.getText().toString()) || TextUtils.isEmpty(select2.getText().toString())) {
             if (TextUtils.isEmpty(cityText.getText().toString())) {
                 cityText1.setError("Please enter city");
             }
