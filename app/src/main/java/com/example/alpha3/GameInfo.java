@@ -201,8 +201,10 @@ public class GameInfo extends AppCompatActivity {
                     @Override
                     public void onTimeSet(TimePicker tp, int sHour, int sMinute) {
                         time.setText(sHour + ":" + sMinute);
-                        time.setError(null);
+                        /*time.setError(null);
                         time.clearFocus();
+
+                         */
                     }
                 }, Calendar.getInstance().get(Calendar.HOUR_OF_DAY), Calendar.getInstance().get(Calendar.MINUTE), true);
         picker.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
@@ -225,7 +227,7 @@ public class GameInfo extends AppCompatActivity {
                 hallText1.setError("Please enter the hall name");
             }
             if (time.getText().toString().equals("Choose time")) {
-                time.setError("Please enter the scheduled start time");
+                Toast.makeText(GameInfo.this, "Please enter the scheduled start time", Toast.LENGTH_LONG).show();
             }
             if (TextUtils.isEmpty(select1.getText().toString())) {
                 firstT.setError("Please choose a team");
