@@ -552,9 +552,11 @@ public class Set extends AppCompatActivity {
         if (s1 == SETLIMIT) {
             t.putExtra("winner", name1.getText().toString());
             startActivity(t);
+            finish();
         } else if (s2 == SETLIMIT) {
             t.putExtra("winner", name2.getText().toString());
             startActivity(t);
+            finish();
         }
     }
 

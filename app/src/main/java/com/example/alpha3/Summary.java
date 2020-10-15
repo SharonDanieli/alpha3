@@ -157,7 +157,7 @@ public class Summary extends AppCompatActivity {
         Intent emailIntent = new Intent(Intent.ACTION_SEND);
         // set the type to 'email'
         emailIntent .setType("vnd.android.cursor.dir/email");
-        String to[] = {"al5493@bs.amalnet.k12.il"};
+        String to[] = {"sharondaniely3@gmail.com"};
         emailIntent .putExtra(Intent.EXTRA_EMAIL, to);
         // the attachment
         emailIntent .putExtra(Intent.EXTRA_STREAM, path);
@@ -170,5 +170,9 @@ public class Summary extends AppCompatActivity {
             Toast.makeText(Summary.this, "There are no email clients installed. Results not sent successfully.", Toast.LENGTH_SHORT).show();
         }
         results_file.delete();
+   }
+
+   @Override
+   public void onBackPressed() {
    }
 }
