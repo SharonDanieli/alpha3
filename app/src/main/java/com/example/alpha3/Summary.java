@@ -14,6 +14,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.itextpdf.text.DocumentException;
@@ -56,7 +57,14 @@ public class Summary extends AppCompatActivity {
         theSheet = findViewById(R.id.theSheet);
         theSheet.loadDataWithBaseURL(null, htmlAsString, "text/html", "charset=utf-8", null);
 
-
+        // Get permissions for reading and writing
+        int request_code = 1;
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, request_code);
+        }
 
         // Clean the html to use in the flying saucer converting tool
 // get the element you want to serialize
@@ -97,21 +105,13 @@ public class Summary extends AppCompatActivity {
      * Creates a message to it attaches the HTML file, allowing it to be emailed.
      */
     public void send(View view) {
-        // Get permissions for reading and writing
-        int request_code = 1;
-        if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, request_code);
-        }
 
         // Generate hash for unique filename
         MessageDigest digest = null;
         try {
             digest = MessageDigest.getInstance("MD5");
         } catch (NoSuchAlgorithmException e) {
-            Toast.makeText(this, "Error creating filename. Results not sent successfully.", Toast.LENGTH_LONG);
+            Toast.makeText(theSheet.getContext(), "Error creating filename. Results not sent successfully.", Toast.LENGTH_LONG).show();
             return;
         }
         digest.update(String.valueOf(new Random().nextInt(1000000)).getBytes());
@@ -126,14 +126,19 @@ public class Summary extends AppCompatActivity {
 
         // Create the file results.html
         String filename="results-" + hexString.toString() + ".html";
-        File results_file = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), filename);
+        File tempPath = new File(getFilesDir(), "temp");
+        if (!tempPath.exists()) {
+            tempPath.mkdir();
+        }
+
+        File results_file = new File(tempPath, filename);
         if (results_file.exists()) {
             results_file.delete();
         }
         try {
             results_file.createNewFile();
         } catch (IOException e) {
-            Toast.makeText(Summary.this, "Error creating file for sending. Results not sent successfully.", Toast.LENGTH_LONG);
+            Toast.makeText(theSheet.getContext(), "Error creating file for sending. Results not sent successfully.", Toast.LENGTH_LONG).show();
             return;
         }
         // Write the results to the new file created
@@ -142,18 +147,20 @@ public class Summary extends AppCompatActivity {
             try {
                 stream.write(htmlAsString.getBytes());
             } catch (IOException e) {
-                Toast.makeText(Summary.this, "Error writing results for file. Results not sent successfully.", Toast.LENGTH_LONG);
+                Toast.makeText(theSheet.getContext(), "Error writing results for file. Results not sent successfully.", Toast.LENGTH_LONG).show();
                 results_file.delete();
                 return;
             }
         } catch (FileNotFoundException e) {
-            Toast.makeText(Summary.this, "Error writing results for file. Results not sent successfully.", Toast.LENGTH_LONG);
+            Toast.makeText(theSheet.getContext(), "Error writing results for file. Results not sent successfully.", Toast.LENGTH_LONG).show();
             results_file.delete();
             return;
         }
 
-
-        Uri path = Uri.fromFile(results_file);
+        Uri path = FileProvider.getUriForFile(
+                this,
+                getPackageName() + ".provider",
+                results_file);
         Intent emailIntent = new Intent(Intent.ACTION_SEND);
         // set the type to 'email'
         emailIntent .setType("vnd.android.cursor.dir/email");
@@ -163,11 +170,10 @@ public class Summary extends AppCompatActivity {
         emailIntent .putExtra(Intent.EXTRA_STREAM, path);
         // the mail subject
         emailIntent .putExtra(Intent.EXTRA_SUBJECT, "Game Results");
-        startActivity(Intent.createChooser(emailIntent , "Send email..."));
         try {
             startActivity(Intent.createChooser(emailIntent , "Send email..."));
         } catch (android.content.ActivityNotFoundException ex) {
-            Toast.makeText(Summary.this, "There are no email clients installed. Results not sent successfully.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(theSheet.getContext(), "There are no email clients installed. Results not sent successfully.", Toast.LENGTH_SHORT).show();
         }
         results_file.delete();
    }
