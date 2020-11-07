@@ -39,7 +39,7 @@ public class Set extends AppCompatActivity {
 
     TextView name1, name2, set1, set2, time, setNum;
     int setNumber = 0;
-    Button points1, points2, startSet, undo, to1, to2, sanctions1, sanctions2;
+    Button points1, points2, startSet, to1, to2, sanctions1, sanctions2;
     Button[] playersl, players2;
     List<Integer> playersList1, playersList2, playing1, playing2;
     RadioButton serve1, serve2;
@@ -96,7 +96,6 @@ public class Set extends AppCompatActivity {
         points1 = findViewById(R.id.points1);
         points2 = findViewById(R.id.points2);
         startSet = findViewById(R.id.startSet);
-        undo = findViewById(R.id.undo);
         set1 = findViewById(R.id.set1);
         set2 = findViewById(R.id.set2);
         serve1 = findViewById(R.id.serve1);
@@ -113,7 +112,6 @@ public class Set extends AppCompatActivity {
         serve1.setClickable(true);
         serve2.setClickable(true);
         startSet.setEnabled(false);
-        undo.setEnabled(false);
         playersl = new Button[6];
         players2 = new Button[6];
 
@@ -236,13 +234,11 @@ public class Set extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int id) {
                         // User clicked OK button
                         upload();
-                        checkWin();
                         // If this is the end of set 4, allow the user to pick the serving group again
                         if (setNumber == 4) {
                             serve1.setClickable(true);
                             serve2.setClickable(true);
                         }
-                        setButtons();
                     }
                 });
                 builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -312,13 +308,6 @@ public class Set extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int id) {
                         // User clicked OK button
                         upload();
-                        checkWin();
-                        // If this is the end of set 4, allow the user to pick the serving group again
-                        if (setNumber == 4) {
-                            serve1.setClickable(true);
-                            serve2.setClickable(true);
-                        }
-                        setButtons();
                     }
                 });
                 builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -417,7 +406,6 @@ public class Set extends AppCompatActivity {
                 }
             });
         }
-
         for (int i = 0; i < players2.length; i++) {
             final Button player = players2[i];
             final String pos = positions[i];
@@ -530,7 +518,7 @@ public class Set extends AppCompatActivity {
         sanctions1.setEnabled(true);
         sanctions2.setEnabled(true);
         to2.setEnabled(true);
-        //checkWin();
+        checkWin();
         points1.setEnabled(true);
         points2.setEnabled(true);
     }
@@ -598,7 +586,7 @@ public class Set extends AppCompatActivity {
         pointsDiv.clear();
 
         time.setText("");
-        startSet.setEnabled(false);
+        startSet.setEnabled(true);
         hasStarted = false;
 
         String id = getIntent().getStringExtra("id");
@@ -740,8 +728,8 @@ public class Set extends AppCompatActivity {
      * The method cancels the last action that was taken
      */
     public void undoActions(View view) {
-        if (!actions.isEmpty())
-            Toast.makeText(this, "no actions", Toast.LENGTH_SHORT).show();
+        if (actions.isEmpty())
+            Toast.makeText(this, "No actions have been taken yet", Toast.LENGTH_SHORT).show();
         else {
             char action = actions.pop();
 
