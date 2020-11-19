@@ -370,6 +370,7 @@ public class Set extends AppCompatActivity {
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 int num = playersList1.remove(i);
                                 player.setText("" + num);
+                                //המשתנה שמונה את מס השחקנים על המגרש גדל ב-1
                                 if (playersList1.size() == size1 - TEAM_SIZE && playersList2.size() == size2 - TEAM_SIZE)
                                     addPlayers();
                             }
@@ -401,6 +402,8 @@ public class Set extends AppCompatActivity {
                         } else {
                             insert(playersList1, Integer.parseInt(text));
                             player.setText(pos);
+                            //המשתנה שמונה את מס השחקנים על המגרש קטן ב-1
+                            startSet.setEnabled(false);
                         }
                     }
                 }
@@ -449,6 +452,8 @@ public class Set extends AppCompatActivity {
                         } else {
                             insert(playersList2, Integer.parseInt(text));
                             player.setText(pos);
+
+                            startSet.setEnabled(false);
                         }
                     }
                 }
