@@ -39,7 +39,7 @@ public class Set extends AppCompatActivity {
 
     TextView name1, name2, set1, set2, time, setNum;
     int setNumber = 0;
-    Button points1, points2, startSet, to1, to2, sanctions1, sanctions2;
+    Button points1, points2, startSet, to1, to2, sanctions1, sanctions2, undoButton;
     Button[] playersl, players2;
     List<Integer> playersList1, playersList2, playing1, playing2;
     RadioButton serve1, serve2;
@@ -105,6 +105,7 @@ public class Set extends AppCompatActivity {
         to2 = findViewById(R.id.to2);
         sanctions1 = findViewById(R.id.sanctions1);
         sanctions2 = findViewById(R.id.sanctions2);
+        undoButton = findViewById(R.id.undo);
 
         times1 = new ArrayList<>();
         times2 = new ArrayList<>();
@@ -112,6 +113,7 @@ public class Set extends AppCompatActivity {
         serve1.setClickable(true);
         serve2.setClickable(true);
         startSet.setEnabled(false);
+        undoButton.setEnabled(false);
         playersl = new Button[6];
         players2 = new Button[6];
 
@@ -216,6 +218,9 @@ public class Set extends AppCompatActivity {
             pointsDiv.add(pt1 + " ," + space);
             actions.push(TAKEOUT_POINT1);//when point is taken
 
+            undoButton.setEnabled(true);
+
+
             if (pt1 - 1 >= limit - 1) {
                 s1++;
                 points1.setEnabled(false);
@@ -233,6 +238,8 @@ public class Set extends AppCompatActivity {
                 builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         // User clicked OK button
+                        undoButton.setEnabled(false);
+                        actions.clear();
                         upload();
                         // If this is the end of set 4, allow the user to pick the serving group again
                         if (setNumber == 4) {
@@ -287,8 +294,9 @@ public class Set extends AppCompatActivity {
             for (int i=0; i < String.valueOf(pt2).length(); i++)
                 space.append("_");
             pointsDiv.add(space + " ," + pt2);
-
             actions.push(TAKEOUT_POINT2);//when point is taken
+
+            undoButton.setEnabled(true);
 
             if (pt2 - 1 >= limit - 1) {
                 s2++;
@@ -307,6 +315,8 @@ public class Set extends AppCompatActivity {
                 builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         // User clicked OK button
+                        undoButton.setEnabled(false);
+                        actions.clear();
                         upload();
                     }
                 });
@@ -626,6 +636,9 @@ public class Set extends AppCompatActivity {
         if (times1.size() < 2) {
             times1.add(points1.getText().toString() + ":" + points2.getText().toString());
             actions.push(TAKEOUT_TIME1);//when timeout is taken
+
+            undoButton.setEnabled(true);
+
             if (times1.size() == 2)
                 to1.setEnabled(false);
         }
@@ -639,6 +652,9 @@ public class Set extends AppCompatActivity {
         if (times2.size() < 2) {
             times2.add(points2.getText().toString() + ":" + points1.getText().toString());
             actions.push(TAKEOUT_TIME2);//when timeout is taken
+
+            undoButton.setEnabled(true);
+
             if (times2.size() == 2)
                 to2.setEnabled(false);
         }
@@ -670,6 +686,9 @@ public class Set extends AppCompatActivity {
                         public void onClick(DialogInterface dialogInterface, int j) {
                             sanctionsList1.add(letters[i] + " - " + players.get(j) + ", " + pt1 + ":" + pt2);
                             actions.push(TAKEOUT_SANCTION1);//when sanction is taken
+
+                            undoButton.setEnabled(true);
+
                             Log.e("sanctionsList1", sanctionsList1.toString());
                         }
                     });
@@ -708,6 +727,9 @@ public class Set extends AppCompatActivity {
                         public void onClick(DialogInterface dialogInterface, int j) {
                             sanctionsList2.add(letters[i] + " - " + players.get(j) + ", " + pt2 + ":" + pt1);
                             actions.push(TAKEOUT_SANCTION2);//when sanction is taken
+
+                            undoButton.setEnabled(true);
+
                             Log.e("sanctionsList2", sanctionsList2.toString());
                         }
                     });
