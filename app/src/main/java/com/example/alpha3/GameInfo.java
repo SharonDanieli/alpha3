@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.chivorn.smartmaterialspinner.SmartMaterialSpinner;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -42,13 +43,17 @@ import androidx.appcompat.app.AppCompatActivity;
 public class GameInfo extends AppCompatActivity {
 
     Button time;
-    TextInputEditText nameText, cityText, codeText, hallText, numberText;
-    TextInputLayout nameText1, cityText1, codeText1, hallText1, numberText1, firstT, secondT;
+    TextInputEditText nameText, codeText, hallText, numberText;
+    TextInputLayout nameText1, codeText1, hallText1, numberText1, firstT, secondT;
     SwitchMaterial menOrWomen;
     AutoCompleteTextView select1, select2, phase, category;
     MaterialToolbar top;
     FirebaseAuth mAuth;
     FirebaseUser currentUser;
+
+    SmartMaterialSpinner cities;
+    //SmartMaterialSpinner spEmptyItem;
+    List<String> provinceList;
 
     /**
      * Links the variables in Java to the components in xml and initializes the lists. Updates team lists according to the database. Puts an automatic country code. Checks whether the current user exists, if not - calls method {@link #signIn()}
@@ -73,13 +78,13 @@ public class GameInfo extends AppCompatActivity {
         secondT = findViewById(R.id.secondT);
 
         nameText1 = findViewById(R.id.nameText1);
-        cityText1 = findViewById(R.id.cityText1);
+        //cityText1 = findViewById(R.id.cityText1);
         codeText1 = findViewById(R.id.codeText1);
         hallText1 = findViewById(R.id.hallText1);
         numberText1 = findViewById(R.id.numText1);
 
         nameText = findViewById(R.id.nameText);
-        cityText = findViewById(R.id.cityText);
+        //cityText = findViewById(R.id.cityText);
         codeText = findViewById(R.id.codeText);
         hallText = findViewById(R.id.hallText);
         numberText = findViewById(R.id.numText);
@@ -138,6 +143,31 @@ public class GameInfo extends AppCompatActivity {
 
         String locale = getResources().getConfiguration().locale.getISO3Country();
         codeText.setText(locale);
+
+        initSpinner();
+    }
+
+    private void initSpinner() {
+        cities = findViewById(R.id.sp_provinces);
+        //spEmptyItem = findViewById(R.id.sp_empty_item);
+        provinceList = new ArrayList<>();
+
+        provinceList.add("Be'er Sheva");
+        provinceList.add("Tel Aviv");
+        provinceList.add("Kfar Saba");
+        provinceList.add("Bat Yam");
+
+        cities.setItem(provinceList);
+
+        cities.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+            }
+        });
     }
 
     /*
@@ -216,9 +246,9 @@ public class GameInfo extends AppCompatActivity {
      * @see Info
      */
     public void next(View view) {
-        if (TextUtils.isEmpty(cityText.getText().toString()) || TextUtils.isEmpty(codeText.getText().toString()) || TextUtils.isEmpty(hallText.getText().toString()) || time.getText().toString().equals("Choose time") || TextUtils.isEmpty(select1.getText().toString()) || TextUtils.isEmpty(select2.getText().toString())) {
-            if (TextUtils.isEmpty(cityText.getText().toString())) {
-                cityText1.setError("Please enter city");
+        if (TextUtils.isEmpty(cities.toString()) || TextUtils.isEmpty(codeText.getText().toString()) || TextUtils.isEmpty(hallText.getText().toString()) || time.getText().toString().equals("Choose time") || TextUtils.isEmpty(select1.getText().toString()) || TextUtils.isEmpty(select2.getText().toString())) {
+            if (TextUtils.isEmpty(cities.toString())) {
+                cities.setErrorText("Please choose a city");
             }
             if (TextUtils.isEmpty(codeText.getText().toString())) {
                 codeText1.setError("Please enter country code");
@@ -245,7 +275,7 @@ public class GameInfo extends AppCompatActivity {
                 mNumber = Byte.parseByte(numberText.getText().toString());
             }
             Info info = new Info(nameText.getText().toString(),
-                    cityText.getText().toString(),
+                    cities.toString(),
                     codeText.getText().toString(),
                     hallText.getText().toString(),
                     phase.toString(),
@@ -281,7 +311,7 @@ public class GameInfo extends AppCompatActivity {
         String date = simpleDate.format(new Date());
 
         htmlAsString = htmlAsString.replace("nameComp", nameText.getText().toString());
-        htmlAsString = htmlAsString.replace("cityText", cityText.getText().toString());
+        htmlAsString = htmlAsString.replace("cityText", cities.toString());
         htmlAsString = htmlAsString.replace("codeText", codeText.getText().toString());
         htmlAsString = htmlAsString.replace("hallText", hallText.getText().toString());
         if (phase.toString().equals("Pool/Phase")) htmlAsString = htmlAsString.replace("poph","");
